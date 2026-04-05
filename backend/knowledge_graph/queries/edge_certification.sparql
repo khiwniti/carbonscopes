@@ -1,0 +1,7 @@
+PREFIX edge: <http://edgebuildings.com/ontology#>
+SELECT ?projectReduction ?threshold ?status
+WHERE {
+    BIND(0.25 AS ?projectReduction)  # Example reduction 25%
+    edge:embodiedCarbonSavingsRule edge:threshold ?threshold .
+    BIND(IF(?projectReduction >= ?threshold, "PASS", "FAIL") AS ?status)
+}

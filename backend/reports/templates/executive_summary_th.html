@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ report_title }}</title>
+    <link rel="stylesheet" href="../static/css/report.css">
+</head>
+<body class="lang-th">
+    <div class="report-container">
+        <!-- Header -->
+        <header class="report-header">
+            <div class="header-logo">
+                <h1>CarbonBIM</h1>
+            </div>
+            <div class="header-title">
+                <h2>{{ report_title }}</h2>
+                <p class="project-name">{{ project_name }}</p>
+            </div>
+        </header>
+
+        <!-- Executive Summary Section -->
+        <section class="summary-section">
+            <h3>สรุปผู้บริหาร</h3>
+
+            <div class="key-metrics">
+                <div class="metric-card primary">
+                    <div class="metric-label">คาร์บอนฟุตพริ้นท์รวม</div>
+                    <div class="metric-value">{{ total_carbon | format_number }}</div>
+                    <div class="metric-unit">กิโลกรัม CO<sub>2</sub>e</div>
+                    <div class="metric-secondary">{{ total_carbon_tonnes | format_number }} ตัน CO<sub>2</sub>e</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label">วัสดุที่วิเคราะห์</div>
+                    <div class="metric-value">{{ material_count }}</div>
+                    <div class="metric-unit">รายการ</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label">อัตราการจับคู่</div>
+                    <div class="metric-value">{{ match_rate | format_percentage }}</div>
+                    <div class="metric-unit">จับคู่อัตโนมัติ</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Contributors Section -->
+        <section class="contributors-section">
+            <h3>วัสดุที่ปล่อยคาร์บอนสูงสุด</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-rank">อันดับ</th>
+                        <th class="col-material">รายการวัสดุ</th>
+                        <th class="col-number">ปริมาณ</th>
+                        <th class="col-unit">หน่วย</th>
+                        <th class="col-number">คาร์บอน (กก.CO<sub>2</sub>e)</th>
+                        <th class="col-number">% ของทั้งหมด</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in top_contributors %}
+                    <tr>
+                        <td class="text-center">{{ loop.index }}</td>
+                        <td>{{ item.description_th or item.description_en or 'ไม่ระบุ' }}</td>
+                        <td class="text-right">{{ item.quantity | format_number }}</td>
+                        <td class="text-center">{{ item.unit }}</td>
+                        <td class="text-right">{{ item.carbon | format_number }}</td>
+                        <td class="text-right">{{ item.percentage | format_percentage }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Analysis Information Section -->
+        <section class="info-section">
+            <h3>ข้อมูลการวิเคราะห์</h3>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">รหัสการวิเคราะห์:</span>
+                    <span class="info-value">{{ analysis_id }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">วันที่สร้าง:</span>
+                    <span class="info-value">{{ generated_date | format_date('%d %B %Y') }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">วัสดุทั้งหมด:</span>
+                    <span class="info-value">{{ material_count }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">วัสดุที่จับคู่แล้ว:</span>
+                    <span class="info-value">{{ matched_count }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Findings Section -->
+        <section class="findings-section">
+            <h3>ผลการวิเคราะห์สำคัญ</h3>
+
+            <ul class="findings-list">
+                <li>คาร์บอนฝังตัวรวม: <strong>{{ total_carbon_tonnes | format_decimal(2) }} ตัน CO<sub>2</sub>e</strong></li>
+                <li>วิเคราะห์วัสดุก่อสร้าง {{ material_count }} รายการจาก BOQ</li>
+                <li>{{ match_rate | format_decimal(1) }}% ของวัสดุจับคู่อัตโนมัติกับฐานข้อมูล TGO</li>
+                <li>วัสดุ 5 อันดับแรกคิดเป็นประมาณ
+                    {% set top_5_total = top_contributors[:5] | sum(attribute='percentage') %}
+                    {{ top_5_total | format_decimal(1) }}% ของคาร์บอนฟุตพริ้นท์ทั้งหมด
+                </li>
+            </ul>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section class="recommendations-section">
+            <h3>ข้อเสนอแนะ</h3>
+
+            <div class="recommendation-box">
+                <h4>โอกาสในการลดคาร์บอน</h4>
+                <ul>
+                    <li>มุ่งเน้นการปรับปรุงที่วัสดุซึ่งปล่อยคาร์บอนสูงสุดตามรายการข้างต้น</li>
+                    <li>พิจารณาวัสดุทางเลือกที่ปล่อยคาร์บอนต่ำสำหรับวัสดุที่มีผลกระทบสูง</li>
+                    <li>ตรวจสอบวัสดุที่ต้องการการตรวจสอบด้วยตนเองเพื่อหาทางเลือกในการทดแทน</li>
+                    <li>ดูรายงานฉบับเต็มสำหรับคำแนะนำวัสดุทางเลือกที่เฉพาะเจาะจง</li>
+                </ul>
+            </div>
+
+            <div class="recommendation-box">
+                <h4>ขั้นตอนต่อไป</h4>
+                <ol>
+                    <li>ตรวจสอบรายละเอียดวัสดุในรายงานฉบับเต็ม</li>
+                    <li>ประเมินวัสดุทางเลือกที่ปล่อยคาร์บอนต่ำ</li>
+                    <li>ปรับปรุง BOQ ด้วยทางเลือกที่เลือก</li>
+                    <li>คำนวณใหม่เพื่อยืนยันการลดคาร์บอนที่ได้</li>
+                    <li>จัดทำเอกสารสำหรับการยื่นขอรับรอง TREES/EDGE</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="report-footer">
+            <div class="footer-content">
+                <p class="footer-note">
+                    รายงานนี้สร้างโดยแพลตฟอร์มวิเคราะห์คาร์บอนอัตโนมัติ CarbonBIM
+                    การคำนวณเป็นไปตามมาตรฐาน ISO 14040/14044 LCA โดยใช้ค่าการปล่อยก๊าซจาก TGO
+                </p>
+                <p class="footer-copyright">
+                    &copy; {{ current_year }} CarbonBIM สงวนลิขสิทธิ์
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

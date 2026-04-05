@@ -1,0 +1,57 @@
+{
+  "iterations": 200,
+  "timestamp": "2026-03-23T04:41:01.264208",
+  "endpoint": "http://localhost:7200/repositories/carbonbim-thailand",
+  "tests": {
+    "edge_threshold_lookup": {
+      "count": 200,
+      "target_ms": 100,
+      "status": "PASS",
+      "avg_ms": 6.89,
+      "median_ms": 6.45,
+      "min_ms": 3.71,
+      "max_ms": 22.15,
+      "stdev_ms": 2.47,
+      "p50_ms": 6.46,
+      "p95_ms": 11.53,
+      "p99_ms": 16.93,
+      "pass_rate": 100.0
+    },
+    "trees_criteria_query": {
+      "count": 200,
+      "target_ms": 200,
+      "status": "PASS",
+      "avg_ms": 12.48,
+      "median_ms": 9.37,
+      "min_ms": 4.42,
+      "max_ms": 185.68,
+      "stdev_ms": 14.18,
+      "p50_ms": 9.38,
+      "p95_ms": 27.44,
+      "p99_ms": 48.05,
+      "pass_rate": 100.0
+    },
+    "material_eligibility": {
+      "count": 200,
+      "target_ms": 500,
+      "status": "PASS",
+      "avg_ms": 17.43,
+      "median_ms": 12.86,
+      "min_ms": 3.75,
+      "max_ms": 382.91,
+      "stdev_ms": 27.88,
+      "p50_ms": 12.86,
+      "p95_ms": 36.41,
+      "p99_ms": 67.85,
+      "pass_rate": 100.0
+    }
+  },
+  "summary": {
+    "total_tests": 3,
+    "passed": 3,
+    "warned": 0,
+    "failed": 0,
+    "all_passed": true,
+    "status": "PASS"
+  }
+}

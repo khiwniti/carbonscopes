@@ -1,0 +1,10 @@
+PREFIX trees: <http://tgbi.or.th/trees/ontology#>
+PREFIX tgo: <http://tgo.or.th/ontology#>
+SELECT (COUNT(?greenMaterial) AS ?greenCount) ((COUNT(?greenMaterial) / COUNT(?allMaterial)) AS ?greenPercentage) (IF(?greenPercentage >= 0.30, "PASS", "FAIL") AS ?mr1Status)
+WHERE {
+    ?allMaterial a tgo:ConstructionMaterial .
+    OPTIONAL {
+        ?allMaterial trees:hasGreenLabel true .
+        BIND(?allMaterial AS ?greenMaterial)
+    }
+}

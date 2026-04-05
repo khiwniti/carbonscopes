@@ -1,0 +1,71 @@
+{
+  "total_materials": 500,
+  "iterations": 200,
+  "timestamp": "2026-03-23T01:25:54.574091",
+  "tests": {
+    "exact_match": {
+      "count": 200,
+      "target_ms": 50,
+      "status": "PASS",
+      "avg_ms": 10.85,
+      "median_ms": 7.97,
+      "min_ms": 5.35,
+      "max_ms": 437.56,
+      "stdev_ms": 30.42,
+      "p50_ms": 7.98,
+      "p95_ms": 13.87,
+      "p99_ms": 18.8,
+      "pass_rate": 99.5
+    },
+    "category_query": {
+      "count": 200,
+      "target_ms": 200,
+      "status": "PASS",
+      "avg_ms": 15.25,
+      "median_ms": 13.19,
+      "min_ms": 6.91,
+      "max_ms": 47.37,
+      "stdev_ms": 7.17,
+      "p50_ms": 13.23,
+      "p95_ms": 30.52,
+      "p99_ms": 42.4,
+      "pass_rate": 100.0
+    },
+    "complex_query": {
+      "count": 200,
+      "target_ms": 500,
+      "status": "PASS",
+      "avg_ms": 22.57,
+      "median_ms": 20.92,
+      "min_ms": 12.85,
+      "max_ms": 64.2,
+      "stdev_ms": 7.02,
+      "p50_ms": 20.96,
+      "p95_ms": 34.88,
+      "p99_ms": 51.77,
+      "pass_rate": 100.0
+    },
+    "cold_cache": {
+      "count": 10,
+      "target_ms": 200,
+      "status": "PASS",
+      "avg_ms": 4.78,
+      "median_ms": 4.25,
+      "min_ms": 3.63,
+      "max_ms": 8.55,
+      "stdev_ms": 1.51,
+      "p50_ms": 4.27,
+      "p95_ms": 8.55,
+      "p99_ms": 8.55,
+      "pass_rate": 100.0
+    }
+  },
+  "summary": {
+    "total_tests": 4,
+    "passed": 4,
+    "warned": 0,
+    "failed": 0,
+    "all_passed": true,
+    "status": "PASS"
+  }
+}

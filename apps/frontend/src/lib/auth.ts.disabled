@@ -1,0 +1,63 @@
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export const authConfig = {
+  adapter: PrismaAdapter(prisma),
+  
+  providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
+    }),
+    
+    GitHub({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }),
+  ],
+  
+  pages: {
+    signIn: "/auth",
+    error: "/auth/error",
+  },
+  
+  callbacks: {
+    async session({ session, user }) {
+      if (session.user) {
+        session.user.id = user.id;
+        // @ts-expect-error: Add custom role field not in default session type
+        session.user.role = user.role;
+        // @ts-expect-error: Add custom credits field not in default session type
+        session.user.credits = user.credits;
+      }
+      return session;
+    },
+    
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return `${baseUrl}/dashboard`;
+    },
+  },
+  
+  session: {
+    strategy: "database",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  
+  debug: process.env.NODE_ENV === "development",
+};
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);

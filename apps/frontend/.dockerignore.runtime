@@ -1,0 +1,8 @@
+Dockerfile*
+.dockerignore*
+.git
+.env*
+!.env.production
+README.md
+*.log
+.next/cache

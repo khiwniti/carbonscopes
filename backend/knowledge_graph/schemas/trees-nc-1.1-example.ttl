@@ -1,0 +1,288 @@
+#
+# TREES NC 1.1 Example Instance Data
+#
+# This file demonstrates a realistic TREES certification assessment
+# for a commercial office building in Bangkok, Thailand
+#
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix trees: <http://tgbi.or.th/trees/ontology#> .
+@prefix tgo: <http://tgo.or.th/ontology#> .
+@prefix ex: <http://example.org/projects/> .
+
+#
+# Example Project: Sustainable Tower Bangkok
+#
+
+ex:SustainableTowerBangkok
+    rdf:type trees:Project ;
+    trees:projectID "TREES-2026-BKK-001" ;
+    trees:projectName "Sustainable Tower Bangkok"@en ;
+    trees:projectName "อาคารสัสเทนเนเบิล ทาวเวอร์ กรุงเทพฯ"@th ;
+    trees:projectLocation "Silom, Bangkok, Thailand" ;
+    trees:grossFloorArea "15000.0"^^xsd:decimal ;
+    trees:hasBuildingType trees:Office ;
+    trees:hasCertification ex:SustainableTowerCertification ;
+    trees:hasMaterialsAssessment ex:SustainableTowerMaterialsAssessment ;
+    trees:certificationDate "2026-09-15"^^xsd:date .
+
+ex:SustainableTowerCertification
+    rdf:type trees:Gold ;
+    rdfs:label "TREES Gold Certification for Sustainable Tower Bangkok"@en ;
+    trees:requiredScore "60"^^xsd:integer .
+
+#
+# Materials Assessment
+#
+
+ex:SustainableTowerMaterialsAssessment
+    rdf:type trees:MaterialsAssessment ;
+    trees:isAssessmentOf ex:SustainableTowerBangkok ;
+    trees:assessmentDate "2026-03-23"^^xsd:date ;
+    trees:totalMaterialCost "25000000.0"^^xsd:decimal ;
+    trees:greenLabeledMaterialCost "9500000.0"^^xsd:decimal ;
+    trees:reusedMaterialCost "1500000.0"^^xsd:decimal ;
+    trees:greenLabeledPercentage "38.0"^^xsd:decimal ;
+    trees:reusedPercentage "6.0"^^xsd:decimal ;
+    trees:mr1Points "10"^^xsd:integer ;
+    trees:mr3Points "3"^^xsd:integer ;
+    trees:totalPoints "13"^^xsd:integer ;
+    trees:complianceStatus "PASS" ;
+    trees:assessmentNotes "All green labels verified through supplier certificates. Reused timber from demolished warehouse documented with origin certificates. Materials assessment excludes MEP equipment and furniture as per TREES NC 1.1 guidelines."@en ;
+    trees:assessedBy ex:AssessorJohn ;
+    trees:verifiedBy ex:TGBIAuditorSomchai ;
+    trees:verificationDate "2026-04-10"^^xsd:date .
+
+#
+# Assessor and Verifier Information
+#
+
+ex:AssessorJohn
+    rdf:type foaf:Agent ;
+    foaf:name "John Smith" ;
+    foaf:mbox <mailto:john.smith@greenconsult.th> .
+
+ex:TGBIAuditorSomchai
+    rdf:type foaf:Agent ;
+    foaf:name "Somchai Greenbuilding" ;
+    foaf:name "สมชาย กรีนบิลดิ้ง"@th ;
+    foaf:mbox <mailto:somchai@tgbi.or.th> .
+
+#
+# Material Usage Examples
+#
+
+# Example 1: Green-Labeled Concrete (TGO Carbon Label)
+ex:ConcreteUsage
+    rdf:type trees:GreenLabeledMaterial ;
+    trees:usesConstructionMaterial tgo:ReadyMixConcrete_30MPa ;
+    trees:materialQuantity "2500.0"^^xsd:decimal ;
+    trees:materialCost "3750000.0"^^xsd:decimal ;
+    trees:hasGreenLabel true ;
+    trees:greenLabelType "TGO_Carbon_Label" ;
+    trees:greenLabelCertificateNumber "TGO-CFP-2025-1234" ;
+    trees:isReused false ;
+    rdfs:comment "Ready-mix concrete 30 MPa with TGO Carbon Footprint Label. Used for structural columns and beams."@en .
+
+# Example 2: Green-Labeled Steel (Thai Green Label)
+ex:SteelUsage
+    rdf:type trees:GreenLabeledMaterial ;
+    trees:usesConstructionMaterial tgo:StructuralSteel_Grade400 ;
+    trees:materialQuantity "350.0"^^xsd:decimal ;
+    trees:materialCost "2800000.0"^^xsd:decimal ;
+    trees:hasGreenLabel true ;
+    trees:greenLabelType "Thai_Green_Label" ;
+    trees:greenLabelCertificateNumber "TGL-2025-5678" ;
+    trees:isReused false ;
+    rdfs:comment "Structural steel Grade 400 with Thai Green Label certification. Made with 60% recycled content."@en .
+
+# Example 3: FSC Certified Timber
+ex:TimberUsage
+    rdf:type trees:GreenLabeledMaterial ;
+    trees:usesConstructionMaterial tgo:Timber_Hardwood ;
+    trees:materialQuantity "180.0"^^xsd:decimal ;
+    trees:materialCost "1620000.0"^^xsd:decimal ;
+    trees:hasGreenLabel true ;
+    trees:greenLabelType "FSC" ;
+    trees:greenLabelCertificateNumber "FSC-C123456" ;
+    trees:isReused false ;
+    rdfs:comment "FSC-certified hardwood timber for interior finishes and architectural features."@en .
+
+# Example 4: Cradle to Cradle Certified Glass
+ex:GlassUsage
+    rdf:type trees:GreenLabeledMaterial ;
+    trees:usesConstructionMaterial tgo:LowEGlass_DoubleGlazed ;
+    trees:materialQuantity "1200.0"^^xsd:decimal ;
+    trees:materialCost "1330000.0"^^xsd:decimal ;
+    trees:hasGreenLabel true ;
+    trees:greenLabelType "Cradle_to_Cradle" ;
+    trees:greenLabelCertificateNumber "C2C-GOLD-2025-789" ;
+    trees:isReused false ;
+    rdfs:comment "Cradle to Cradle Certified Gold low-E double-glazed glass for building facade."@en .
+
+# Example 5: Reused Timber from Demolished Warehouse
+ex:ReusedTimberUsage
+    rdf:type trees:ReusedMaterial ;
+    trees:usesConstructionMaterial tgo:Timber_Hardwood ;
+    trees:materialQuantity "85.0"^^xsd:decimal ;
+    trees:materialCost "850000.0"^^xsd:decimal ;
+    trees:hasGreenLabel false ;
+    trees:isReused true ;
+    trees:reuseCategory "Salvaged" ;
+    trees:materialSource "Demolished warehouse at Lat Krabang Industrial Estate, salvaged December 2025" ;
+    rdfs:comment "Salvaged hardwood timber from demolished warehouse. Used for decorative wall panels and feature elements in lobby."@en .
+
+# Example 6: Reclaimed Bricks
+ex:ReclaimedBrickUsage
+    rdf:type trees:ReusedMaterial ;
+    trees:usesConstructionMaterial tgo:ClayBrick_Standard ;
+    trees:materialQuantity "50000.0"^^xsd:decimal ;
+    trees:materialCost "400000.0"^^xsd:decimal ;
+    trees:hasGreenLabel false ;
+    trees:isReused true ;
+    trees:reuseCategory "Reclaimed" ;
+    trees:materialSource "Reclaimed from historic building demolition in Rattanakosin area, January 2026" ;
+    rdfs:comment "Reclaimed clay bricks from historic building. Used for decorative garden walls and landscape features."@en .
+
+# Example 7: Refurbished Steel Doors
+ex:RefurbishedDoorsUsage
+    rdf:type trees:ReusedMaterial ;
+    trees:usesConstructionMaterial tgo:SteelDoor_FireRated ;
+    trees:materialQuantity "30.0"^^xsd:decimal ;
+    trees:materialCost "250000.0"^^xsd:decimal ;
+    trees:hasGreenLabel false ;
+    trees:isReused true ;
+    trees:reuseCategory "Refurbished" ;
+    trees:materialSource "Refurbished fire-rated steel doors from office building renovation project" ;
+    rdfs:comment "Refurbished fire-rated steel doors. Cleaned, repainted, and tested for fire safety compliance."@en .
+
+# Example 8: Standard Concrete (No Green Label)
+ex:StandardConcreteUsage
+    rdf:type trees:MaterialUsage ;
+    trees:usesConstructionMaterial tgo:ReadyMixConcrete_25MPa ;
+    trees:materialQuantity "1800.0"^^xsd:decimal ;
+    trees:materialCost "2520000.0"^^xsd:decimal ;
+    trees:hasGreenLabel false ;
+    trees:isReused false ;
+    rdfs:comment "Standard ready-mix concrete 25 MPa without green certification. Used for foundation and basement slabs."@en .
+
+# Example 9: Aluminum Composite Panels (Green Label)
+ex:ACPUsage
+    rdf:type trees:GreenLabeledMaterial ;
+    trees:usesConstructionMaterial tgo:AluminumCompositePanel ;
+    trees:materialQuantity "800.0"^^xsd:decimal ;
+    trees:materialCost "2400000.0"^^xsd:decimal ;
+    trees:hasGreenLabel true ;
+    trees:greenLabelType "ISO_Type_I" ;
+    trees:greenLabelCertificateNumber "ISO14024-2025-ACP-456" ;
+    trees:isReused false ;
+    rdfs:comment "Aluminum composite panels with ISO Type I environmental label. Low VOC emissions, recyclable content."@en .
+
+# Example 10: Ceramic Tiles (Thai Green Label)
+ex:CeramicTilesUsage
+    rdf:type trees:GreenLabeledMaterial ;
+    trees:usesConstructionMaterial tgo:CeramicTile_Porcelain ;
+    trees:materialQuantity "5000.0"^^xsd:decimal ;
+    trees:materialCost "1500000.0"^^xsd:decimal ;
+    trees:hasGreenLabel true ;
+    trees:greenLabelType "Thai_Green_Label" ;
+    trees:greenLabelCertificateNumber "TGL-2025-TILE-789" ;
+    trees:isReused false ;
+    rdfs:comment "Porcelain ceramic tiles with Thai Green Label. Made with recycled glass content and low energy manufacturing process."@en .
+
+# Example 11: Standard Gypsum Board (No Label)
+ex:GypsumBoardUsage
+    rdf:type trees:MaterialUsage ;
+    trees:usesConstructionMaterial tgo:GypsumBoard_Standard ;
+    trees:materialQuantity "8000.0"^^xsd:decimal ;
+    trees:materialCost "1920000.0"^^xsd:decimal ;
+    trees:hasGreenLabel false ;
+    trees:isReused false ;
+    rdfs:comment "Standard gypsum board for interior partitions and ceilings. No green certification."@en .
+
+# Example 12: Insulation with EPD (Environmental Product Declaration)
+ex:InsulationUsage
+    rdf:type trees:GreenLabeledMaterial ;
+    trees:usesConstructionMaterial tgo:Insulation_Rockwool ;
+    trees:materialQuantity "2500.0"^^xsd:decimal ;
+    trees:materialCost "1200000.0"^^xsd:decimal ;
+    trees:hasGreenLabel true ;
+    trees:greenLabelType "EPD" ;
+    trees:greenLabelCertificateNumber "EPD-2025-INS-123" ;
+    trees:isReused false ;
+    rdfs:comment "Rock wool insulation with Environmental Product Declaration (EPD). High thermal performance, fire resistant."@en .
+
+# Example 13: Standard Paint (No Label)
+ex:PaintUsage
+    rdf:type trees:MaterialUsage ;
+    trees:usesConstructionMaterial tgo:Paint_WaterBased ;
+    trees:materialQuantity "1500.0"^^xsd:decimal ;
+    trees:materialCost "675000.0"^^xsd:decimal ;
+    trees:hasGreenLabel false ;
+    trees:isReused false ;
+    rdfs:comment "Standard water-based paint for interior walls. No green certification."@en .
+
+# Example 14: Low-VOC Paint (Green Label)
+ex:LowVOCPaintUsage
+    rdf:type trees:GreenLabeledMaterial ;
+    trees:usesConstructionMaterial tgo:Paint_LowVOC ;
+    trees:materialQuantity "1000.0"^^xsd:decimal ;
+    trees:materialCost "600000.0"^^xsd:decimal ;
+    trees:hasGreenLabel true ;
+    trees:greenLabelType "Thai_Green_Label" ;
+    trees:greenLabelCertificateNumber "TGL-2025-PAINT-321" ;
+    trees:isReused false ;
+    rdfs:comment "Low-VOC water-based paint with Thai Green Label. Used for common areas and offices."@en .
+
+# Example 15: Waterproofing Membrane (No Label)
+ex:WaterproofingUsage
+    rdf:type trees:MaterialUsage ;
+    trees:usesConstructionMaterial tgo:WaterproofingMembrane ;
+    trees:materialQuantity "3000.0"^^xsd:decimal ;
+    trees:materialCost "1800000.0"^^xsd:decimal ;
+    trees:hasGreenLabel false ;
+    trees:isReused false ;
+    rdfs:comment "Standard bituminous waterproofing membrane for roof and basement. No green certification."@en .
+
+#
+# Calculation Summary
+#
+# Total Material Cost: 25,000,000 THB
+#
+# Green-Labeled Materials:
+#   - Concrete (TGO Carbon Label):          3,750,000 THB
+#   - Steel (Thai Green Label):             2,800,000 THB
+#   - Timber (FSC):                         1,620,000 THB
+#   - Glass (Cradle to Cradle):             1,330,000 THB
+#   - ACP (ISO Type I):                     2,400,000 THB
+#   - Ceramic Tiles (Thai Green Label):     1,500,000 THB
+#   - Insulation (EPD):                     1,200,000 THB
+#   - Low-VOC Paint (Thai Green Label):       600,000 THB
+#   SUBTOTAL:                               9,500,000 THB
+#   Percentage: 38.0% > 30% ✓ MR1: 10 points
+#
+# Reused Materials:
+#   - Salvaged Timber:                        850,000 THB
+#   - Reclaimed Bricks:                       400,000 THB
+#   - Refurbished Steel Doors:                250,000 THB
+#   SUBTOTAL:                               1,500,000 THB
+#   Percentage: 6.0% >= 5% and < 10% ✓ MR3: 3 points
+#
+# Standard Materials (No Label):
+#   - Standard Concrete:                    2,520,000 THB
+#   - Gypsum Board:                         1,920,000 THB
+#   - Standard Paint:                         675,000 THB
+#   - Waterproofing:                        1,800,000 THB
+#   SUBTOTAL:                              13,415,000 THB
+#
+# Materials & Resources Category Points: 13/15
+# Project Status: On track for TREES Gold (60+ points total needed)
+#
+
+#
+# End of TREES NC 1.1 Example Instance
+#

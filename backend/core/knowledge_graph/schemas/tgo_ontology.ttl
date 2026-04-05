@@ -1,0 +1,33 @@
+@prefix tgo: <http://tgo.or.th/ontology#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Base class for construction materials
+tgo:ConstructionMaterial a rdfs:Class .
+
+# Subclasses
+tgo:Concrete a rdfs:Class ; rdfs:subClassOf tgo:ConstructionMaterial .
+ tgo:Steel a rdfs:Class ; rdfs:subClassOf tgo:ConstructionMaterial .
+ tgo:Aluminum a rdfs:Class ; rdfs:subClassOf tgo:ConstructionMaterial .
+ tgo:Glass a rdfs:Class ; rdfs:subClassOf tgo:ConstructionMaterial .
+ tgo:Wood a rdfs:Class ; rdfs:subClassOf tgo:ConstructionMaterial .
+ tgo:Insulation a rdfs:Class ; rdfs:subClassOf tgo:ConstructionMaterial .
+
+# Properties
+ tgo:hasEmissionFactor a rdf:Property ;
+    rdfs:range xsd:decimal ;
+    rdfs:domain tgo:ConstructionMaterial .
+ tgo:hasUnit a rdf:Property ;
+    rdfs:range xsd:string ;
+    rdfs:domain tgo:ConstructionMaterial .
+ tgo:category a rdf:Property ;
+    rdfs:range xsd:string ;
+    rdfs:domain tgo:ConstructionMaterial .
+ tgo:effectiveDate a rdf:Property ;
+    rdfs:range xsd:date ;
+    rdfs:domain tgo:ConstructionMaterial .
+ tgo:sourceDocument a rdf:Property ;
+    rdfs:range xsd:anyURI ;
+    rdfs:domain tgo:ConstructionMaterial .
+ rdfs:label a rdf:Property ;
+    rdfs:range rdf:LangString .

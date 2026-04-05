@@ -1,0 +1,25 @@
+@prefix trees: <http://tgbi.or.th/trees/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Certification levels
+trees:Gold a owl:Class ;
+    rdfs:label "TREES Gold"@en, "TREES ระดับทอง"@th ;
+    trees:requiredScore "60"^^xsd:integer .
+
+trees:Platinum a owl:Class ;
+    rdfs:label "TREES Platinum"@en, "TREES ระดับแพลตินัม"@th ;
+    trees:requiredScore "80"^^xsd:integer .
+
+# Materials criteria
+trees:MR1 a owl:Class ;
+    rdfs:label "MR 1: Green/Carbon Labeled Materials"@en ;
+    trees:requiredPercentage "0.30"^^xsd:decimal ;
+    trees:maxPoints "10"^^xsd:integer .
+
+trees:MR3 a owl:Class ;
+    rdfs:label "MR 3: Reused Materials"@en ;
+    trees:minPercentage "0.05"^^xsd:decimal ;
+    trees:maxPercentage "0.10"^^xsd:decimal ;
+    trees:maxPoints "5"^^xsd:integer .

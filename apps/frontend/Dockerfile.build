@@ -1,0 +1,81 @@
+# Multi-stage Docker build with monorepo support
+FROM oven/bun:1.3.11-alpine AS deps
+
+# Install build dependencies for native modules (canvas)
+RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev pixman-dev
+
+WORKDIR /app
+
+# Copy root package.json for workspace configuration
+COPY suna-init/package.json ./suna-init/
+
+# Copy shared package
+COPY suna-init/packages/shared/package.json ./suna-init/packages/shared/
+COPY suna-init/packages/shared/src ./suna-init/packages/shared/src
+COPY suna-init/packages/shared/tsconfig.json ./suna-init/packages/shared/
+
+# Copy frontend package.json
+COPY suna-init/apps/frontend/package.json ./suna-init/apps/frontend/
+
+# Install dependencies for the whole workspace
+WORKDIR /app/suna-init
+RUN bun install --filter=carbonscope-frontend --filter=@agentpress/shared
+
+# Builder stage
+FROM oven/bun:1.3.11-alpine AS builder
+
+# Install build dependencies for native modules
+RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev pixman-dev
+
+WORKDIR /app
+
+# Copy dependencies from deps stage
+COPY --from=deps /app/suna-init ./suna-init
+
+# Copy frontend source code
+COPY suna-init/apps/frontend ./suna-init/apps/frontend
+
+# Set build-time environment variables
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_PUBLIC_BACKEND_URL=https://suna-backend-app.azurewebsites.net
+ENV NEXT_PUBLIC_API_URL=https://suna-backend-app.azurewebsites.net
+ENV NEXT_PUBLIC_APP_URL=https://carbonscope.ensimu.space
+
+# Build Next.js
+WORKDIR /app/suna-init/apps/frontend
+RUN bun run build
+
+# Production stage
+FROM node:20-alpine AS runner
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Create user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+WORKDIR /app
+
+# Copy the entire standalone output (includes monorepo structure)
+COPY --from=builder --chown=nextjs:nodejs /app/suna-init/apps/frontend/.next/standalone ./
+# Copy static files to the frontend app location
+COPY --from=builder --chown=nextjs:nodejs /app/suna-init/apps/frontend/.next/static ./apps/frontend/.next/static
+# Copy public files to the frontend app location
+COPY --from=builder --chown=nextjs:nodejs /app/suna-init/apps/frontend/public ./apps/frontend/public
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:3000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+
+# Run server from the frontend app directory within the standalone structure
+WORKDIR /app/apps/frontend
+CMD ["node", "server.js"]

@@ -1,0 +1,46 @@
+{
+  "name": "CarbonScope - Embodied Carbon Intelligence",
+  "short_name": "CarbonScope",
+  "description": "Professional carbon footprint analysis for the built environment. EN 15978 compliant lifecycle assessment, TGO database integration, and TREES/EDGE certification guidance for sustainable construction.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1120",
+  "theme_color": "#10B981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Logomark-Black.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo_black.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities", "business", "sustainability", "construction"],
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=ai.carbonscope.app",
+      "id": "ai.carbonscope.app"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/carbonscope/id6754448524"
+    }
+  ],
+  "prefer_related_applications": true
+}

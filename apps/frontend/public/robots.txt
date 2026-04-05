@@ -1,0 +1,15 @@
+# CarbonScope Robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://CarbonScope.com/sitemap.xml
+
+# Disallow sensitive routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow crawling of public pages
+Allow: /suna/
+

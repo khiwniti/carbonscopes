@@ -1,0 +1,264 @@
+/**
+ * CarbonScope Design System - Theme Variables
+ * 
+ * Brand identity system for BKS - CarbonScope
+ * Embodied Carbon Intelligence Platform
+ * 
+ * Based on EN 15978 lifecycle stages color mapping
+ */
+
+:root {
+  /* ============================================
+     PRIMARY BRAND COLORS
+     ============================================ */
+  
+  --carbonscope-primary: #10B981;        /* Emerald 500 - Primary actions, links */
+  --carbonscope-primary-dark: #059669;   /* Emerald 600 - Hover states */
+  --carbonscope-primary-light: #34D399;  /* Emerald 400 - Accents, glow effects */
+  --carbonscope-primary-darker: #047857; /* Emerald 700 - Pressed states */
+  
+  /* ============================================
+     BACKGROUND COLORS
+     ============================================ */
+  
+  --carbonscope-background: #0B1120;     /* Navy dark - Main background */
+  --carbonscope-background-alt: #0F172A; /* Slate 900 - Alternative background */
+  --carbonscope-background-subtle: #1E293B; /* Slate 800 - Subtle backgrounds */
+  
+  /* ============================================
+     SURFACE COLORS
+     ============================================ */
+  
+  --carbonscope-surface: #1F2937;        /* Gray 800 - Card backgrounds */
+  --carbonscope-surface-hover: #374151;  /* Gray 700 - Hover states */
+  --carbonscope-surface-active: #4B5563; /* Gray 600 - Active/selected states */
+  --carbonscope-surface-elevated: #111827; /* Gray 900 - Elevated surfaces */
+  
+  /* ============================================
+     TEXT COLORS
+     ============================================ */
+  
+  --carbonscope-text-primary: #F9FAFB;   /* Gray 50 - Primary text */
+  --carbonscope-text-secondary: #D1D5DB; /* Gray 300 - Secondary text */
+  --carbonscope-text-muted: #9CA3AF;     /* Gray 400 - Muted text, hints */
+  --carbonscope-text-disabled: #6B7280;  /* Gray 500 - Disabled text */
+  --carbonscope-text-on-primary: #FFFFFF; /* White - Text on primary color */
+  
+  /* ============================================
+     BORDER COLORS
+     ============================================ */
+  
+  --carbonscope-border: #374151;         /* Gray 700 - Default borders */
+  --carbonscope-border-light: #4B5563;   /* Gray 600 - Light borders */
+  --carbonscope-border-strong: #1F2937;  /* Gray 800 - Strong borders */
+  --carbonscope-border-focus: #10B981;   /* Emerald 500 - Focus rings */
+  
+  /* ============================================
+     LIFECYCLE STAGE COLORS (EN 15978)
+     ============================================ */
+  
+  /* A1-A3: Product Stage (Raw material supply, Transport, Manufacturing) */
+  --carbonscope-lifecycle-a1-a3: #10B981;     /* Emerald 500 */
+  --carbonscope-lifecycle-a1-a3-light: #34D399; /* Emerald 400 */
+  --carbonscope-lifecycle-a1-a3-dark: #059669;  /* Emerald 600 */
+  
+  /* A4-A5: Construction Process Stage (Transport, Construction-installation) */
+  --carbonscope-lifecycle-a4-a5: #3B82F6;     /* Blue 500 */
+  --carbonscope-lifecycle-a4-a5-light: #60A5FA; /* Blue 400 */
+  --carbonscope-lifecycle-a4-a5-dark: #2563EB;  /* Blue 600 */
+  
+  /* B1-B5: Use Stage (Use, Maintenance, Repair, Replacement, Refurbishment) */
+  --carbonscope-lifecycle-b1-b5: #8B5CF6;     /* Violet 500 */
+  --carbonscope-lifecycle-b1-b5-light: #A78BFA; /* Violet 400 */
+  --carbonscope-lifecycle-b1-b5-dark: #7C3AED;  /* Violet 600 */
+  
+  /* B6-B7: Use Stage (Operational energy use, Operational water use) */
+  --carbonscope-lifecycle-b6-b7: #F59E0B;     /* Amber 500 */
+  --carbonscope-lifecycle-b6-b7-light: #FBBF24; /* Amber 400 */
+  --carbonscope-lifecycle-b6-b7-dark: #D97706;  /* Amber 600 */
+  
+  /* C1-C4: End of Life Stage (Deconstruction, Transport, Waste processing, Disposal) */
+  --carbonscope-lifecycle-c1-c4: #EF4444;     /* Red 500 */
+  --carbonscope-lifecycle-c1-c4-light: #F87171; /* Red 400 */
+  --carbonscope-lifecycle-c1-c4-dark: #DC2626;  /* Red 600 */
+  
+  /* D: Benefits and Loads Beyond System Boundary */
+  --carbonscope-lifecycle-d: #6366F1;         /* Indigo 500 */
+  --carbonscope-lifecycle-d-light: #818CF8;   /* Indigo 400 */
+  --carbonscope-lifecycle-d-dark: #4F46E5;    /* Indigo 600 */
+  
+  /* ============================================
+     SEMANTIC COLORS
+     ============================================ */
+  
+  --carbonscope-success: #10B981;        /* Emerald 500 - Success states */
+  --carbonscope-success-light: #D1FAE5;  /* Emerald 100 - Success backgrounds */
+  --carbonscope-success-dark: #047857;   /* Emerald 700 - Success text */
+  
+  --carbonscope-warning: #F59E0B;        /* Amber 500 - Warning states */
+  --carbonscope-warning-light: #FEF3C7;  /* Amber 100 - Warning backgrounds */
+  --carbonscope-warning-dark: #B45309;   /* Amber 700 - Warning text */
+  
+  --carbonscope-error: #EF4444;          /* Red 500 - Error states */
+  --carbonscope-error-light: #FEE2E2;    /* Red 100 - Error backgrounds */
+  --carbonscope-error-dark: #B91C1C;     /* Red 700 - Error text */
+  
+  --carbonscope-info: #3B82F6;           /* Blue 500 - Info states */
+  --carbonscope-info-light: #DBEAFE;     /* Blue 100 - Info backgrounds */
+  --carbonscope-info-dark: #1E40AF;      /* Blue 700 - Info text */
+  
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  
+  --carbonscope-font-display: 'Instrument Serif', serif;
+  --carbonscope-font-heading: 'Plus Jakarta Sans', sans-serif;
+  --carbonscope-font-body: 'Plus Jakarta Sans', sans-serif;
+  --carbonscope-font-mono: 'IBM Plex Mono', monospace;
+  
+  /* Font Sizes */
+  --carbonscope-text-xs: 0.75rem;    /* 12px */
+  --carbonscope-text-sm: 0.875rem;   /* 14px */
+  --carbonscope-text-base: 1rem;     /* 16px */
+  --carbonscope-text-lg: 1.125rem;   /* 18px */
+  --carbonscope-text-xl: 1.25rem;    /* 20px */
+  --carbonscope-text-2xl: 1.5rem;    /* 24px */
+  --carbonscope-text-3xl: 1.875rem;  /* 30px */
+  --carbonscope-text-4xl: 2.25rem;   /* 36px */
+  --carbonscope-text-5xl: 3rem;      /* 48px */
+  --carbonscope-text-6xl: 3.75rem;   /* 60px */
+  
+  /* Line Heights */
+  --carbonscope-leading-none: 1;
+  --carbonscope-leading-tight: 1.25;
+  --carbonscope-leading-snug: 1.375;
+  --carbonscope-leading-normal: 1.5;
+  --carbonscope-leading-relaxed: 1.625;
+  --carbonscope-leading-loose: 2;
+  
+  /* Font Weights */
+  --carbonscope-font-normal: 400;
+  --carbonscope-font-medium: 500;
+  --carbonscope-font-semibold: 600;
+  --carbonscope-font-bold: 700;
+  
+  /* ============================================
+     SPACING & SIZING
+     ============================================ */
+  
+  --carbonscope-spacing-1: 0.25rem;   /* 4px */
+  --carbonscope-spacing-2: 0.5rem;    /* 8px */
+  --carbonscope-spacing-3: 0.75rem;   /* 12px */
+  --carbonscope-spacing-4: 1rem;      /* 16px */
+  --carbonscope-spacing-5: 1.25rem;   /* 20px */
+  --carbonscope-spacing-6: 1.5rem;    /* 24px */
+  --carbonscope-spacing-8: 2rem;      /* 32px */
+  --carbonscope-spacing-10: 2.5rem;   /* 40px */
+  --carbonscope-spacing-12: 3rem;     /* 48px */
+  --carbonscope-spacing-16: 4rem;     /* 64px */
+  --carbonscope-spacing-20: 5rem;     /* 80px */
+  
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+  
+  --carbonscope-radius-none: 0;
+  --carbonscope-radius-sm: 0.125rem;   /* 2px */
+  --carbonscope-radius-base: 0.25rem;  /* 4px */
+  --carbonscope-radius-md: 0.375rem;   /* 6px */
+  --carbonscope-radius-lg: 0.5rem;     /* 8px */
+  --carbonscope-radius-xl: 0.75rem;    /* 12px */
+  --carbonscope-radius-2xl: 1rem;      /* 16px */
+  --carbonscope-radius-full: 9999px;   /* Fully rounded */
+  
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  
+  --carbonscope-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --carbonscope-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --carbonscope-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --carbonscope-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --carbonscope-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --carbonscope-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  
+  /* Emerald glow effect for key elements */
+  --carbonscope-shadow-glow: 0 0 20px rgba(16, 185, 129, 0.3);
+  --carbonscope-shadow-glow-strong: 0 0 40px rgba(16, 185, 129, 0.5);
+  
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  
+  --carbonscope-z-base: 0;
+  --carbonscope-z-dropdown: 1000;
+  --carbonscope-z-sticky: 1020;
+  --carbonscope-z-fixed: 1030;
+  --carbonscope-z-modal-backdrop: 1040;
+  --carbonscope-z-modal: 1050;
+  --carbonscope-z-popover: 1060;
+  --carbonscope-z-tooltip: 1070;
+  --carbonscope-z-notification: 1080;
+}
+
+/* ============================================
+   DARK MODE OVERRIDES (if implementing light mode later)
+   ============================================ */
+
+[data-theme="light"] {
+  --carbonscope-background: #FFFFFF;
+  --carbonscope-background-alt: #F9FAFB;
+  --carbonscope-background-subtle: #F3F4F6;
+  
+  --carbonscope-surface: #FFFFFF;
+  --carbonscope-surface-hover: #F9FAFB;
+  --carbonscope-surface-active: #F3F4F6;
+  --carbonscope-surface-elevated: #FFFFFF;
+  
+  --carbonscope-text-primary: #111827;
+  --carbonscope-text-secondary: #4B5563;
+  --carbonscope-text-muted: #6B7280;
+  --carbonscope-text-disabled: #9CA3AF;
+  
+  --carbonscope-border: #E5E7EB;
+  --carbonscope-border-light: #F3F4F6;
+  --carbonscope-border-strong: #D1D5DB;
+  
+  --carbonscope-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --carbonscope-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.carbonscope-gradient-emerald {
+  background: linear-gradient(135deg, var(--carbonscope-primary-dark) 0%, var(--carbonscope-primary) 50%, var(--carbonscope-primary-light) 100%);
+}
+
+.carbonscope-gradient-lifecycle {
+  background: linear-gradient(
+    90deg,
+    var(--carbonscope-lifecycle-a1-a3) 0%,
+    var(--carbonscope-lifecycle-a4-a5) 20%,
+    var(--carbonscope-lifecycle-b1-b5) 40%,
+    var(--carbonscope-lifecycle-b6-b7) 60%,
+    var(--carbonscope-lifecycle-c1-c4) 80%,
+    var(--carbonscope-lifecycle-d) 100%
+  );
+}
+
+.carbonscope-text-gradient {
+  background: var(--carbonscope-gradient-emerald);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.carbonscope-glow {
+  box-shadow: var(--carbonscope-shadow-glow);
+}
+
+.carbonscope-glow-strong {
+  box-shadow: var(--carbonscope-shadow-glow-strong);
+}

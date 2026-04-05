@@ -1,0 +1,29 @@
+# Brightway2 LCA Framework Dependencies
+# Install with: uv pip install -r requirements.txt
+# or: pip install -r requirements.txt
+
+# Core Brightway2 packages
+brightway2>=2.5.0
+bw2data>=4.0.0
+bw2calc>=2.0.0
+bw2io>=0.9.0
+
+# Additional Brightway2 utilities (optional but recommended)
+bw2analyzer>=0.11.0  # For contribution analysis and graph traversal
+bw2parameters>=1.1.0  # For parameterized inventories
+
+# Already in main pyproject.toml (included here for reference)
+# rdflib>=7.6.0
+# SPARQLWrapper>=2.0.0
+# python-dotenv>=1.0.0
+# pytest>=8.3.4
+# pytest-asyncio>=0.24.0
+
+# Performance optimization (optional)
+numpy>=1.24.0  # Used by Brightway2 for matrix operations
+scipy>=1.10.0  # Used by Brightway2 for sparse matrices
+pandas>=2.0.0  # Data manipulation for large datasets
+
+# Development and testing
+ipython>=8.12.0  # Interactive development
+jupyter>=1.0.0  # Notebook support for exploratory analysis

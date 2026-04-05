@@ -1,0 +1,79 @@
+#
+# GraphDB Repository Configuration for CarbonBIM Thailand Knowledge Graph
+#
+# Repository ID: carbonbim-thailand
+# Purpose: Store TGO emission factors, EDGE V3, and TREES NC 1.1 certification criteria
+# RDFS Inference: ENABLED
+#
+# Created: 2026-03-22
+# GraphDB Version: 10.7.0
+#
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rep: <http://www.openrdf.org/config/repository#>.
+@prefix sr: <http://www.openrdf.org/config/repository/sail#>.
+@prefix sail: <http://www.openrdf.org/config/sail#>.
+@prefix graphdb: <http://www.ontotext.com/config/graphdb#>.
+
+[] a rep:Repository ;
+    rep:repositoryID "carbonbim-thailand" ;
+    rdfs:label "CarbonBIM Thailand Knowledge Graph" ;
+    rep:repositoryImpl [
+        rep:repositoryType "graphdb:SailRepository" ;
+        sr:sailImpl [
+            sail:sailType "graphdb:Sail" ;
+
+            # RDFS inference ruleset - enables rdfs:subClassOf, rdfs:subPropertyOf, etc.
+            graphdb:ruleset "rdfs" ;
+
+            # Base URL for relative URIs
+            graphdb:base-URL "http://carbonbim.th/" ;
+
+            # Default namespace (empty string = use base-URL)
+            graphdb:defaultNS "" ;
+
+            # Entity index size - optimized for 500+ materials and certification criteria
+            graphdb:entity-index-size "10000000" ;
+
+            # Entity ID size in bits (32 = supports up to 4.3 billion entities)
+            graphdb:entity-id-size  "32" ;
+
+            # No external ontology imports initially
+            graphdb:imports "" ;
+
+            # File-based repository (not in-memory)
+            graphdb:repository-type "file-repository" ;
+
+            # Storage folder (relative to GraphDB home)
+            graphdb:storageFolder "storage" ;
+
+            # Context index disabled for performance (we use named graphs sparingly)
+            graphdb:enable-context-index "false" ;
+
+            # Predicate list enabled - improves query performance
+            graphdb:enablePredicateList "true" ;
+
+            # In-memory literal properties for faster access
+            graphdb:in-memory-literal-properties "true" ;
+
+            # Literal index enabled for text search
+            graphdb:enable-literal-index "true" ;
+
+            # Consistency checking disabled (we control data quality)
+            graphdb:check-for-inconsistencies "false" ;
+
+            # owl:sameAs optimization disabled (not using OWL)
+            graphdb:disable-sameAs "true" ;
+
+            # No query timeout (0 = unlimited)
+            graphdb:query-timeout "0" ;
+
+            # No result limit (0 = unlimited)
+            graphdb:query-limit-results "0" ;
+
+            # Don't throw exception on timeout
+            graphdb:throw-QueryEvaluationException-on-timeout "false" ;
+
+            # Read-write repository
+            graphdb:read-only "false" ;
+        ]
+    ].

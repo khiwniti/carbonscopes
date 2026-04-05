@@ -1,0 +1,707 @@
+#
+# EDGE V3 (Excellence in Design for Greater Efficiencies) Ontology
+#
+# Purpose: RDF/RDFS schema for EDGE V3 green building certification
+# Namespace: http://edgebuildings.com/ontology#
+# Version: 3.1
+# Created: 2026-03-23
+# License: Open for EDGE certified projects
+#
+# EDGE Certification Overview:
+#   - EDGE = Excellence in Design for Greater Efficiencies
+#   - Developed by IFC (International Finance Corporation) - World Bank Group
+#   - Focus: Emerging markets green building certification
+#   - EDGE V3 introduced embodied carbon requirements (20% reduction)
+#   - Website: https://edgebuildings.com
+#
+# EDGE V3 Requirements:
+#   - 20% reduction in embodied carbon vs. baseline
+#   - 20% reduction in energy consumption
+#   - 20% reduction in water consumption
+#   - Baseline: Conventional construction methods per local codes
+#
+# Integration with TGO:
+#   - Links to TGO materials via shared URIs
+#   - Uses TGO emission factors for carbon calculations
+#   - Supports Thai construction BOQ (Bill of Quantities) standards
+#
+# GraphDB Repository: carbonbim-thailand (RDFS inference enabled)
+#
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix edge: <http://edgebuildings.com/ontology#> .
+@prefix tgo: <http://tgo.or.th/ontology#> .
+
+#
+# Ontology Metadata
+#
+
+<http://edgebuildings.com/ontology>
+    rdf:type owl:Ontology ;
+    dcterms:title "EDGE V3 Green Building Certification Ontology"@en ;
+    dcterms:title "ออนโทโลยีมาตรฐานอาคารเขียว EDGE V3"@th ;
+    dcterms:description "RDF schema for EDGE (Excellence in Design for Greater Efficiencies) V3 certification including embodied carbon requirements. Integrates with TGO material emission factors for Thai construction projects."@en ;
+    dcterms:description "โครงร่างข้อมูล RDF สำหรับมาตรฐาน EDGE (Excellence in Design for Greater Efficiencies) V3 รวมถึงข้อกำหนดคาร์บอนในตัววัสดุ ผสานกับค่าการปล่อยก๊าซเรือนกระจกของ TGO สำหรับโครงการก่อสร้างในประเทศไทย"@th ;
+    dcterms:creator "SUNA BIM Platform" ;
+    dcterms:created "2026-03-23"^^xsd:date ;
+    dcterms:modified "2026-03-23"^^xsd:date ;
+    owl:versionInfo "3.1" ;
+    owl:imports <http://tgo.or.th/ontology> ;
+    rdfs:comment "EDGE V3 introduces embodied carbon assessment alongside existing energy and water efficiency requirements. This ontology enables automated certification checking, carbon savings calculation, and compliance reporting for Thai construction projects using TGO emission factors."@en ;
+    rdfs:seeAlso <https://edgebuildings.com> ;
+    rdfs:seeAlso <https://www.edgebuildings.com/certify/edge-standard/> .
+
+
+#
+# Core Class Hierarchy
+#
+
+edge:Certification
+    rdf:type rdfs:Class ;
+    rdfs:label "EDGE Certification"@en ;
+    rdfs:label "การรับรอง EDGE"@th ;
+    rdfs:comment "Base class for EDGE certification instances. Represents a complete certification assessment for a building project including embodied carbon, energy, and water requirements."@en ;
+    rdfs:comment "คลาสหลักสำหรับการรับรอง EDGE แสดงถึงการประเมินมาตรฐานที่สมบูรณ์สำหรับโครงการอาคาร รวมถึงข้อกำหนดคาร์บอนในตัววัสดุ พลังงาน และน้ำ"@th .
+
+edge:EDGECertification
+    rdf:type rdfs:Class ;
+    rdfs:subClassOf edge:Certification ;
+    rdfs:label "EDGE Certified"@en ;
+    rdfs:label "EDGE Certified"@th ;
+    rdfs:comment "Standard EDGE certification level. Requires minimum 20% reduction in embodied carbon, energy, and water compared to baseline. This is the entry-level EDGE certification."@en ;
+    rdfs:comment "ระดับมาตรฐาน EDGE Certified ต้องการการลดขั้นต่ำ 20% ในคาร์บอนในตัววัสดุ พลังงาน และน้ำ เมื่อเทียบกับเกณฑ์ฐาน เป็นระดับเริ่มต้นของการรับรอง EDGE"@th .
+
+edge:EDGEAdvanced
+    rdf:type rdfs:Class ;
+    rdfs:subClassOf edge:Certification ;
+    rdfs:label "EDGE Advanced"@en ;
+    rdfs:label "EDGE Advanced"@th ;
+    rdfs:comment "Advanced EDGE certification level. Requires minimum 40% reduction in embodied carbon, energy, and water. Demonstrates superior environmental performance."@en ;
+    rdfs:comment "ระดับ EDGE Advanced ต้องการการลดขั้นต่ำ 40% ในคาร์บอนในตัววัสดุ พลังงาน และน้ำ แสดงถึงประสิทธิภาพสิ่งแวดล้อมที่เหนือกว่า"@th .
+
+edge:EDGEZeroCarbon
+    rdf:type rdfs:Class ;
+    rdfs:subClassOf edge:Certification ;
+    rdfs:label "EDGE Zero Carbon"@en ;
+    rdfs:label "EDGE Zero Carbon"@th ;
+    rdfs:comment "Zero carbon certification. Requires net-zero operational carbon emissions through on-site renewables and carbon offsets. Represents the highest EDGE performance level."@en ;
+    rdfs:comment "การรับรองคาร์บอนศูนย์ ต้องการการปล่อยคาร์บอนสุทธิเป็นศูนย์จากการใช้งานอาคาร ผ่านพลังงานหมุนเวียนในพื้นที่และการชดเชยคาร์บอน แสดงถึงระดับสูงสุดของ EDGE"@th .
+
+
+#
+# Project and Building Type Classes
+#
+
+edge:Project
+    rdf:type rdfs:Class ;
+    rdfs:label "EDGE Project"@en ;
+    rdfs:label "โครงการ EDGE"@th ;
+    rdfs:comment "Represents a building project seeking EDGE certification. Contains project metadata, building specifications, material quantities, and assessment results."@en ;
+    rdfs:comment "แสดงถึงโครงการอาคารที่ขอการรับรอง EDGE ประกอบด้วยข้อมูลโครงการ ข้อกำหนดอาคาร ปริมาณวัสดุ และผลการประเมิน"@th .
+
+edge:BuildingType
+    rdf:type rdfs:Class ;
+    rdfs:label "Building Type"@en ;
+    rdfs:label "ประเภทอาคาร"@th ;
+    rdfs:comment "Classification of building types for EDGE certification. Different building types have different baseline assumptions and certification criteria."@en ;
+    rdfs:comment "การจำแนกประเภทอาคารสำหรับการรับรอง EDGE ประเภทอาคารที่แตกต่างกันมีสมมติฐานเกณฑ์ฐานและเกณฑ์การรับรองที่แตกต่างกัน"@th .
+
+edge:Residential
+    rdf:type edge:BuildingType ;
+    rdfs:label "Residential"@en ;
+    rdfs:label "ที่อยู่อาศัย"@th ;
+    rdfs:comment "Residential buildings including single-family homes, multi-family housing, apartments, and condominiums."@en ;
+    rdfs:comment "อาคารที่อยู่อาศัย ได้แก่ บ้านเดี่ยว บ้านแฝด อาคารอพาร์ทเมนต์ และคอนโดมิเนียม"@th .
+
+edge:Commercial
+    rdf:type edge:BuildingType ;
+    rdfs:label "Commercial"@en ;
+    rdfs:label "พาณิชยกรรม"@th ;
+    rdfs:comment "Commercial buildings including offices, retail, hotels, and mixed-use developments."@en ;
+    rdfs:comment "อาคารพาณิชย์ ได้แก่ สำนักงาน ร้านค้า โรงแรม และโครงการผสมผสาน"@th .
+
+edge:Industrial
+    rdf:type edge:BuildingType ;
+    rdfs:label "Industrial"@en ;
+    rdfs:label "อุตสาหกรรม"@th ;
+    rdfs:comment "Industrial buildings including warehouses, factories, and logistics facilities."@en ;
+    rdfs:comment "อาคารอุตสาหกรรม ได้แก่ โกดัง โรงงาน และศูนย์กระจายสินค้า"@th .
+
+edge:Hospitality
+    rdf:type edge:BuildingType ;
+    rdfs:label "Hospitality"@en ;
+    rdfs:label "การบริการ"@th ;
+    rdfs:comment "Hospitality buildings including hotels, resorts, and serviced apartments."@en ;
+    rdfs:comment "อาคารบริการ ได้แก่ โรงแรม รีสอร์ท และเซอร์วิส อพาร์ทเมนต์"@th .
+
+
+#
+# Carbon Assessment Classes
+#
+
+edge:CarbonReductionRequirement
+    rdf:type rdfs:Class ;
+    rdfs:label "Carbon Reduction Requirement"@en ;
+    rdfs:label "ข้อกำหนดการลดคาร์บอน"@th ;
+    rdfs:comment "Specifies the required percentage reduction in embodied carbon for EDGE certification. EDGE V3 requires 20% reduction (EDGE Certified) or 40% reduction (EDGE Advanced) compared to baseline."@en ;
+    rdfs:comment "ระบุเปอร์เซ็นต์การลดคาร์บอนในตัววัสดุที่ต้องการสำหรับการรับรอง EDGE, EDGE V3 ต้องการการลด 20% (EDGE Certified) หรือ 40% (EDGE Advanced) เมื่อเทียบกับเกณฑ์ฐาน"@th .
+
+#
+# Well-Known Instances - Certification Rules (C3 Fix)
+#
+
+edge:EDGECertifiedRule
+    rdf:type edge:CarbonReductionRequirement , owl:NamedIndividual ;
+    rdfs:label "EDGE Certified Carbon Reduction Rule"@en ;
+    rdfs:label "กฎการลดคาร์บอน EDGE Certified"@th ;
+    edge:requiredReduction "0.20"^^xsd:decimal ;
+    edge:comparisonMethod "percentage_reduction_vs_baseline" ;
+    edge:version "3.1" ;
+    rdfs:comment "Well-known instance representing the EDGE Certified (baseline) carbon reduction requirement of 20%."@en .
+
+edge:EDGEAdvancedRule
+    rdf:type edge:CarbonReductionRequirement , owl:NamedIndividual ;
+    rdfs:label "EDGE Advanced Carbon Reduction Rule"@en ;
+    rdfs:label "กฎการลดคาร์บอน EDGE Advanced"@th ;
+    edge:requiredReduction "0.40"^^xsd:decimal ;
+    edge:comparisonMethod "percentage_reduction_vs_baseline" ;
+    edge:version "3.1" ;
+    rdfs:comment "Well-known instance representing the EDGE Advanced carbon reduction requirement of 40%."@en .
+
+edge:embodiedCarbonSavingsRule
+    rdf:type edge:CarbonReductionRequirement , owl:NamedIndividual ;
+    rdfs:label "EDGE V3 Embodied Carbon Savings Rule (Default)"@en ;
+    rdfs:label "กฎการประหยัดคาร์บอนในตัววัสดุ EDGE V3 (ค่าเริ่มต้น)"@th ;
+    edge:requiredReduction "0.20"^^xsd:decimal ;
+    edge:comparisonMethod "percentage_reduction_vs_baseline" ;
+    edge:version "3.1" ;
+    owl:sameAs edge:EDGECertifiedRule ;
+    rdfs:comment """EDGE V3 embodied carbon savings calculation rule (default = EDGE Certified):
+
+    Formula: Carbon Savings (%) = (Baseline Emissions - Project Emissions) / Baseline Emissions × 100
+
+    Requirements:
+    - Minimum 20% reduction for EDGE Certified
+    - Minimum 40% reduction for EDGE Advanced
+    - Baseline: Conventional construction per local building codes
+    - Scope: Cradle-to-gate (A1-A3) embodied carbon only
+    - Lifecycle stages A4-A5, B1-B7, C1-C4, D are excluded from V3 calculation
+
+    Calculation Method:
+    1. Define baseline materials (conventional construction)
+    2. Calculate baseline emissions: Σ(material_quantity × baseline_emission_factor)
+    3. Calculate project emissions: Σ(material_quantity × project_emission_factor)
+    4. Calculate savings: (baseline - project) / baseline × 100
+    5. Verify savings ≥ 20% for certification
+
+    Integration with TGO:
+    - Material emission factors sourced from TGO ontology
+    - Link materials via tgo:hasEmissionFactor property
+    - Use xsd:decimal for precision (≤2% error tolerance)
+
+    Example:
+    Baseline concrete: 1000 m³ × 450 kgCO2e/m³ = 450,000 kgCO2e
+    Project concrete: 1000 m³ × 350 kgCO2e/m³ = 350,000 kgCO2e
+    Savings: (450,000 - 350,000) / 450,000 = 22.2% ✓ PASS
+    """@en .
+
+edge:CarbonBaseline
+    rdf:type rdfs:Class ;
+    rdfs:label "Carbon Baseline"@en ;
+    rdfs:label "เกณฑ์ฐานคาร์บอน"@th ;
+    rdfs:comment "Represents the baseline scenario for embodied carbon comparison. Baseline uses conventional construction materials and methods typical for the project location and building type."@en ;
+    rdfs:comment "แสดงถึงสถานการณ์เกณฑ์ฐานสำหรับการเปรียบเทียบคาร์บอนในตัววัสดุ เกณฑ์ฐานใช้วัสดุและวิธีการก่อสร้างแบบทั่วไปสำหรับสถานที่และประเภทอาคาร"@th .
+
+edge:CarbonAssessment
+    rdf:type rdfs:Class ;
+    rdfs:label "Carbon Assessment"@en ;
+    rdfs:label "การประเมินคาร์บอน"@th ;
+    rdfs:comment "Complete embodied carbon assessment for an EDGE project. Includes baseline emissions, project emissions, carbon savings calculation, and compliance status."@en ;
+    rdfs:comment "การประเมินคาร์บอนในตัววัสดุที่สมบูรณ์สำหรับโครงการ EDGE รวมถึงการปล่อยเกณฑ์ฐาน การปล่อยของโครงการ การคำนวณการประหยัดคาร์บอน และสถานะการปฏิบัติตาม"@th .
+
+
+#
+# Material Usage Classes
+#
+
+edge:MaterialUsage
+    rdf:type rdfs:Class ;
+    rdfs:label "Material Usage"@en ;
+    rdfs:label "การใช้วัสดุ"@th ;
+    rdfs:comment "Represents the usage of a specific construction material in a project. Links project quantities to TGO emission factors for carbon calculations."@en ;
+    rdfs:comment "แสดงถึงการใช้วัสดุก่อสร้างเฉพาะในโครงการ เชื่อมโยงปริมาณโครงการกับค่าการปล่อยของ TGO สำหรับการคำนวณคาร์บอน"@th .
+
+edge:BaselineMaterialUsage
+    rdf:type rdfs:Class ;
+    rdfs:subClassOf edge:MaterialUsage ;
+    rdfs:label "Baseline Material Usage"@en ;
+    rdfs:label "การใช้วัสดุเกณฑ์ฐาน"@th ;
+    rdfs:comment "Material usage in the baseline (conventional construction) scenario. Used for comparison to calculate carbon savings."@en ;
+    rdfs:comment "การใช้วัสดุในสถานการณ์เกณฑ์ฐาน (การก่อสร้างแบบทั่วไป) ใช้สำหรับการเปรียบเทียบเพื่อคำนวณการประหยัดคาร์บอน"@th .
+
+edge:ProjectMaterialUsage
+    rdf:type rdfs:Class ;
+    rdfs:subClassOf edge:MaterialUsage ;
+    rdfs:label "Project Material Usage"@en ;
+    rdfs:label "การใช้วัสดุโครงการ"@th ;
+    rdfs:comment "Material usage in the actual project design. Compared against baseline to demonstrate carbon reduction."@en ;
+    rdfs:comment "การใช้วัสดุในการออกแบบโครงการจริง เปรียบเทียบกับเกณฑ์ฐานเพื่อแสดงการลดคาร์บอน"@th .
+
+
+#
+# Class Restrictions and Cardinality Constraints (I2 Fix)
+#
+
+# Project must have required properties
+edge:Project
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:projectID ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:projectName ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:grossFloorArea ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:hasBuildingType ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+# CarbonAssessment must have baseline and project emissions
+edge:CarbonAssessment
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:baselineEmissions ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:projectEmissions ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:carbonSavingsPercentage ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:assessmentDate ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+# MaterialUsage must have quantity and link to material
+edge:MaterialUsage
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:materialQuantity ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:usesConstructionMaterial ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty edge:materialEmissions ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+
+#
+# Object Properties - Project Relationships
+#
+
+edge:hasCertification
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has certification"@en ;
+    rdfs:label "มีการรับรอง"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range edge:Certification ;
+    rdfs:comment "Links a project to its EDGE certification level (EDGE Certified, EDGE Advanced, or EDGE Zero Carbon)."@en .
+
+edge:hasBuildingType
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has building type"@en ;
+    rdfs:label "มีประเภทอาคาร"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range edge:BuildingType ;
+    rdfs:comment "Specifies the building type classification for the project (Residential, Commercial, Industrial, Hospitality)."@en .
+
+edge:hasCarbonAssessment
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has carbon assessment"@en ;
+    rdfs:label "มีการประเมินคาร์บอน"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range edge:CarbonAssessment ;
+    rdfs:comment "Links a project to its complete embodied carbon assessment including baseline, project emissions, and savings."@en ;
+    owl:inverseOf edge:isAssessmentOf .
+
+edge:hasCarbonBaseline
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has carbon baseline"@en ;
+    rdfs:label "มีเกณฑ์ฐานคาร์บอน"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range edge:CarbonBaseline ;
+    rdfs:comment "Links the carbon assessment to the defined baseline scenario for comparison."@en .
+
+edge:hasMaterialUsage
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has material usage"@en ;
+    rdfs:label "มีการใช้วัสดุ"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range edge:MaterialUsage ;
+    rdfs:comment "Links a project to instances of material usage (both baseline and project materials)."@en .
+
+edge:usesConstructionMaterial
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "uses construction material"@en ;
+    rdfs:label "ใช้วัสดุก่อสร้าง"@th ;
+    rdfs:domain edge:MaterialUsage ;
+    rdfs:range tgo:ConstructionMaterial ;
+    rdfs:comment "Links material usage to the specific TGO construction material. This enables retrieval of emission factors from the TGO ontology."@en ;
+    owl:inverseOf edge:isUsedInMaterialUsage .
+
+#
+# Inverse Object Properties (C2 Fix)
+#
+
+edge:isAssessmentOf
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "is assessment of"@en ;
+    rdfs:label "เป็นการประเมินของ"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range edge:Project ;
+    owl:inverseOf edge:hasCarbonAssessment ;
+    rdfs:comment "Inverse of hasCarbonAssessment. Links a carbon assessment back to its project."@en .
+
+edge:isUsedInMaterialUsage
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "is used in material usage"@en ;
+    rdfs:label "ถูกใช้ในการใช้วัสดุ"@th ;
+    rdfs:domain tgo:ConstructionMaterial ;
+    rdfs:range edge:MaterialUsage ;
+    owl:inverseOf edge:usesConstructionMaterial ;
+    rdfs:comment "Inverse of usesConstructionMaterial. Links a TGO material to all material usage instances where it is used."@en .
+
+
+#
+# Datatype Properties - Project Metadata
+#
+
+edge:projectName
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "project name"@en ;
+    rdfs:label "ชื่อโครงการ"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Official name of the building project seeking EDGE certification."@en .
+
+edge:projectLocation
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "project location"@en ;
+    rdfs:label "ที่ตั้งโครงการ"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Geographic location of the project. Format: 'City, Province, Country' or coordinates. Affects baseline definition and emission factor selection."@en .
+
+edge:projectID
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "project ID"@en ;
+    rdfs:label "รหัสโครงการ"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Unique identifier for the EDGE project. May be internal system ID or EDGE certification reference number."@en .
+
+edge:grossFloorArea
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "gross floor area"@en ;
+    rdfs:label "พื้นที่รวม"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Total gross floor area of the building in square meters (m²). Used for normalization and benchmarking of carbon intensity."@en .
+
+edge:numberOfFloors
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "number of floors"@en ;
+    rdfs:label "จำนวนชั้น"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range xsd:integer ;
+    rdfs:comment "Total number of floors in the building. Affects structural material requirements and baseline assumptions."@en .
+
+edge:certificationDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "certification date"@en ;
+    rdfs:label "วันที่รับรอง"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range xsd:date ;
+    rdfs:comment "Date when EDGE certification was awarded. Part of audit trail and temporal tracking."@en .
+
+edge:assessmentDate
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "assessment date"@en ;
+    rdfs:label "วันที่ประเมิน"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:date ;
+    rdfs:comment "Date when the carbon assessment was performed. Critical for version control and data staleness detection."@en .
+
+
+#
+# Datatype Properties - Carbon Calculation
+#
+
+edge:baselineEmissions
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "baseline emissions"@en ;
+    rdfs:label "การปล่อยเกณฑ์ฐาน"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Total embodied carbon emissions for the baseline scenario in kgCO2e. Calculated as: Σ(baseline_material_quantity × tgo:hasEmissionFactor). Uses xsd:decimal for precision."@en .
+
+edge:projectEmissions
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "project emissions"@en ;
+    rdfs:label "การปล่อยโครงการ"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Total embodied carbon emissions for the actual project design in kgCO2e. Calculated as: Σ(project_material_quantity × tgo:hasEmissionFactor). Uses xsd:decimal for precision."@en .
+
+edge:carbonSavings
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "carbon savings"@en ;
+    rdfs:label "การประหยัดคาร์บอน"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Absolute carbon savings in kgCO2e. Calculated as: baseline_emissions - project_emissions. Positive value indicates reduction."@en .
+
+edge:carbonSavingsPercentage
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "carbon savings percentage"@en ;
+    rdfs:label "เปอร์เซ็นต์การประหยัดคาร์บอน"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Carbon savings as percentage of baseline. Calculated as: (baseline_emissions - project_emissions) / baseline_emissions × 100. Must be ≥ 20% for EDGE Certified, ≥ 40% for EDGE Advanced."@en .
+
+edge:carbonIntensity
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "carbon intensity"@en ;
+    rdfs:label "ความเข้มข้นคาร์บอน"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Carbon intensity in kgCO2e/m². Calculated as: project_emissions / gross_floor_area. Used for benchmarking against similar projects."@en .
+
+edge:requiredReduction
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "required reduction"@en ;
+    rdfs:label "การลดที่ต้องการ"@th ;
+    rdfs:domain edge:CarbonReductionRequirement ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Required percentage reduction in embodied carbon for certification. Values: 0.20 (20% for EDGE Certified), 0.40 (40% for EDGE Advanced). Stored as decimal (e.g., 0.20 = 20%)."@en .
+
+edge:comparisonMethod
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "comparison method"@en ;
+    rdfs:label "วิธีการเปรียบเทียบ"@th ;
+    rdfs:domain edge:CarbonReductionRequirement ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Method used for carbon savings calculation. EDGE V3 uses 'percentage_reduction_vs_baseline'. Alternative methods may include 'absolute_reduction', 'carbon_budget', etc."@en .
+
+edge:version
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "version"@en ;
+    rdfs:label "เวอร์ชัน"@th ;
+    rdfs:domain edge:CarbonReductionRequirement ;
+    rdfs:range xsd:string ;
+    rdfs:comment "EDGE certification version. Current version: '3.1'. Critical for tracking requirement changes over time."@en .
+
+
+#
+# Datatype Properties - Material Quantities
+#
+
+edge:materialQuantity
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "material quantity"@en ;
+    rdfs:label "ปริมาณวัสดุ"@th ;
+    rdfs:domain edge:MaterialUsage ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Quantity of material used in the project. Must match the functional unit specified in tgo:hasUnit (e.g., kg, m³, m², ton). Uses xsd:decimal for precision."@en .
+
+edge:materialEmissions
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "material emissions"@en ;
+    rdfs:label "การปล่อยจากวัสดุ"@th ;
+    rdfs:domain edge:MaterialUsage ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Total embodied carbon emissions from this material in kgCO2e. Calculated as: material_quantity × tgo:hasEmissionFactor. Pre-calculated for performance optimization."@en .
+
+edge:materialPercentageOfTotal
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "material percentage of total"@en ;
+    rdfs:label "เปอร์เซ็นต์ของวัสดุจากทั้งหมด"@th ;
+    rdfs:domain edge:MaterialUsage ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Percentage contribution of this material to total project emissions. Used for identifying carbon hotspots and optimization opportunities."@en .
+
+
+#
+# Compliance and Status Properties
+#
+
+edge:complianceStatus
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "compliance status"@en ;
+    rdfs:label "สถานะการปฏิบัติตาม"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Compliance status of the carbon assessment. Values: 'PASS' (meets requirements), 'FAIL' (does not meet requirements), 'PENDING' (under review), 'NOT_ASSESSED' (not yet calculated)."@en .
+
+edge:certificationLevel
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "certification level"@en ;
+    rdfs:label "ระดับการรับรอง"@th ;
+    rdfs:domain edge:Project ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Achieved or target EDGE certification level. Values: 'EDGE_CERTIFIED' (20% reduction), 'EDGE_ADVANCED' (40% reduction), 'EDGE_ZERO_CARBON' (net zero operational carbon)."@en .
+
+
+#
+# Audit Trail and Provenance
+#
+
+edge:assessedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "assessed by"@en ;
+    rdfs:label "ประเมินโดย"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range foaf:Agent ;
+    rdfs:comment "URI reference to the person or organization that performed the carbon assessment. Part of audit trail for certification process."@en .
+
+edge:verifiedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "verified by"@en ;
+    rdfs:label "ตรวจสอบโดย"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range foaf:Agent ;
+    rdfs:comment "URI reference to the EDGE auditor who verified the assessment. Required for official EDGE certification."@en .
+
+edge:verificationDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "verification date"@en ;
+    rdfs:label "วันที่ตรวจสอบ"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:date ;
+    rdfs:comment "Date when the assessment was verified by an EDGE auditor. Part of certification timeline tracking."@en .
+
+edge:assessmentNotes
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "assessment notes"@en ;
+    rdfs:label "หมายเหตุการประเมิน"@th ;
+    rdfs:domain edge:CarbonAssessment ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Additional notes, assumptions, or limitations of the carbon assessment. Examples: 'Excludes finishes and fixtures', 'Based on preliminary BOQ', 'Assumes local material sourcing'."@en .
+
+
+#
+# Lifecycle Stage Properties (EN 15804 alignment)
+#
+
+edge:lifecycleStage
+    rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "lifecycle stage"@en ;
+    rdfs:label "ขั้นตอนวงจรชีวิต"@th ;
+    rdfs:domain edge:MaterialUsage ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Lifecycle stage(s) included in the emission calculation. EDGE V3 focuses on A1-A3 (product stage). Values follow EN 15804: 'A1-A3' (product), 'A4' (transport), 'A5' (construction), 'B1-B7' (use), 'C1-C4' (end of life), 'D' (beyond building)."@en .
+
+
+#
+# SPARQL Query Examples (for documentation)
+#
+# 1. Calculate total project emissions:
+#    SELECT ?project (SUM(?emissions) AS ?totalEmissions)
+#    WHERE {
+#      ?project a edge:Project ;
+#               edge:hasMaterialUsage ?usage .
+#      ?usage a edge:ProjectMaterialUsage ;
+#             edge:materialEmissions ?emissions .
+#    }
+#    GROUP BY ?project
+#
+# 2. Check EDGE certification compliance:
+#    SELECT ?project ?savingsPercentage ?status
+#    WHERE {
+#      ?project edge:hasCarbonAssessment ?assessment .
+#      ?assessment edge:carbonSavingsPercentage ?savingsPercentage ;
+#                  edge:complianceStatus ?status .
+#      FILTER (?savingsPercentage >= 20.0)
+#    }
+#
+# 3. Identify carbon hotspot materials (top 80% of emissions):
+#    SELECT ?material ?quantity ?emissions ?percentage
+#    WHERE {
+#      ?usage a edge:ProjectMaterialUsage ;
+#             edge:usesConstructionMaterial ?material ;
+#             edge:materialQuantity ?quantity ;
+#             edge:materialEmissions ?emissions ;
+#             edge:materialPercentageOfTotal ?percentage .
+#    }
+#    ORDER BY DESC(?emissions)
+#
+# 4. Compare baseline vs project emissions:
+#    SELECT ?material ?baselineQty ?projectQty ?savings
+#    WHERE {
+#      ?baselineUsage a edge:BaselineMaterialUsage ;
+#                     edge:usesConstructionMaterial ?material ;
+#                     edge:materialEmissions ?baselineEmissions .
+#      ?projectUsage a edge:ProjectMaterialUsage ;
+#                    edge:usesConstructionMaterial ?material ;
+#                    edge:materialEmissions ?projectEmissions .
+#      BIND((?baselineEmissions - ?projectEmissions) AS ?savings)
+#    }
+#
+# 5. Retrieve material data from TGO:
+#    SELECT ?material ?label ?emissionFactor ?unit
+#    WHERE {
+#      ?usage edge:usesConstructionMaterial ?material .
+#      ?material rdfs:label ?label ;
+#                tgo:hasEmissionFactor ?emissionFactor ;
+#                tgo:hasUnit ?unit .
+#      FILTER (lang(?label) = "en")
+#    }
+#
+# 6. Calculate carbon intensity by building type:
+#    SELECT ?buildingType (AVG(?intensity) AS ?avgIntensity)
+#    WHERE {
+#      ?project edge:hasBuildingType ?buildingType ;
+#               edge:hasCarbonAssessment ?assessment .
+#      ?assessment edge:carbonIntensity ?intensity .
+#    }
+#    GROUP BY ?buildingType
+#
+# 7. Find projects with stale assessments (>6 months old):
+#    SELECT ?project ?assessmentDate
+#    WHERE {
+#      ?project edge:hasCarbonAssessment ?assessment .
+#      ?assessment edge:assessmentDate ?assessmentDate .
+#      FILTER (?assessmentDate < "2025-09-23"^^xsd:date)
+#    }
+#
+
+#
+# End of EDGE V3 Ontology
+#

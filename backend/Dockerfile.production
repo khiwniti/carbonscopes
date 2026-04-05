@@ -1,0 +1,75 @@
+# Production-optimized Python FastAPI backend for Azure ACR
+# Multi-stage build for minimal image size and security
+
+# Stage 1: Base with UV package manager
+FROM python:3.11-slim AS base
+
+# Install system dependencies and UV
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install UV package manager (faster than pip)
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:$PATH"
+
+WORKDIR /app
+
+# Stage 2: Dependencies
+FROM base AS dependencies
+
+# Ensure UV is in PATH for this stage
+ENV PATH="/root/.local/bin:$PATH"
+
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies with UV (much faster than pip)
+RUN uv sync --frozen --no-dev
+
+# Stage 3: Production runtime
+FROM python:3.11-slim AS runtime
+
+# Install only runtime dependencies
+RUN apt-get update && apt-get install -y \
+    libpq5 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy virtual environment from dependencies stage
+COPY --from=dependencies /app/.venv /app/.venv
+
+# Copy application code
+COPY . .
+
+# Create non-root user for security
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH="/app/.venv/bin:$PATH" \
+    PORT=8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/health || exit 1
+
+# Expose port
+EXPOSE 8000
+
+# Run with Gunicorn for production (better than uvicorn alone)
+CMD ["gunicorn", "api:app", \
+     "--bind", "0.0.0.0:8000", \
+     "--workers", "4", \
+     "--worker-class", "uvicorn.workers.UvicornWorker", \
+     "--timeout", "300", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-", \
+     "--log-level", "info"]

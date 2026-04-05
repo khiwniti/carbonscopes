@@ -1,0 +1,14 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next/cache
+.next/diagnostics
+.git
+
+.prettierrc
+.prettierignore
+*.env
+env.*
+README.md

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ report_title }}</title>
+    <link rel="stylesheet" href="../static/css/report.css">
+</head>
+<body>
+    <div class="report-container">
+        <!-- Header -->
+        <header class="report-header">
+            <div class="header-logo">
+                <h1>CarbonBIM</h1>
+            </div>
+            <div class="header-title">
+                <h2>{{ report_title }}</h2>
+                <p class="project-name">{{ project_name }}</p>
+            </div>
+        </header>
+
+        <!-- Executive Summary Section -->
+        <section class="summary-section">
+            <h3>Executive Summary</h3>
+
+            <div class="key-metrics">
+                <div class="metric-card primary">
+                    <div class="metric-label">Total Carbon Footprint</div>
+                    <div class="metric-value">{{ total_carbon | format_number }}</div>
+                    <div class="metric-unit">kgCO<sub>2</sub>e</div>
+                    <div class="metric-secondary">{{ total_carbon_tonnes | format_number }} tonnes CO<sub>2</sub>e</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label">Materials Analyzed</div>
+                    <div class="metric-value">{{ material_count }}</div>
+                    <div class="metric-unit">items</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label">Match Rate</div>
+                    <div class="metric-value">{{ match_rate | format_percentage }}</div>
+                    <div class="metric-unit">auto-matched</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Contributors Section -->
+        <section class="contributors-section">
+            <h3>Top Carbon Contributors</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-rank">Rank</th>
+                        <th class="col-material">Material Description</th>
+                        <th class="col-number">Quantity</th>
+                        <th class="col-unit">Unit</th>
+                        <th class="col-number">Carbon (kgCO<sub>2</sub>e)</th>
+                        <th class="col-number">% of Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in top_contributors %}
+                    <tr>
+                        <td class="text-center">{{ loop.index }}</td>
+                        <td>{{ item.description_th or item.description_en or 'N/A' }}</td>
+                        <td class="text-right">{{ item.quantity | format_number }}</td>
+                        <td class="text-center">{{ item.unit }}</td>
+                        <td class="text-right">{{ item.carbon | format_number }}</td>
+                        <td class="text-right">{{ item.percentage | format_percentage }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Analysis Information Section -->
+        <section class="info-section">
+            <h3>Analysis Information</h3>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Analysis ID:</span>
+                    <span class="info-value">{{ analysis_id }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Generated:</span>
+                    <span class="info-value">{{ generated_date | format_date('%B %d, %Y') }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Total Materials:</span>
+                    <span class="info-value">{{ material_count }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Matched Materials:</span>
+                    <span class="info-value">{{ matched_count }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Findings Section -->
+        <section class="findings-section">
+            <h3>Key Findings</h3>
+
+            <ul class="findings-list">
+                <li>Total embodied carbon: <strong>{{ total_carbon_tonnes | format_decimal(2) }} tonnes CO<sub>2</sub>e</strong></li>
+                <li>{{ material_count }} construction materials analyzed from BOQ</li>
+                <li>{{ match_rate | format_decimal(1) }}% of materials automatically matched to TGO database</li>
+                <li>Top 5 contributors account for approximately
+                    {% set top_5_total = top_contributors[:5] | sum(attribute='percentage') %}
+                    {{ top_5_total | format_decimal(1) }}% of total carbon footprint
+                </li>
+            </ul>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section class="recommendations-section">
+            <h3>Recommendations</h3>
+
+            <div class="recommendation-box">
+                <h4>Carbon Reduction Opportunities</h4>
+                <ul>
+                    <li>Focus optimization efforts on the top carbon contributors listed above</li>
+                    <li>Consider low-carbon alternatives for high-impact materials</li>
+                    <li>Review materials requiring manual verification for potential substitutions</li>
+                    <li>Consult the detailed report for specific alternative material recommendations</li>
+                </ul>
+            </div>
+
+            <div class="recommendation-box">
+                <h4>Next Steps</h4>
+                <ol>
+                    <li>Review detailed material breakdown in full report</li>
+                    <li>Evaluate low-carbon alternative materials</li>
+                    <li>Update BOQ with selected alternatives</li>
+                    <li>Re-calculate to verify carbon reduction achieved</li>
+                    <li>Document for TREES/EDGE certification submission</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="report-footer">
+            <div class="footer-content">
+                <p class="footer-note">
+                    This report was generated using CarbonBIM automated carbon analysis platform.
+                    Calculations follow ISO 14040/14044 LCA standards using TGO emission factors.
+                </p>
+                <p class="footer-copyright">
+                    &copy; {{ current_year }} CarbonBIM. All rights reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
