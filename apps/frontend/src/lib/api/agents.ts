@@ -196,7 +196,7 @@ export const unifiedAgentStart = async (options: {
         });
       }
 
-      console.error(
+      logger.error(
         `[API] Error starting agent: ${status} ${response.error.message}`,
       );
     
@@ -225,7 +225,7 @@ export const unifiedAgentStart = async (options: {
       throw error;
     }
 
-    console.error('[API] Failed to start agent:', error);
+    logger.error('[API] Failed to start agent:', error);
     
     if (
       error instanceof TypeError &&
@@ -284,7 +284,7 @@ export const getAgentStatus = async (agentRunId: string): Promise<AgentRun> => {
       if (response.error.status === 404) {
         nonRunningAgentRuns.add(agentRunId);
       }
-      console.error(
+      logger.error(
         `[API] Error getting agent status: ${response.error.status} ${response.error.message}`,
       );
       throw new Error(
@@ -299,7 +299,7 @@ export const getAgentStatus = async (agentRunId: string): Promise<AgentRun> => {
 
     return data;
   } catch (error) {
-    console.error('[API] Failed to get agent status:', error);
+    logger.error('[API] Failed to get agent status:', error);
     handleApiError(error, { operation: 'get agent status', resource: 'AI assistant status', silent: true });
     throw error;
   }
@@ -321,7 +321,7 @@ export const generateAgentIcon = async (request: AgentIconGenerationRequest): Pr
 
     return response.data!;
   } catch (error) {
-    console.error('[API] Failed to generate agent icon:', error);
+    logger.error('[API] Failed to generate agent icon:', error);
     handleApiError(error, { operation: 'generate agent icon', resource: 'agent icon generation' });
     throw error;
   }
@@ -343,7 +343,7 @@ export const setupAgentFromChat = async (request: AgentSetupFromChatRequest): Pr
 
     return response.data!;
   } catch (error) {
-    console.error('[API] Failed to setup agent from chat:', error);
+    logger.error('[API] Failed to setup agent from chat:', error);
     handleApiError(error, { operation: 'setup agent from chat', resource: 'agent setup' });
     throw error;
   }
@@ -501,7 +501,7 @@ export const optimisticAgentStart = async (options: {
         });
       }
 
-      console.error(
+      logger.error(
         `[API] Error starting agent optimistically: ${status} ${response.error.message}`,
       );
     
@@ -531,7 +531,7 @@ export const optimisticAgentStart = async (options: {
     }
 
     // Log error with more detail for debugging
-    console.error('[API] Failed to start agent optimistically:', {
+    logger.error('[API] Failed to start agent optimistically:', {
       error,
       errorName: error?.name,
       errorMessage: error?.message,
@@ -643,7 +643,7 @@ export const streamAgent = (
           try {
             const jsonData = JSON.parse(rawData);
             if (jsonData.status === 'error') {
-              console.error(`[STREAM] Error status received for ${agentRunId}:`, jsonData);
+              logger.error(`[STREAM] Error status received for ${agentRunId}:`, jsonData);
               callbacks.onError(jsonData.message || 'Unknown error occurred');
               return;
             }
@@ -685,7 +685,7 @@ export const streamAgent = (
 
           callbacks.onMessage(rawData);
         } catch (error) {
-          console.error(`[STREAM] Error handling message:`, error);
+          logger.error(`[STREAM] Error handling message:`, error);
           callbacks.onError(error instanceof Error ? error : String(error));
         }
       };
@@ -696,7 +696,7 @@ export const streamAgent = (
         const isActualError = eventSource.readyState !== EventSource.CLOSED;
         
         if (isActualError) {
-          console.error(`[STREAM] EventSource error for ${agentRunId}:`, event);
+          logger.error(`[STREAM] EventSource error for ${agentRunId}:`, event);
         }
         
         getAgentStatus(agentRunId)
@@ -722,7 +722,7 @@ export const streamAgent = (
               callbacks.onClose();
             } else {
               // Only log actual errors
-              console.error(
+              logger.error(
                 `[STREAM] Error checking agent status after stream error:`,
                 err,
               );
@@ -741,7 +741,7 @@ export const streamAgent = (
       cleanupEventSource(agentRunId, 'manual cleanup');
     };
   } catch (error) {
-    console.error(`[STREAM] Error setting up stream for ${agentRunId}:`, error);
+    logger.error(`[STREAM] Error setting up stream for ${agentRunId}:`, error);
     callbacks.onError(error instanceof Error ? error : String(error));
     callbacks.onClose();
     return () => {};
