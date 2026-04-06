@@ -67,14 +67,14 @@ export const useVoicePlayerStore = create<VoicePlayerState>((set, get) => ({
     };
 
     audio.onerror = (e) => {
-      console.error('[VoicePlayer] Error playing chunk:', e);
+      logger.error('[VoicePlayer] Error playing chunk:', e);
       set({ state: 'error', error: 'Failed to play audio' });
     };
 
     audio.play().then(() => {
       set({ audioElement: audio, state: 'playing', currentIndex: index });
     }).catch((e) => {
-      console.error('[VoicePlayer] Error starting playback:', e);
+      logger.error('[VoicePlayer] Error starting playback:', e);
       set({ state: 'error', error: e?.message || 'Failed to play audio' });
     });
   },
@@ -153,7 +153,7 @@ export const useVoicePlayerStore = create<VoicePlayerState>((set, get) => ({
 
     } catch (error: any) {
       const errorMessage = error?.message || 'Failed to generate voice';
-      console.error('[VoicePlayer] Error:', errorMessage, error);
+      logger.error('[VoicePlayer] Error:', errorMessage, error);
       set({
         state: 'error',
         error: errorMessage

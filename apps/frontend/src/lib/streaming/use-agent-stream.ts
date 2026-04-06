@@ -695,7 +695,7 @@ export function useAgentStream(
         optionsRef.current.showToast?.('Worker stopped.', 'success');
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : String(err);
-        console.error('[useAgentStream] Error stopping agent:', err);
+        logger.error('[useAgentStream] Error stopping agent:', err);
         optionsRef.current.showToast?.(`Failed to stop Worker: ${errorMessage}`, 'error');
       }
     }

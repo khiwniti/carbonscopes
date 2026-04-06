@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient, type UseQueryOptions } from '@tanstack/react-query';
+import { logger } from '@/lib/logger';
 import { toast } from '@/lib/toast';
 import { agentKeys } from './keys';
 import { Agent, AgentUpdateRequest, AgentsParams, createAgent, deleteAgent, getAgent, getAgents, updateAgent } from './utils';
@@ -143,7 +144,7 @@ export const useCreateAgent = () => {
       if (handleBillingError(error)) {
         return; // Billing error was handled (pricing modal opened)
       }
-      console.error('Error creating agent:', error);
+      logger.error('Error creating agent:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to create Worker');
     },
   });

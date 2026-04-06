@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { logger } from '@/lib/logger';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -114,7 +115,7 @@ export const useDeleteOperationStore = create<DeleteOperationStore>()(
             }
           }, 50);
         } catch (error) {
-          console.error('Delete operation failed:', error);
+          logger.error('Delete operation failed:', error);
           
           // Reset states on error
           document.body.style.pointerEvents = 'auto';
@@ -183,7 +184,7 @@ export function useDeleteOperationEffects() {
           // Use window.location for reliable navigation
           window.location.pathname = '/dashboard';
         } catch (error) {
-          console.error('Navigation error:', error);
+          logger.error('Navigation error:', error);
         }
       }, 500);
       return () => clearTimeout(timer);

@@ -1,4 +1,5 @@
 import { BACKEND_URL } from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/lib/toast";
 import { createClient } from "@/lib/supabase/client";
@@ -76,7 +77,7 @@ export const useExportAgent = () => {
       toast.success(`Worker "${data.name}" exported successfully`);
     },
     onError: (error: any) => {
-      console.error('Export error:', error);
+      logger.error('Export error:', error);
       toast.error(error?.message || "Failed to export Worker");
     },
   });
@@ -120,7 +121,7 @@ export const useImportAgent = () => {
       toast.success(`Worker "${variables.import_data.name}" ${action} successfully`);
     },
     onError: (error: any) => {
-      console.error('Import error:', error);
+      logger.error('Import error:', error);
       toast.error(error?.message || "Failed to import Worker");
     },
   });
