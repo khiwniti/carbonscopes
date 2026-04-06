@@ -1,5 +1,6 @@
 import { BACKEND_URL } from '@/lib/api-client';
 import { createClient } from "@/lib/supabase/client";
+import { logger } from '@/lib/logger';
 
 const API_URL = BACKEND_URL || '';
 
