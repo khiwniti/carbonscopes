@@ -25,7 +25,7 @@ export const transcribeAudio = async (audioFile: File): Promise<TranscriptionRes
 
     return response.data!;
   } catch (error) {
-    console.error('Failed to transcribe audio:', error);
+    logger.error('Failed to transcribe audio:', error);
     handleApiError(error, { operation: 'transcribe audio', resource: 'speech-to-text' });
     throw error;
   }
