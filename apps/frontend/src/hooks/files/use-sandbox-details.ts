@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { backendApi } from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 import { sandboxKeys } from './keys';
 import type {
   SandboxStatus,
