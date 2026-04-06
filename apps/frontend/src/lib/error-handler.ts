@@ -1,4 +1,5 @@
 import { toast } from '@/lib/toast';
+import { logger } from '@/lib/logger';
 import { 
   AgentRunLimitError, 
   ProjectLimitError, 
