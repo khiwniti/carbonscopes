@@ -17,7 +17,7 @@ function normalizePathWithUnicode(path: string): string {
       return String.fromCharCode(parseInt(hexCode, 16));
     });
   } catch (e) {
-    console.error('Error processing Unicode escapes in path:', e);
+    logger.error('Error processing Unicode escapes in path:', e);
     return path;
   }
 }
@@ -50,7 +50,7 @@ export const createSandboxFile = async (
       );
     }
   } catch (error) {
-    console.error('Failed to create sandbox file:', error);
+    logger.error('Failed to create sandbox file:', error);
     handleApiError(error, { operation: 'create file', resource: `file ${filePath}` });
     throw error;
   }
@@ -81,7 +81,7 @@ export const createSandboxFileJson = async (
       );
     }
   } catch (error) {
-    console.error('Failed to create sandbox file with JSON:', error);
+    logger.error('Failed to create sandbox file with JSON:', error);
     handleApiError(error, { operation: 'create file', resource: `file ${filePath}` });
     throw error;
   }
@@ -110,7 +110,7 @@ export const listSandboxFiles = async (
 
     return response.data?.files || [];
   } catch (error) {
-    console.error('Failed to list sandbox files:', error);
+    logger.error('Failed to list sandbox files:', error);
     throw error;
   }
 };
@@ -139,7 +139,7 @@ export const getSandboxFileContent = async (
     // backendApi handles content-type detection and returns appropriate type
     return response.data!;
   } catch (error) {
-    console.error('Failed to get sandbox file content:', error);
+    logger.error('Failed to get sandbox file content:', error);
     handleApiError(error, { operation: 'load file content', resource: `file ${path}` });
     throw error;
   }
