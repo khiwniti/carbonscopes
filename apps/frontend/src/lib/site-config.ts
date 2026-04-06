@@ -9,7 +9,7 @@ export const siteConfig = {
     links: [
       { id: 1, name: 'Home', href: '/' },
       { id: 2, name: 'About', href: '/about' },
-      // { id: 3, name: 'Pricing', href: '/pricing' }, // BILLING DISABLED
+      { id: 3, name: 'Pricing', href: '/pricing' },
       { id: 4, name: 'Tutorials', href: '/tutorials' },
     ],
   },
