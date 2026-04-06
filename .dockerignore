@@ -1,9 +1,41 @@
-# Exclude node_modules from build context to avoid overlay conflicts
+# Dependencies
+node_modules
 **/node_modules
-**/.next/cache
-**/.next/diagnostics
+**/.venv
+.venv
+
+# Build outputs
+**/.next
+**/dist
+**/__pycache__
+**/*.pyc
+
+# Git
+.git
 **/.git
-**/npm-debug.log
-**/*.env
-**/*.env.*
-!**/.env.example
+
+# IDE
+.idea
+.vscode
+**/.idea
+**/.vscode
+
+# Other large directories
+backend/
+sdk/
+infra/
+apps/mobile/
+apps/desktop/
+e2e-screenshots/
+docs/
+supabase/
+*.md
+*.log
+
+# Keep only what's needed for frontend
+!packages/
+!apps/frontend/
+!package.json
+!pnpm-workspace.yaml
+!pnpm-lock.yaml
+!.npmrc

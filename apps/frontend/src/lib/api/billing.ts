@@ -279,6 +279,8 @@ export interface CreateCheckoutSessionRequest {
 export interface CreateCheckoutSessionResponse {
   status: string;
   message?: string;
+  checkout_url?: string;
+  url?: string;
 }
 
 export interface CreatePortalSessionRequest {
