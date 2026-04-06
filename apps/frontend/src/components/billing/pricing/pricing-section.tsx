@@ -25,7 +25,7 @@ import { useAccountState, useScheduleDowngrade } from '@/hooks/billing';
 import { useAuth } from '@/components/AuthProvider';
 import { useQueryClient } from '@tanstack/react-query';
 import { ScheduledDowngradeCard } from '@/components/billing/scheduled-downgrade-card';
-import posthog from 'posthog-js';
+import { capture as posthogCapture } from '@/lib/posthog';
 import { AnimatedBg } from '@/components/ui/animated-bg';
 import { TierBadge } from '@/components/billing/tier-badge';
 import { CarbonScopeLogoSimple } from '@/components/brand/carbonscope-logo-simple';
@@ -210,7 +210,7 @@ function PricingCard({
           commitment_type: commitmentType,
         }, {
           onSuccess: () => {
-            posthog.capture('plan_downgrade_scheduled');
+            posthogCapture('plan_downgrade_scheduled');
           },
           onSettled: () => {
             if (onSubscriptionUpdate) onSubscriptionUpdate();
@@ -247,7 +247,7 @@ function PricingCard({
               billing_period: effectiveBillingPeriod,
               previous_tier: previousTier,
             });
-            posthog.capture('plan_purchase_attempted');
+            posthogCapture('plan_purchase_attempted');
             backendApi.post(`/billing/track-checkout-click?tier=${tier.tierKey}`, null, { showErrors: false });
             window.location.href = checkoutUrl;
           } else {
@@ -268,7 +268,7 @@ function PricingCard({
             billing_period: effectiveBillingPeriod,
             previous_tier: upgradedPreviousTier,
           });
-          posthog.capture('plan_upgraded');
+          posthogCapture('plan_upgraded');
           if (onSubscriptionUpdate) onSubscriptionUpdate();
           setTimeout(() => {
             window.location.href = '/dashboard?subscription=success';
@@ -306,7 +306,7 @@ function PricingCard({
               <p className="text-sm mt-1">{planChangeDate}</p>
             </div>,
           );
-          posthog.capture('plan_downgraded');
+          posthogCapture('plan_downgraded');
           if (onSubscriptionUpdate) onSubscriptionUpdate();
           break;
         case 'no_change':
@@ -831,7 +831,7 @@ function BasicTierCard({
       commitment_type: 'monthly',
     }, {
       onSuccess: () => {
-        posthog.capture('plan_downgrade_scheduled');
+        posthogCapture('plan_downgrade_scheduled');
         if (onSubscriptionUpdate) onSubscriptionUpdate();
       },
     });
@@ -863,14 +863,14 @@ function BasicTierCard({
           if (checkoutUrl) {
             window.location.href = checkoutUrl;
           } else {
-            posthog.capture('free_plan_selected');
+            posthogCapture('free_plan_selected');
             if (onSubscriptionUpdate) onSubscriptionUpdate();
             window.location.href = '/dashboard?subscription=success';
           }
           break;
         case 'upgraded':
         case 'updated':
-          posthog.capture('free_plan_selected');
+          posthogCapture('free_plan_selected');
           if (onSubscriptionUpdate) onSubscriptionUpdate();
           window.location.href = '/dashboard?subscription=success';
           break;
