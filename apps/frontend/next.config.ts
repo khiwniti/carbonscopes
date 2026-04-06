@@ -32,6 +32,10 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
+  allowedDevOrigins: [
+    'https://3000-01kjj6zms0r5qvm5pxcmq9dx3t.cloudspaces.litng.ai',
+    'https://*.cloudspaces.litng.ai',
+  ],
   transpilePackages: ['@agentpress/shared'],
   eslint: {
     ignoreDuringBuilds: true,
