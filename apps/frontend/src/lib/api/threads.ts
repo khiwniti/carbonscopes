@@ -2,6 +2,7 @@ import { BACKEND_URL } from '@/lib/api-client';
 import { createClient } from '@/lib/supabase/client';
 import { handleApiError } from '../error-handler';
 import { backendApi } from '../api-client';
+import { logger } from '@/lib/logger';
 
 export type ThreadStatus = 'pending' | 'initializing' | 'ready' | 'error';
 
