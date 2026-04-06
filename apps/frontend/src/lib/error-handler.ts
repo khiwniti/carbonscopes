@@ -160,7 +160,8 @@ const formatErrorMessage = (message: string, context?: ErrorContext): string => 
 
 
 export const handleApiError = (error: any, context?: ErrorContext): void => {
-  console.error('API Error:', error, context);
+  // Log errors only in verbose mode to reduce console noise
+  logger.warn('API Error:', error, context);
 
   if (!shouldShowError(error, context)) {
     return;
