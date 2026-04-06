@@ -1,5 +1,6 @@
 import { handleApiError } from '../error-handler';
 import { backendApi } from '../api-client';
+import { logger } from '@/lib/logger';
 
 export interface TranscriptionResponse {
   text: string;
