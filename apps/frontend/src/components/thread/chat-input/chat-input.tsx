@@ -48,7 +48,7 @@ import { SpotlightCard } from '@/components/ui/spotlight-card';
 import { UnifiedConfigMenu } from './unified-config-menu';
 import { useVoicePlayerStore } from '@/stores/voice-player-store';
 
-import posthog from 'posthog-js';
+import { capture as posthogCapture } from '@/lib/posthog';
 import { trackCtaUpgrade } from '@/lib/analytics/gtm';
 
 // ============================================================================
@@ -1224,7 +1224,7 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
 
       const baseModelName = selectedModel ? getActualModelId(selectedModel) : undefined;
 
-      posthog.capture("task_prompt_submitted", { message });
+      posthogCapture("task_prompt_submitted", { message });
 
       onSubmit(message, {
         agent_id: selectedAgentId,
