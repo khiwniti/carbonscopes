@@ -2,6 +2,7 @@
  * BILLING DISABLED - Pricing modal will never open
  */
 import { create } from 'zustand';
+import { logger } from '@/lib/logger';
 
 interface PricingModalState {
   isOpen: boolean;
@@ -22,7 +23,7 @@ export const usePricingModalStore = create<PricingModalState>((set) => ({
   returnUrl: undefined,
   // BILLING DISABLED - Never open pricing modal
   openPricingModal: (_options) => {
-    console.debug('[Billing] Billing disabled - pricing modal will not open');
+    logger.debug('[Billing] Billing disabled - pricing modal will not open');
     // Do nothing - billing is disabled
   },
   closePricingModal: () =>
