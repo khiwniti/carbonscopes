@@ -99,7 +99,16 @@ export function useSandboxStatus(projectId: string | undefined, options?: { enab
       );
 
       if (!response.success || !response.data) {
-        throw new Error(response.error?.message || 'Failed to fetch sandbox status');
+        // Return a default offline state instead of throwing
+        // This handles cases where sandbox status endpoint is unavailable
+        // (e.g., basejump schema not exposed in Supabase)
+        return {
+          status: 'UNKNOWN' as const,
+          daytonaState: null,
+          servicesHealth: null,
+          sandbox_id: null,
+          lastChecked: new Date().toISOString(),
+        } as SandboxState;
       }
 
       return response.data;
