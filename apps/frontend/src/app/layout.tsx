@@ -105,7 +105,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${instrumentSerif.variable} ${plusJakarta.variable} ${ibmPlexMono.variable}`}>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${instrumentSerif.variable} ${plusJakarta.variable} ${ibmPlexMono.variable}`}>
       <head>
         {/* DNS prefetch for analytics (loaded later but resolve DNS early) */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
