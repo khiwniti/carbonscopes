@@ -117,19 +117,23 @@ export function useSandboxStatus(projectId: string | undefined, options?: { enab
     // Adaptive stale time - faster refresh when starting/unknown
     staleTime: (query) => {
       const status = query.state.data?.status;
-      // Very short stale time when transitioning or unknown
-      if (status === 'STARTING' || status === 'UNKNOWN') return 1000;
+      // Very short stale time when transitioning
+      if (status === 'STARTING') return 1000;
+      // Don't go stale for UNKNOWN (endpoint unavailable)
+      if (status === 'UNKNOWN') return 60 * 1000;
       return 10 * 1000;
     },
-    // Adaptive polling - faster when transitioning or unknown (sandbox might be starting)
+    // Adaptive polling - faster when transitioning
     refetchInterval: (query) => {
       const status = query.state.data?.status;
-      // Poll faster when sandbox is starting up or unknown
+      // Poll faster when sandbox is starting up
       if (status === 'STARTING') return 2000;
-      if (status === 'UNKNOWN') return 5000; // Sandbox might be being created
+      // Don't poll UNKNOWN status (endpoint unavailable, e.g. basejump schema issue)
+      if (status === 'UNKNOWN') return false;
       if (status === 'OFFLINE') return 10000; // User might start it
       return 30000;
     },
+    retry: false, // Don't retry failed requests (e.g., basejump schema not exposed)
     refetchOnWindowFocus: true, // Refetch when user comes back to tab
     refetchOnMount: 'always', // Always fetch on mount to show current status immediately
   });
