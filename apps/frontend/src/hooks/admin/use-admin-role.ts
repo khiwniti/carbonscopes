@@ -1,4 +1,5 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { logger } from '@/lib/logger';
 import { backendApi } from '@/lib/api-client';
 import { useAuth } from '@/components/AuthProvider';
 
@@ -24,7 +25,7 @@ export const useAdminRole = (
       });
 
       if (response.error) {
-        console.error('Error fetching admin role:', response.error);
+        logger.error('Error fetching admin role:', response.error);
         return { isAdmin: false, role: null };
       }
 

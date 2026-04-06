@@ -1,4 +1,5 @@
 import { BACKEND_URL } from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 import { useState, useCallback, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -245,7 +246,7 @@ export function useStressTest() {
                 break;
             }
           } catch (parseError) {
-            console.error('Failed to parse event:', line, parseError);
+            logger.error('Failed to parse event:', line, parseError);
           }
         }
       }
