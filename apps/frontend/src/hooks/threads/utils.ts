@@ -76,7 +76,7 @@ export const updateThread = async (
   
     if (!response.ok) {
       const errorText = await response.text().catch(() => 'Unknown error');
-      console.error('Error updating thread:', errorText);
+      logger.error('Error updating thread:', errorText);
       throw new Error(`Error updating thread: ${errorText}`);
     }
   
@@ -120,13 +120,13 @@ export const deleteThread = async (threadId: string, sandboxId?: string): Promis
 
       if (!response.ok) {
         const errorText = await response.text().catch(() => 'Unknown error');
-        console.error('Error deleting thread:', errorText);
+        logger.error('Error deleting thread:', errorText);
         throw new Error(`Failed to delete thread: ${errorText}`);
       }
 
       logger.log(`Thread ${threadId} deleted successfully`);
     } catch (error) {
-      console.error('Error deleting thread:', error);
+      logger.error('Error deleting thread:', error);
       throw error;
     }
   };
@@ -175,7 +175,7 @@ export const getPublicProjects = async (): Promise<Project[]> => {
 
       return Array.from(projectsMap.values());
     } catch (err) {
-      console.error('Error fetching public projects:', err);
+      logger.error('Error fetching public projects:', err);
       return [];
     }
   };

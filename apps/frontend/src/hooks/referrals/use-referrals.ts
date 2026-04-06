@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { logger } from '@/lib/logger';
 import { referralsApi, ReferralCodeResponse, ReferralStats, ReferralListResponse, ValidateReferralCodeResponse, ReferralEmailResponse } from '@/lib/api/referrals';
 import { toast } from '@/lib/toast';
 import { useTranslations } from 'next-intl';
@@ -63,7 +64,7 @@ export function useValidateReferralCode() {
     mutationFn: (code: string) => referralsApi.validateReferralCode(code),
     onError: (error) => {
       toast.error('Failed to validate referral code');
-      console.error('Referral code validation error:', error);
+      logger.error('Referral code validation error:', error);
     },
   });
 }
@@ -81,7 +82,7 @@ export function useCopyReferralLink() {
       await navigator.clipboard.writeText(referralData.referral_url);
       toast.success('Referral link copied to clipboard!');
     } catch (error) {
-      console.error('Failed to copy referral link:', error);
+      logger.error('Failed to copy referral link:', error);
       toast.error('Failed to copy referral link');
     }
   };
@@ -108,7 +109,7 @@ export function useSendReferralEmails() {
     onError: (error: any) => {
       const errorMessage = error?.message || 'Failed to send referral emails';
       toast.error(errorMessage);
-      console.error('Referral email error:', error);
+      logger.error('Referral email error:', error);
     },
   });
 }

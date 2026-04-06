@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
+import { logger } from '@/lib/logger';
 import { UnifiedMessage } from '@/components/thread/types';
 
 export interface PlaybackState {
@@ -294,7 +295,7 @@ export function usePlaybackController({
 
                         if (isCancelled) break;
                     } catch (error) {
-                        console.error('Error streaming message:', error);
+                        logger.error('Error streaming message:', error);
                     }
                 } else {
                     // Non-assistant messages: show immediately

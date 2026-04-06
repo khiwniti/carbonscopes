@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 
 interface GitHubRepoData {
   stargazers_count: number;
@@ -28,7 +29,7 @@ export function useGitHubStars(owner: string, repo: string) {
         const data: GitHubRepoData = await response.json();
         setStars(data.stargazers_count);
       } catch (err) {
-        console.error('Failed to fetch GitHub stars:', err);
+        logger.error('Failed to fetch GitHub stars:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch stars');
         // Fallback to static number if API fails
         setStars(20000); // Current approximate count

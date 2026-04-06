@@ -1,4 +1,5 @@
 import React from 'react';
+import { logger } from '@/lib/logger';
 import { Clock } from 'lucide-react';
 import { UnifiedMessage, ParsedMetadata } from '@/components/thread/types';
 import { safeJsonParse, getToolIcon } from '@/components/thread/utils';
@@ -217,7 +218,7 @@ function extractWebSearchUrls(toolResult: UnifiedMessage | undefined): string[] 
       }
     }
   } catch (e) {
-    console.error('extractWebSearchUrls error:', e);
+    logger.error('extractWebSearchUrls error:', e);
   }
   return [];
 }
@@ -258,7 +259,7 @@ function extractImageSearchUrls(toolResult: UnifiedMessage | undefined): string[
       return content.images;
     }
   } catch (e) {
-    console.error('extractImageSearchUrls error:', e);
+    logger.error('extractImageSearchUrls error:', e);
   }
   return [];
 }
@@ -290,7 +291,7 @@ function extractSlideInfo(toolResult: UnifiedMessage | undefined): SlideInfo | u
       };
     }
   } catch (e) {
-    console.error('extractSlideInfo error:', e);
+    logger.error('extractSlideInfo error:', e);
   }
   return undefined;
 }
@@ -343,7 +344,7 @@ function SlideInlineThumbnail({
           }
         }
       } catch (e) {
-        console.error('Failed to load slide metadata:', e);
+        logger.error('Failed to load slide metadata:', e);
       } finally {
         setIsLoadingMetadata(false);
       }

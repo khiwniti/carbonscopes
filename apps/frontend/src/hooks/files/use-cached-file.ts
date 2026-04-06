@@ -41,7 +41,7 @@ function normalizePath(path: string): string {
       return String.fromCharCode(parseInt(hexCode, 16));
     });
   } catch (e) {
-    console.error('Error processing Unicode escapes in path:', e);
+    logger.error('Error processing Unicode escapes in path:', e);
   }
   
   return path;
@@ -129,7 +129,7 @@ export function useCachedFile<T = string>(
             return attemptFetch(true);
           }
           
-          console.error(`[FILE CACHE] Failed response for ${normalizedPath}: Status ${response.status}`);
+          logger.error(`[FILE CACHE] Failed response for ${normalizedPath}: Status ${response.status}`);
           throw new Error(errorMessage);
         }
         
@@ -256,7 +256,7 @@ export function useCachedFile<T = string>(
         if (Date.now() - cachedItem.timestamp > (options.expiration || CACHE_EXPIRATION)) {
           getCachedFile(cacheKey, true)
             .then(freshData => processContent(freshData))
-            .catch(err => console.error("Background refresh failed:", err));
+            .catch(err => logger.error("Background refresh failed:", err));
         }
       } else {
         // No cache, load fresh
@@ -406,7 +406,7 @@ export const FileCache = {
           token = session.access_token;
         }
       } catch (err) {
-        console.error('Failed to get auth token from localStorage:', err);
+        logger.error('Failed to get auth token from localStorage:', err);
       }
     }
     
@@ -597,7 +597,7 @@ export async function getCachedFile(
           return attemptFetch(true);
         }
         
-        console.error(`[FILE CACHE] Failed response for ${normalizedPath}: Status ${response.status}`);
+        logger.error(`[FILE CACHE] Failed response for ${normalizedPath}: Status ${response.status}`);
         throw new Error(errorMessage);
       }
       
@@ -719,7 +719,7 @@ export async function fetchFileContent(
   try {
     return await attemptFetch();
   } catch (error) {
-    console.error(`[FILE CACHE] Error fetching file content:`, error);
+    logger.error(`[FILE CACHE] Error fetching file content:`, error);
     throw error;
   }
 } 

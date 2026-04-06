@@ -28,7 +28,7 @@ function normalizePath(path: string): string {
       return String.fromCharCode(parseInt(hexCode, 16));
     });
   } catch (e) {
-    console.error('Error processing Unicode escapes in path:', e);
+    logger.error('Error processing Unicode escapes in path:', e);
   }
   
   return path;
@@ -416,7 +416,7 @@ export function useCachedFile<T = string>(
     try {
       return options.processFn(query.data);
     } catch (error) {
-      console.error('Error processing file data:', error);
+      logger.error('Error processing file data:', error);
       return null;
     }
   }, [query.data, options]);

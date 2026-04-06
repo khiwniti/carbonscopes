@@ -386,7 +386,7 @@ export function useThreadData(
         }
 
       } catch (err) {
-        console.error('Error loading thread data:', err);
+        logger.error('Error loading thread data:', err);
         if (isMounted) {
           const errorMessage =
             err instanceof Error ? err.message : 'Failed to load thread';

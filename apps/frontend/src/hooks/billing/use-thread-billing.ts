@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { logger } from '@/lib/logger';
 import { isLocalMode } from '@/lib/config';
 import { useAccountState, accountStateSelectors } from './use-account-state';
 import { AgentStatus } from '@/components/thread/types';
@@ -37,7 +38,7 @@ export function useThreadBilling(
       }
       return false;
     } catch (err) {
-      console.error('Error checking billing status:', err);
+      logger.error('Error checking billing status:', err);
       return false;
     }
   }, [accountState, onBillingError]);

@@ -170,7 +170,7 @@ export const useCreateComposioProfile = () => {
       }
     },
     onError: (error) => {
-      console.error('Failed to create Composio profile:', error);
+      logger.error('Failed to create Composio profile:', error);
       toast.error(error.message || 'Failed to create profile');
     },
   });

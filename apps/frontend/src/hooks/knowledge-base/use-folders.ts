@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 import { backendApi } from '@/lib/api-client';
 
 export interface Folder {
@@ -31,7 +32,7 @@ export const useKnowledgeFolders = () => {
             });
 
             if (foldersResponse.error) {
-                console.error('Error fetching folders:', foldersResponse.error);
+                logger.error('Error fetching folders:', foldersResponse.error);
                 setFolders([]);
             } else {
                 setFolders(foldersResponse.data || []);
@@ -42,7 +43,7 @@ export const useKnowledgeFolders = () => {
             // or fetch from entries endpoint if available
             setRecentFiles([]);
         } catch (error) {
-            console.error('Failed to fetch folders:', error);
+            logger.error('Failed to fetch folders:', error);
             setFolders([]);
         } finally {
             setLoading(false);
