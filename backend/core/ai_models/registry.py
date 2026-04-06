@@ -319,7 +319,7 @@ class ModelFactory:
                 name="CarbonScope Basic (Azure)",
                 litellm_model_id=f"azure_ai/{deployment}",
                 provider=ModelProvider.AZURE,
-                aliases=["CarbonScope-basic", "CarbonScope Basic"],
+                aliases=["CarbonScope-basic", "CarbonScope Basic", "gpt-4o", "gpt-4o-mini", "openai/gpt-4o", "openai/gpt-4o-mini"],
                 context_window=200_000,
                 capabilities=[
                     ModelCapability.CHAT,
