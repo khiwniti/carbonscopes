@@ -132,7 +132,7 @@ export const getProjectThreads = async (projectId: string, page: number = 1, lim
     });
 
     if (response.error) {
-      console.error('Error getting project threads:', response.error);
+      logger.error('Error getting project threads:', response.error);
       handleApiError(response.error, { 
         operation: 'load project threads', 
         resource: `threads for project ${projectId}` 
@@ -178,7 +178,7 @@ export const getProjectThreads = async (projectId: string, page: number = 1, lim
       }
     };
   } catch (err) {
-    console.error('Error fetching project threads:', err);
+    logger.error('Error fetching project threads:', err);
     handleApiError(err, { 
       operation: 'load project threads', 
       resource: `threads for project ${projectId}` 
@@ -300,7 +300,7 @@ export const getThreads = async (projectId?: string): Promise<Thread[]> => {
     });
 
     if (response.error) {
-      console.error('Error getting threads:', response.error);
+      logger.error('Error getting threads:', response.error);
       handleApiError(response.error, { 
         operation: 'load threads', 
         resource: projectId ? `threads for project ${projectId}` : 'threads' 
@@ -326,7 +326,7 @@ export const getThreads = async (projectId?: string): Promise<Thread[]> => {
 
     return threads;
   } catch (err) {
-    console.error('Error fetching threads:', err);
+    logger.error('Error fetching threads:', err);
     handleApiError(err, { 
       operation: 'load threads', 
       resource: projectId ? `threads for project ${projectId}` : 'threads' 
@@ -347,7 +347,7 @@ export const getThreadsPaginated = async (projectId?: string, page: number = 1, 
     });
 
     if (response.error) {
-      console.error('Error getting paginated threads:', response.error);
+      logger.error('Error getting paginated threads:', response.error);
       handleApiError(response.error, { 
         operation: 'load threads', 
         resource: projectId ? `threads for project ${projectId}` : 'threads' 
@@ -398,7 +398,7 @@ export const getThreadsPaginated = async (projectId?: string, page: number = 1, 
       }
     };
   } catch (err) {
-    console.error('Error fetching paginated threads:', err);
+    logger.error('Error fetching paginated threads:', err);
     handleApiError(err, { 
       operation: 'load threads', 
       resource: projectId ? `threads for project ${projectId}` : 'threads' 
@@ -515,7 +515,7 @@ export const addUserMessage = async (
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => 'Unknown error');
-      console.error('Error adding user message:', errorText);
+      logger.error('Error adding user message:', errorText);
       handleApiError(new Error(errorText), { operation: 'add message', resource: 'message' });
       throw new Error(`Error adding message: ${errorText}`);
     }
@@ -523,7 +523,7 @@ export const addUserMessage = async (
     if (error instanceof NoAccessTokenAvailableError) {
       throw error;
     }
-    console.error('Failed to add user message:', error);
+    logger.error('Failed to add user message:', error);
     handleApiError(error, { operation: 'add message', resource: 'message' });
     throw error;
   }
@@ -603,7 +603,7 @@ export const searchThreads = async (
     );
 
     if (response.error) {
-      console.error('Error searching threads:', response.error);
+      logger.error('Error searching threads:', response.error);
       return {
         results: [],
         total: 0,
@@ -617,7 +617,7 @@ export const searchThreads = async (
       configured: false,
     };
   } catch (error) {
-    console.error('Error searching threads:', error);
+    logger.error('Error searching threads:', error);
     return {
       results: [],
       total: 0,
