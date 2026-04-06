@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
+import { logger } from '@/lib/logger';
 import * as Color from 'color-bits';
 import { twMerge } from 'tailwind-merge';
 
@@ -27,7 +28,7 @@ export const getRGBA = (
 
     return Color.formatRGBA(Color.parse(cssColor));
   } catch (e) {
-    console.error('Color parsing failed:', e);
+    logger.error('Color parsing failed:', e);
     return fallback;
   }
 };

@@ -466,7 +466,7 @@ export async function exportDocument({ content, fileName, format }: DocumentExpo
           saveAs(blob, `${safeFileName}.pdf`);
           toast.success('PDF exported', { id: toastId });
         } catch (error) {
-          console.error('[Document Export] PDF export error:', error);
+          logger.error('[Document Export] PDF export error:', error);
           toast.error(`PDF export failed: ${error instanceof Error ? error.message : 'Unknown error'}`, { id: toastId });
         }
         break;
@@ -521,7 +521,7 @@ export async function exportDocument({ content, fileName, format }: DocumentExpo
           saveAs(blob, `${safeFileName}.docx`);
           toast.success('Word document exported', { id: toastId });
         } catch (error) {
-          console.error('[Document Export] DOCX export error:', error);
+          logger.error('[Document Export] DOCX export error:', error);
           toast.error(`Word export failed: ${error instanceof Error ? error.message : 'Unknown error'}`, { id: toastId });
         }
         break;
@@ -582,11 +582,11 @@ export async function exportDocument({ content, fileName, format }: DocumentExpo
       }
 
       default:
-        console.error('[Document Export] Unknown format:', format);
+        logger.error('[Document Export] Unknown format:', format);
         toast.error(`Unknown format: ${format}`);
     }
   } catch (error) {
-    console.error(`[Document Export] Error (${format}):`, error);
+    logger.error(`[Document Export] Error (${format}):`, error);
     toast.error(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }

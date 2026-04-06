@@ -19,6 +19,6 @@ export const clearUserLocalStorage = () => {
     
     logger.log('✅ Local storage cleared on logout');
   } catch (error) {
-    console.error('❌ Error clearing local storage:', error);
+    logger.error('❌ Error clearing local storage:', error);
   }
 }; 

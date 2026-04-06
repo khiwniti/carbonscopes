@@ -1,4 +1,5 @@
 import { BACKEND_URL } from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 /**
  * Centralized file utilities
  * Consolidated from file-attachment.tsx for reuse across components
@@ -138,7 +139,7 @@ export function getFileUrl(sandboxId: string | undefined, path: string): string 
             return String.fromCharCode(parseInt(hexCode, 16));
         });
     } catch (e) {
-        console.error('Error processing Unicode escapes in path:', e);
+        logger.error('Error processing Unicode escapes in path:', e);
     }
 
     const url = new URL(`${BACKEND_URL}/sandboxes/${sandboxId}/files/content`);

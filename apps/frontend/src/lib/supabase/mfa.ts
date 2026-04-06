@@ -1,4 +1,5 @@
 import { createClient } from './client';
+import { logger } from '@/lib/logger';
 import type {
   FactorInfo,
   PhoneVerificationEnroll,
@@ -53,7 +54,7 @@ export const supabaseMFAService = {
         secret: undefined, // Phone factors don't have secrets
       };
     } catch (error: any) {
-      console.error('❌ Enroll phone factor failed:', error);
+      logger.error('❌ Enroll phone factor failed:', error);
       throw new Error(`Failed to enroll phone factor: ${error.message}`);
     }
   },
@@ -82,7 +83,7 @@ export const supabaseMFAService = {
         expires_at: response.data.expires_at ? new Date(response.data.expires_at * 1000).toISOString() : undefined,
       };
     } catch (error: any) {
-      console.error('❌ Create SMS challenge failed:', error);
+      logger.error('❌ Create SMS challenge failed:', error);
       throw new Error(`Failed to create SMS challenge: ${error.message}`);
     }
   },
@@ -109,7 +110,7 @@ export const supabaseMFAService = {
         message: 'SMS code verified successfully',
       };
     } catch (error: any) {
-      console.error('❌ Verify challenge failed:', error);
+      logger.error('❌ Verify challenge failed:', error);
       throw new Error(`Failed to verify SMS code: ${error.message}`);
     }
   },
@@ -135,7 +136,7 @@ export const supabaseMFAService = {
         message: 'SMS challenge created and verified successfully',
       };
     } catch (error: any) {
-      console.error('❌ Challenge and verify SMS failed:', error);
+      logger.error('❌ Challenge and verify SMS failed:', error);
       throw new Error(`Failed to challenge and verify SMS: ${error.message}`);
     }
   },
@@ -164,7 +165,7 @@ export const supabaseMFAService = {
         expires_at: response.data.expires_at ? new Date(response.data.expires_at * 1000).toISOString() : undefined,
       };
     } catch (error: any) {
-      console.error('❌ Resend SMS failed:', error);
+      logger.error('❌ Resend SMS failed:', error);
       throw new Error(`Failed to resend SMS: ${error.message}`);
     }
   },
@@ -204,7 +205,7 @@ export const supabaseMFAService = {
 
       return { factors };
     } catch (error: any) {
-      console.error('❌ List factors failed:', error);
+      logger.error('❌ List factors failed:', error);
       throw new Error(`Failed to list factors: ${error.message}`);
     }
   },
@@ -229,7 +230,7 @@ export const supabaseMFAService = {
         message: 'Phone factor unenrolled successfully',
       };
     } catch (error: any) {
-      console.error('❌ Unenroll factor failed:', error);
+      logger.error('❌ Unenroll factor failed:', error);
       throw new Error(`Failed to unenroll phone factor: ${error.message}`);
     }
   },
@@ -262,7 +263,7 @@ export const supabaseMFAService = {
         try {
           userCreatedAt = new Date(user.created_at);
         } catch (e) {
-          console.error('Failed to parse user created_at:', e);
+          logger.error('Failed to parse user created_at:', e);
           userCreatedAt = new Date();
         }
       }
@@ -346,7 +347,7 @@ export const supabaseMFAService = {
         factors: factors,
       };
     } catch (error: any) {
-      console.error('❌ Get AAL failed:', error);
+      logger.error('❌ Get AAL failed:', error);
       throw new Error(`Failed to get AAL: ${error.message}`);
     }
   },

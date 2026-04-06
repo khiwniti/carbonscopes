@@ -1,4 +1,5 @@
 import { toast } from '@/lib/toast';
+import { logger } from '@/lib/logger';
 import { createClient } from '@/lib/supabase/client';
 import { backendApi } from '../api-client';
 
@@ -41,7 +42,7 @@ export async function downloadDocument(
       duration: 8000,
     });
   } catch (error) {
-    console.error(`Error downloading ${format}:`, error);
+    logger.error(`Error downloading ${format}:`, error);
     throw error;
   }
 }
@@ -67,7 +68,7 @@ export const handleGoogleDocsAuth = async (docPath: string, sandboxUrl: string) 
       return;
     }
   } catch (error) {
-    console.error('Failed to initiate Google authentication:', error);
+    logger.error('Failed to initiate Google authentication:', error);
     toast.error('Failed to initiate Google authentication');
   }
 };
@@ -188,7 +189,7 @@ export const checkPendingGoogleDocsUpload = async () => {
       window.history.replaceState({}, document.title, url.toString());
     }
   } catch (error) {
-    console.error('Error checking pending Google Docs upload:', error);
+    logger.error('Error checking pending Google Docs upload:', error);
     sessionStorage.removeItem('google_docs_upload_intent');
   }
   
