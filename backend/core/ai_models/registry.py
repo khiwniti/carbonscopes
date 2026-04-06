@@ -501,6 +501,21 @@ class ModelFactory:
                 litellm_model_id=f"azure_ai/{deployment}",
                 provider=ModelProvider.AZURE,
                 aliases=["CarbonScope-power", "CarbonScope POWER Mode", "CarbonScope Power", "CarbonScope Advanced Mode", "claude-3-5-sonnet", "anthropic/claude-3-5-sonnet"],
+                context_window=200_000,
+                capabilities=[
+                    ModelCapability.CHAT,
+                    ModelCapability.FUNCTION_CALLING,
+                    ModelCapability.VISION,
+                    ModelCapability.PROMPT_CACHING,
+                ],
+                pricing=PricingPresets.HAIKU_4_5,
+                tier_availability=["paid"],
+                priority=101,
+                recommended=True,
+                enabled=True,
+                config=_create_azure_model_config(),
+            )
+        elif main_llm == "openrouter":
             # Generic OpenRouter - use custom model or fallback to minimax
             return Model(
                 id="CarbonScope/power",
