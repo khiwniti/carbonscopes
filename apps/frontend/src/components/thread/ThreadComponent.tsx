@@ -546,14 +546,14 @@ export function ThreadComponent({ projectId, threadId, compact = false, configur
         queryClient.invalidateQueries({ queryKey: ['project', projectId] });
         queryClient.invalidateQueries({ queryKey: ['threads', 'list'] });
       }).catch((error) => {
-        console.error('[ThreadComponent] Retry failed:', error);
+        logger.error('[ThreadComponent] Retry failed:', error);
         // Clear intent on failure - user will need to start fresh
         localStorage.removeItem('pending_thread_intent');
         toast.error('Failed to recover conversation. Please start a new one.');
         router.push('/');
       });
     } catch (e) {
-      console.error('[ThreadComponent] Error checking pending intent:', e);
+      logger.error('[ThreadComponent] Error checking pending intent:', e);
     }
   }, [threadQuery.error, isNewThread, threadId, projectId, queryClient, setAgentRunId, setAgentStatus, router]);
 
@@ -615,7 +615,7 @@ export function ThreadComponent({ projectId, threadId, compact = false, configur
           }, 2000);
         }
       } catch (error) {
-        console.error('Failed to upload optimistic files:', error);
+        logger.error('Failed to upload optimistic files:', error);
         if (isMounted) {
           pendingFiles.forEach((f) => updateFileStatus(f.id, 'error', 'Upload failed'));
         }
@@ -668,14 +668,14 @@ export function ThreadComponent({ projectId, threadId, compact = false, configur
               try {
                 await uploadPromise;
               } catch (error) {
-                console.error('Upload failed:', error);
+                logger.error('Upload failed:', error);
               } finally {
                 toast.dismiss(loadingToast);
               }
             })();
           }
         } catch (error) {
-          console.error('Error processing Google Slides upload from session:', error);
+          logger.error('Error processing Google Slides upload from session:', error);
         }
       } else {
         toast.success('Google authentication successful!');
@@ -1071,7 +1071,7 @@ export function ThreadComponent({ projectId, threadId, compact = false, configur
       lower.includes('no credits');
 
     if (isBillingError) {
-      console.error(`[PAGE] Agent stopped due to billing error: ${errorMessage}`);
+      logger.error(`[PAGE] Agent stopped due to billing error: ${errorMessage}`);
       const billingError = new BillingError(402, {
         message: errorMessage,
       });
@@ -1084,7 +1084,7 @@ export function ThreadComponent({ projectId, threadId, compact = false, configur
       return;
     }
 
-    console.error(`[PAGE] Stream hook error: ${errorMessage}`);
+    logger.error(`[PAGE] Stream hook error: ${errorMessage}`);
     toast.error(`Stream Error: ${errorMessage}`);
 
     pendingMessageRef.current = null;
@@ -1272,7 +1272,7 @@ export function ThreadComponent({ projectId, threadId, compact = false, configur
         chatInputRef.current?.clearPendingFiles();
         chatInputRef.current?.clearUploadedFiles();
       } catch (error) {
-        console.error('Failed to start agent:', error);
+        logger.error('Failed to start agent:', error);
         pendingMessageRef.current = null;
 
         if (error instanceof BillingError) {
@@ -1328,7 +1328,7 @@ export function ThreadComponent({ projectId, threadId, compact = false, configur
       try {
         await stopAgentMutation.mutateAsync(agentRunId);
       } catch (error) {
-        console.error('Error stopping agent:', error);
+        logger.error('Error stopping agent:', error);
       }
     }
   }, [stopStreaming, agentRunId, stopAgentMutation, setAgentStatus, isShared]);
