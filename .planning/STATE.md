@@ -1,8 +1,8 @@
 # CarbonScope Production Fix - Project State
 
 **Created:** 2026-04-06
-**Status:** PAUSED - Investigation in progress (context limit reached)
-**Last Activity:** 2026-04-06 15:10
+**Status:** ACTIVE - Phase 1 Complete, Testing Fix
+**Last Activity:** 2026-04-06 15:30
 **Live Site:** https://carbonscope.ensimu.space
 **Backend:** https://suna-backend-app.azurewebsites.net
 
@@ -18,11 +18,12 @@
 
 ## Known Issues
 
-### 🔴 CRITICAL (P0)
-- Backend `/v1/agents` returns HTTP 500 - BLOCKS ALL USERS
-- Location: `apps/backend/routers/v1/agents.py` (expected)
-- Impact: Users cannot list agents, cannot start projects
-- Root cause: Unknown - needs backend logs
+### ✅ FIXED (was P0)
+- Backend `/v1/agents` HTTP 500 - **ROOT CAUSE FOUND & FIXED**
+- Location: `backend/core/agents/agent_crud.py:462`
+- Root cause: DATABASE_URL missing `?sslmode=require` parameter
+- Fix: Updated Azure env var, restarted backend
+- Status: Deployed, awaiting verification
 
 ### 🟡 LOW (P3)
 - GitHub stars API returns 404 from CarbonScope-ai/suna
