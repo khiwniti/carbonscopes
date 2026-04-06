@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { NewAgentDialog } from '@/components/agents/new-agent-dialog';
-import posthog from 'posthog-js';
+import { capture as posthogCapture } from '@/lib/posthog';
 
 export function NavProjects() {
   const { isMobile, setOpenMobile } = useSidebar();
@@ -32,7 +32,7 @@ export function NavProjects() {
   const displayedProjects = projects.slice(0, 5);
 
   const handleNewProject = () => {
-    posthog.capture('new_project_clicked', { source: 'sidebar' });
+    posthogCapture('new_project_clicked', { source: 'sidebar' });
     setShowNewProjectDialog(true);
   };
 
