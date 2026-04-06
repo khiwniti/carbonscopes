@@ -234,7 +234,7 @@ export function useOptimisticAgentStart(
         // Reset starting state
         setIsStarting(false);
       }).catch((error) => {
-        console.error('[OptimisticAgentStart] Background agent start failed:', error);
+        logger.error('[OptimisticAgentStart] Background agent start failed:', error);
         setIsStarting(false);
         
         // Clear pending intent on billing/limit errors (user action required)
@@ -277,7 +277,7 @@ export function useOptimisticAgentStart(
 
       return { threadId, projectId, success: true };
     } catch (error: any) {
-      console.error('[OptimisticAgentStart] Error during start:', error);
+      logger.error('[OptimisticAgentStart] Error during start:', error);
       
       // Clean up sessionStorage on error
       sessionStorage.removeItem('optimistic_prompt');
