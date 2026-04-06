@@ -271,7 +271,7 @@ export function useSandboxStatusWithAutoStart(
       try {
         await startSandboxRef.current.mutateAsync(projectId);
       } catch (error) {
-        console.error('[useSandboxStatusWithAutoStart] Auto-start failed:', error);
+        logger.error('[useSandboxStatusWithAutoStart] Auto-start failed:', error);
         // Reset so user can try again
         globalAutoStartAttempted.set(projectId, false);
         globalAutoStartInProgress.set(projectId, false);
