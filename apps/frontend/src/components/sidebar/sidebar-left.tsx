@@ -34,7 +34,7 @@ import { useIsMobile } from '@/hooks/utils';
 import { cn } from '@/lib/utils';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useAdminRole } from '@/hooks/admin';
-import posthog from 'posthog-js';
+import { capture as posthogCapture } from '@/lib/posthog';
 import { useDocumentModalStore } from '@/stores/use-document-modal-store';
 import { isLocalMode } from '@/lib/config';
 import { useAccountState, accountStateSelectors } from '@/hooks/billing';
@@ -226,7 +226,7 @@ export function SidebarLeft({
       // CMD+J to open new chat
       if ((event.metaKey || event.ctrlKey) && event.key === 'j') {
         event.preventDefault();
-        posthog.capture('new_task_clicked', { source: 'keyboard_shortcut' });
+        posthogCapture('new_task_clicked', { source: 'keyboard_shortcut' });
         router.push('/dashboard');
         if (isMobile) {
           setOpenMobile(false);
@@ -335,7 +335,7 @@ export function SidebarLeft({
               <Link
                 href="/dashboard"
                 onClick={() => {
-                  posthog.capture('new_task_clicked');
+                  posthogCapture('new_task_clicked');
                   if (isMobile) setOpenMobile(false);
                 }}
               >
@@ -410,7 +410,7 @@ export function SidebarLeft({
                 <Link
                   href="/dashboard"
                   onClick={() => {
-                    posthog.capture('new_task_clicked');
+                    posthogCapture('new_task_clicked');
                     if (isMobile) setOpenMobile(false);
                   }}
                 >
