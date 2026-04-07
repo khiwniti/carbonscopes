@@ -141,43 +141,48 @@ class DBConnection:
         """Initialize database connection."""
         if self._initialized:
             return
-        
+
         # Lazily create the async lock (thread-safe via __new__)
         if self._async_lock is None:
             self._async_lock = asyncio.Lock()
-        
+
         async with self._async_lock:
-            # Double-check after acquiring lock to prevent race condition
+            # Double-check after acquiring lock to prevent race condition.
+            # ALL initialization must happen inside the lock so only one
+            # coroutine creates the Supabase client at a time.  Previously
+            # the lock was released here and the code below ran outside it,
+            # allowing simultaneous auth attempts that triggered Supabase's
+            # "Too many authentication errors" circuit breaker.
             if self._initialized:
                 return
-                
-        supabase_url = config.SUPABASE_URL
-        supabase_key = config.SUPABASE_SERVICE_ROLE_KEY or config.SUPABASE_ANON_KEY
-        
-        if not supabase_url or not supabase_key:
-            raise RuntimeError("SUPABASE_URL and key must be set")
 
-        from supabase.lib.client_options import AsyncClientOptions
-        
-        options = AsyncClientOptions(
-            postgrest_client_timeout=SUPABASE_READ_TIMEOUT,
-            storage_client_timeout=SUPABASE_READ_TIMEOUT,
-            function_client_timeout=SUPABASE_READ_TIMEOUT,
-        )
-        
-        self._client = await create_async_client(supabase_url, supabase_key, options=options)
-        self._configure_clients()
-        self._initialized = True
-        self._init_time = time.time()
-        self._request_count = 0
-        self._error_count = 0
-        
-        key_type = "SERVICE_ROLE" if config.SUPABASE_SERVICE_ROLE_KEY else "ANON"
-        logger.info(
-            f"Database initialized | key={key_type} pool={SUPABASE_MAX_CONNECTIONS} "
-            f"http2={SUPABASE_HTTP2_ENABLED} connect_timeout={SUPABASE_CONNECT_TIMEOUT}s "
-            f"pool_timeout={SUPABASE_POOL_TIMEOUT}s"
-        )
+            supabase_url = config.SUPABASE_URL
+            supabase_key = config.SUPABASE_SERVICE_ROLE_KEY or config.SUPABASE_ANON_KEY
+
+            if not supabase_url or not supabase_key:
+                raise RuntimeError("SUPABASE_URL and key must be set")
+
+            from supabase.lib.client_options import AsyncClientOptions
+
+            options = AsyncClientOptions(
+                postgrest_client_timeout=SUPABASE_READ_TIMEOUT,
+                storage_client_timeout=SUPABASE_READ_TIMEOUT,
+                function_client_timeout=SUPABASE_READ_TIMEOUT,
+            )
+
+            self._client = await create_async_client(supabase_url, supabase_key, options=options)
+            self._configure_clients()
+            self._initialized = True
+            self._init_time = time.time()
+            self._request_count = 0
+            self._error_count = 0
+
+            key_type = "SERVICE_ROLE" if config.SUPABASE_SERVICE_ROLE_KEY else "ANON"
+            logger.info(
+                f"Database initialized | key={key_type} pool={SUPABASE_MAX_CONNECTIONS} "
+                f"http2={SUPABASE_HTTP2_ENABLED} connect_timeout={SUPABASE_CONNECT_TIMEOUT}s "
+                f"pool_timeout={SUPABASE_POOL_TIMEOUT}s"
+            )
 
     async def force_reconnect(self):
         """Force reconnection on errors."""
@@ -224,7 +229,11 @@ class DBConnection:
         return (
             ('route' in error_str and 'not found' in error_str) or
             ('client has been closed' in error_str) or
-            ('cannot send a request' in error_str and 'closed' in error_str)
+            ('cannot send a request' in error_str and 'closed' in error_str) or
+            # Supavisor/pgBouncer circuit breaker fires after repeated auth failures;
+            # force-reconnect so the client re-authenticates with fresh state.
+            ('circuit breaker' in error_str) or
+            ('too many authentication' in error_str)
         )
 
     @staticmethod
@@ -232,6 +241,20 @@ class DBConnection:
         """Check if error indicates closed client."""
         error_str = str(error).lower()
         return 'client has been closed' in error_str or 'closed' in error_str
+
+    @staticmethod
+    def is_db_unavailable_error(error) -> bool:
+        """Check if error indicates a service-level DB outage (return 503, not 500)."""
+        error_str = str(error).lower()
+        return (
+            'circuit breaker' in error_str or
+            'too many authentication' in error_str or
+            'connection refused' in error_str or
+            'could not connect to server' in error_str or
+            'remaining connection slots are reserved' in error_str or
+            'too many connections' in error_str or
+            'server closed the connection' in error_str
+        )
 
 
 async def execute_with_reconnect(db: DBConnection, operation, max_retries: int = 2):

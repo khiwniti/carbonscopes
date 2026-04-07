@@ -101,13 +101,68 @@ _stats = {
     "replica_fallbacks": 0,  # Times we fell back to primary due to replica failure
 }
 
+# ---------------------------------------------------------------------------
+# App-level circuit breaker
+# When Supabase's pgBouncer/Supavisor fires a "circuit breaker open" error,
+# continuing to hammer it keeps the circuit open longer.  We track the last
+# time a circuit-breaker error occurred and refuse new connections for a short
+# cooldown window so the pooler can reset.
+# ---------------------------------------------------------------------------
+_CB_COOLDOWN_SECONDS = float(os.getenv("DB_CB_COOLDOWN_SECONDS", "10"))
+_cb_open_until: float = 0.0  # epoch seconds; 0 means closed (healthy)
+
+
+def _circuit_breaker_check() -> None:
+    """Raise immediately if the app-level circuit breaker is still open."""
+    import time as _time
+    if _cb_open_until and _time.time() < _cb_open_until:
+        remaining = int(_cb_open_until - _time.time())
+        raise RuntimeError(
+            f"Database circuit breaker open – retrying in ~{remaining}s"
+        )
+
+
+def _maybe_trip_circuit_breaker(e: Exception) -> None:
+    """If e is a circuit-breaker error, open the app-level breaker for cooldown."""
+    import time as _time
+    global _cb_open_until
+    if _is_db_unavailable(e):
+        _cb_open_until = _time.time() + _CB_COOLDOWN_SECONDS
+        logger.warning(
+            f"App-level DB circuit breaker tripped for {_CB_COOLDOWN_SECONDS}s "
+            f"due to: {str(e)[:120]}"
+        )
+
 TRANSIENT_ERRORS = (
     "connection reset", "connection refused", "connection timed out",
     "server closed the connection", "ssl connection has been closed",
     "could not connect to server", "remaining connection slots are reserved",
     "too many connections", "connection pool exhausted",
     "canceling statement due to statement timeout",
+    # Supavisor/pgBouncer circuit breaker: fires when repeated auth failures
+    # are detected.  Treat as transient so the retry loop backs off instead of
+    # immediately propagating a 500.
+    "circuit breaker",
+    "too many authentication",
 )
+
+# Errors that indicate the database service itself is unavailable (not a code
+# bug).  Callers should return HTTP 503 rather than 500 for these.
+DB_UNAVAILABLE_ERRORS = (
+    "circuit breaker",
+    "too many authentication",
+    "connection refused",
+    "could not connect to server",
+    "remaining connection slots are reserved",
+    "too many connections",
+    "server closed the connection",
+)
+
+
+def _is_db_unavailable(e: Exception) -> bool:
+    """Return True when the error signals a service-level DB outage."""
+    msg = str(e).lower()
+    return any(p in msg for p in DB_UNAVAILABLE_ERRORS)
 
 
 def serialize_row(row: Dict[str, Any]) -> Dict[str, Any]:
@@ -437,12 +492,14 @@ async def close_db() -> None:
 async def get_session() -> AsyncIterator[AsyncSession]:
     import time as _time
     t_start = _time.time()
-    
+
+    _circuit_breaker_check()
+
     if _session_factory is None:
         await init_db()
-    
+
     t_after_init = _time.time()
-    
+
     for attempt in range(MAX_RETRIES):
         try:
             t_before_session = _time.time()
@@ -457,6 +514,7 @@ async def get_session() -> AsyncIterator[AsyncSession]:
                     return
                 except (OperationalError, InterfaceError) as e:
                     await session.rollback()
+                    _maybe_trip_circuit_breaker(e)
                     if _is_transient(e) and attempt < MAX_RETRIES - 1:
                         await asyncio.sleep(RETRY_DELAY * (2 ** attempt))
                         break
@@ -465,6 +523,7 @@ async def get_session() -> AsyncIterator[AsyncSession]:
                     await session.rollback()
                     raise
         except (OperationalError, InterfaceError) as e:
+            _maybe_trip_circuit_breaker(e)
             if _is_transient(e) and attempt < MAX_RETRIES - 1:
                 await asyncio.sleep(RETRY_DELAY * (2 ** attempt))
                 continue
@@ -476,9 +535,11 @@ async def get_read_session() -> AsyncIterator[AsyncSession]:
     """
     Get a database session for read operations.
     Uses read replica if configured, otherwise falls back to primary.
-    
+
     FAILOVER: If read replica connection fails, automatically falls back to primary.
     """
+    _circuit_breaker_check()
+
     if _session_factory is None:
         await init_db()
     
@@ -499,6 +560,7 @@ async def get_read_session() -> AsyncIterator[AsyncSession]:
                     return
                 except (OperationalError, InterfaceError) as e:
                     await session.rollback()
+                    _maybe_trip_circuit_breaker(e)
                     if _is_transient(e) and attempt < MAX_RETRIES - 1:
                         await asyncio.sleep(RETRY_DELAY * (2 ** attempt))
                         break
@@ -507,6 +569,7 @@ async def get_read_session() -> AsyncIterator[AsyncSession]:
                     await session.rollback()
                     raise
         except (OperationalError, InterfaceError) as e:
+            _maybe_trip_circuit_breaker(e)
             # If read replica fails, try to fallback to primary
             if use_replica and attempt == MAX_RETRIES - 1:
                 logger.warning(f"⚠️ Read replica unavailable, falling back to primary: {e}")
@@ -520,7 +583,7 @@ async def get_read_session() -> AsyncIterator[AsyncSession]:
                 except Exception as fallback_error:
                     logger.error(f"❌ Primary fallback also failed: {fallback_error}")
                     raise
-            
+
             if _is_transient(e) and attempt < MAX_RETRIES - 1:
                 await asyncio.sleep(RETRY_DELAY * (2 ** attempt))
                 continue
