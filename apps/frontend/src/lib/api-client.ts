@@ -144,7 +144,6 @@ async function makeRequest<T = any>(
       data,
       success: true,
     };
-
   } catch (error: any) {
     // Always clear timeout on error
     if (timeoutId) {
@@ -182,7 +181,7 @@ async function makeRequest<T = any>(
         name: error.name || 'ApiError',
         stack: error.stack
       });
-
+      
       if (showErrors) {
         handleNetworkError(apiError, errorContext);
       }
@@ -191,7 +190,7 @@ async function makeRequest<T = any>(
         message: String(error),
         name: 'ApiError'
       });
-
+      
       if (showErrors) {
         handleNetworkError(apiError, errorContext);
       }
@@ -245,7 +244,7 @@ export const supabaseClient = {
           });
       
       handleApiError(apiError, errorContext);
-
+      
       return {
         error: apiError,
         success: false,
@@ -307,4 +306,4 @@ export const backendApi = {
       headers: uploadHeaders,
     });
   },
-}; 
+};

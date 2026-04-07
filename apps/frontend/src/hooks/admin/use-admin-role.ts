@@ -20,16 +20,21 @@ export const useAdminRole = (
         return { isAdmin: false, role: null };
       }
 
-      const response = await backendApi.get<AdminRoleResponse>('/user-roles', {
-        showErrors: false,
-      });
+      try {
+        const response = await backendApi.get<AdminRoleResponse>('/user-roles', {
+          showErrors: false,
+        });
 
-      if (response.error) {
-        logger.error('Error fetching admin role:', response.error);
+        if (response.error) {
+          logger.error('Error fetching admin role:', response.error);
+          return { isAdmin: false, role: null };
+        }
+
+        return response.data || { isAdmin: false, role: null };
+      } catch (error) {
+        logger.error('Exception in useAdminRole:', error);
         return { isAdmin: false, role: null };
       }
-
-      return response.data || { isAdmin: false, role: null };
     },
     enabled: !!user && (options?.enabled !== false),
     staleTime: 5 * 60 * 1000, // 5 minutes

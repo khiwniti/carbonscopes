@@ -15,7 +15,7 @@ export default defineConfig({
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: {
-    command: 'pnpm dev --port 3002',
+    command: 'pnpm dev -p 3001 -H 0.0.0.0',
     url: 'http://localhost:3001',
     reuseExistingServer: true,
     timeout: 120_000,

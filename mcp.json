@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "test-mcp-server": {
+      "command": "python",
+      "args": [
+        "/teamspace/studios/this_studio/carbonscopes/mcp/test_server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "/teamspace/studios/this_studio/carbonscopes/backend"
+      }
+    }
+  }
+}

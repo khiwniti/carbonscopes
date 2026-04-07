@@ -164,8 +164,19 @@ export const getAgents = async (params: AgentsParams = {}): Promise<AgentsRespon
     const supabase = createClient();
     const { data: { session } } = await supabase.auth.getSession();
 
+    // If no session, return empty agents list instead of throwing error
     if (!session) {
-      throw new Error('You must be logged in to get agents');
+      return {
+        agents: [],
+        pagination: {
+          current_page: 1,
+          page_size: params.limit ?? 20,
+          total_items: 0,
+          total_pages: 0,
+          has_next: false,
+          has_previous: false
+        }
+      };
     }
 
     const queryParams = new URLSearchParams();
@@ -209,6 +220,7 @@ export const getAgent = async (agentId: string): Promise<Agent> => {
     const supabase = createClient();
     const { data: { session } } = await supabase.auth.getSession();
 
+    // If no session, throw a more specific error that can be caught by UI
     if (!session) {
       throw new Error('You must be logged in to get agent details');
     }

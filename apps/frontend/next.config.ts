@@ -21,7 +21,7 @@ const securityHeaders = [
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
-      "frame-ancestors 'self'",
+      "frame-ancestors 'self' https://*.cloudspaces.litng.ai vscode-webview:",
     ].join('; '),
   },
 ];
@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   allowedDevOrigins: [
-    'https://3000-01kjj6zms0r5qvm5pxcmq9dx3t.cloudspaces.litng.ai',
+    'https://3001-01knh7b1ypcr4dqe973fd266s9.cloudspaces.litng.ai',
     'https://*.cloudspaces.litng.ai',
   ],
   transpilePackages: ['@agentpress/shared'],
