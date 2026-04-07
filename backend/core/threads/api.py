@@ -128,9 +128,18 @@ async def get_user_threads(
             }
         }
 
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error fetching threads for user {user_id}: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to fetch threads: {str(e)}")
+        from core.services.db import _is_db_unavailable
+        if _is_db_unavailable(e):
+            raise HTTPException(
+                status_code=503,
+                detail="Database temporarily unavailable. Please try again shortly.",
+                headers={"Retry-After": "10"},
+            )
+        raise HTTPException(status_code=500, detail="Failed to fetch threads.")
 
 @router.get("/projects/{project_id}", summary="Get Project", operation_id="get_project")
 async def get_project(
@@ -517,7 +526,14 @@ async def get_thread(
         raise
     except Exception as e:
         logger.error(f"Error fetching thread {thread_id}: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to fetch thread: {str(e)}")
+        from core.services.db import _is_db_unavailable
+        if _is_db_unavailable(e):
+            raise HTTPException(
+                status_code=503,
+                detail="Database temporarily unavailable. Please try again shortly.",
+                headers={"Retry-After": "10"},
+            )
+        raise HTTPException(status_code=500, detail="Failed to fetch thread.")
 
 @router.post("/threads", response_model=CreateThreadResponse, summary="Create Thread", operation_id="create_thread")
 async def create_thread(

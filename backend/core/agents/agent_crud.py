@@ -529,7 +529,14 @@ async def get_agents(
         raise
     except Exception as e:
         logger.error("Error fetching agents for user", user_id=user_id, error=str(e), exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to fetch agents: {str(e)}")
+        from core.services.db import _is_db_unavailable
+        if _is_db_unavailable(e):
+            raise HTTPException(
+                status_code=503,
+                detail="Database temporarily unavailable. Please try again shortly.",
+                headers={"Retry-After": "10"},
+            )
+        raise HTTPException(status_code=500, detail="Failed to fetch agents.")
 
 @router.get("/agents/{agent_id}", response_model=AgentResponse, summary="Get Agent", operation_id="get_agent")
 async def get_agent(agent_id: str, user_id: str = Depends(verify_and_get_user_id_from_jwt)):
