@@ -4,7 +4,7 @@
 # Usage: ./start-frontend.sh [start|stop|restart|status|logs]
 
 LOG_FILE="/tmp/carbonscope-frontend.log"
-PROJECT_DIR="/teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init"
+PROJECT_DIR="/workspaces/carbonscopes"
 
 case "$1" in
     start)
@@ -19,7 +19,7 @@ case "$1" in
         fi
         
         # Start in background
-        nohup pnpm --filter CarbonScope dev > "$LOG_FILE" 2>&1 &
+        nohup pnpm --filter carbonscope-frontend dev > "$LOG_FILE" 2>&1 &
         
         echo "⏳ Waiting for server to start..."
         sleep 8

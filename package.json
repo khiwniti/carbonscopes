@@ -2,9 +2,9 @@
   "name": "agentpress",
   "private": true,
   "scripts": {
-    "dev:frontend": "pnpm --filter CarbonScope dev",
-    "dev:mobile": "pnpm --filter CarbonScope dev",
-    "build:frontend": "pnpm --filter CarbonScope build"
+    "dev:frontend": "pnpm --filter carbonscope-frontend dev",
+    "dev:mobile": "pnpm --filter carbonscope-mobile dev",
+    "build:frontend": "pnpm --filter carbonscope-frontend build"
   },
   "dependencies": {
     "@babel/types": "^7.28.6"

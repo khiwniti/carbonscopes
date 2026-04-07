@@ -3,10 +3,9 @@
   "cursorpyright.analysis.typeCheckingMode": "off",
   "python.defaultInterpreterPath": "./backend/.venv/bin/python",
   "editor.fontFamily": "Monocraft",
-  "terminal.integrated.fontFamily": "Monocraft",
+  "terminal.integrated.fontFamily": "monospace",
   "debug.console.fontFamily": "Monocraft",
   "files.watcherExclude": {
-    "**/node_modules/**": true,
     "**/.pnpm-store/**": true,
     "**/.next/**": true
   },

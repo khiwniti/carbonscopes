@@ -423,6 +423,8 @@ if config.ENV_MODE == EnvMode.LOCAL:
     allowed_origins.append("http://127.0.0.1:3000")
     allowed_origins.append("http://localhost:3003")
     allowed_origins.append("http://127.0.0.1:3003")
+    # GitHub Codespaces forwarded ports
+    allowed_origins.append("https://refactored-robot-97jrj5576766h7rvg-3000.app.github.dev")
 
 # Allow cloudspaces for Lightning Studios (regex pattern for all subdomains)
 allow_origin_regex = r"https://([a-z0-9-]+\.)?CarbonScope\.com$|https://[a-z0-9-]+-CarbonScopeai\.vercel\.app$|https://[0-9a-z-]+\.cloudspaces\.litng\.ai$"
@@ -545,6 +547,9 @@ from core.admin.stateless_admin_api import router as stateless_admin_router
 api_router.include_router(stateless_admin_router)
 # Auth OTP endpoint for expired magic links
 api_router.include_router(auth_api.router)
+
+from core.chat.api import router as chat_router
+api_router.include_router(chat_router)  # Chat / computer-use entry point
 
 
 @api_router.get(

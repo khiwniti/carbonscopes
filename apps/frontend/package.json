@@ -12,7 +12,7 @@
     "dev:turbo": "next dev --turbopack"
   },
   "dependencies": {
-    "@agentpress/shared": "workspace:*",
+    "@agentpress/shared": "file:../../packages/shared",
     "@calcom/embed-react": "^1.5.2",
     "@codemirror/commands": "^6.10.1",
     "@codemirror/language": "^6.12.1",

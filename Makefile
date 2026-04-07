@@ -61,7 +61,7 @@ dev: dev-backend dev-frontend
 
 dev-frontend:
 	@echo "Starting frontend dev server..."
-	pnpm dev:frontend
+	cd apps/frontend && pnpm dev
 
 dev-backend:
 	@echo "Starting backend dev server..."

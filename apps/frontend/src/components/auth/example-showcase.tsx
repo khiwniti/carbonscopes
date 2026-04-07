@@ -513,6 +513,7 @@ export function ExampleShowcase() {
                             src={displayedContent.contentImage}
                             alt={currentExample.title}
                             fill
+                            priority
                             className="object-contain"
                             quality={100}
                             sizes="50vw"
@@ -526,6 +527,7 @@ export function ExampleShowcase() {
                           src={displayedContent.contentImage}
                           alt={currentExample.title}
                           fill
+                          priority
                           className="object-contain"
                           quality={100}
                           sizes="50vw"
@@ -565,6 +567,7 @@ export function ExampleShowcase() {
                       src={displayedContent.contentSlides[currentSlide] || displayedContent.contentSlides[0]}
                       alt={`Slide ${currentSlide + 1}`}
                       fill
+                      priority
                       className="object-contain transition-opacity duration-300"
                       quality={100}
                       sizes="50vw"
