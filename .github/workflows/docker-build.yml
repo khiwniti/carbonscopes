@@ -81,11 +81,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Select Dockerfile
+        id: dockerfile
+        run: |
+          if [ "${{ steps.set-env.outputs.environment }}" = "production" ]; then
+            echo "path=./backend/Dockerfile.production" >> $GITHUB_OUTPUT
+          else
+            echo "path=./backend/Dockerfile" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: ./backend
-          file: ./backend/Dockerfile
+          file: ${{ steps.dockerfile.outputs.path }}
           push: true
           platforms: linux/amd64
           tags: |
