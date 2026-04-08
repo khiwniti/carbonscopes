@@ -58,6 +58,11 @@ from auth import api as auth_api
 from core.utils.auth_utils import verify_and_get_user_id_from_jwt
 from core.middleware.rate_limit import limiter, rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
+from core.mcp_module import api as mcp_api
+from core.credentials import api as credentials_api
+from core.templates import api as template_api
+from core.templates import presentations_api
+from core.composio_integration import api as composio_api
 
 
 if sys.platform == "win32":
@@ -482,10 +487,7 @@ api_router.include_router(system_status_admin_router)
 api_router.include_router(sandbox_pool_admin_router)
 api_router.include_router(system_status_router)
 
-from core.mcp_module import api as mcp_api
-from core.credentials import api as credentials_api
-from core.templates import api as template_api
-from core.templates import presentations_api
+# NOTE: mcp_api, credentials_api, template_api, presentations_api imported at top of file
 
 if config.ACTIVATE_MCPS_TRIG:
     api_router.include_router(mcp_api.router)
@@ -512,7 +514,7 @@ from core.notifications import presence_api
 
 api_router.include_router(presence_api.router)
 
-from core.composio_integration import api as composio_api
+# NOTE: composio_api imported at top of file
 
 if config.ACTIVATE_MCPS_TRIG:
     api_router.include_router(composio_api.router)
