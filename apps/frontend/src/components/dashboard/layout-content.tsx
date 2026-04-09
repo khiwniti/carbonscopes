@@ -38,8 +38,12 @@ const PresentationViewerWrapper = lazy(() =>
 const OnboardingProvider = lazy(() => 
   import('@/components/onboarding/onboarding-provider').then(mod => ({ default: mod.OnboardingProvider }))
 );
-const DashboardPromoBanner = lazy(() => 
+const DashboardPromoBanner = lazy(() =>
   import('@/components/home/dashboard-promo-banner').then(mod => ({ default: mod.DashboardPromoBanner }))
+);
+
+const AnonymousGuestBanner = lazy(() =>
+  import('@/components/dashboard/anonymous-guest-banner').then(mod => ({ default: mod.AnonymousGuestBanner }))
 );
 
 const PresenceDebug = lazy(() => 
@@ -242,6 +246,10 @@ export default function DashboardLayoutContent({
           </Suspense>
         )}
         
+        {/* Anonymous guest upgrade banner */}
+        <Suspense fallback={null}>
+          <AnonymousGuestBanner />
+        </Suspense>
         {/* Site-wide promo banner for free tier users */}
         <Suspense fallback={null}>
           <DashboardPromoBanner />

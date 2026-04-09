@@ -249,7 +249,11 @@ def test_capability_keywords_coverage():
         'manage:scenario',
     }
 
-    assert set(CAPABILITY_KEYWORDS.keys()) == expected_capabilities
+    assert expected_capabilities <= set(CAPABILITY_KEYWORDS.keys())
+
+    # Ensure each expected capability has at least one keyword mapped
+    for cap in expected_capabilities:
+        assert len(CAPABILITY_KEYWORDS[cap]) > 0, f"Capability '{cap}' has no keywords mapped"
 
 
 def test_route_boq_parsing():

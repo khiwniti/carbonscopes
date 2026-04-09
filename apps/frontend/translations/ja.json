@@ -753,6 +753,8 @@
     "orContinueWithEmail": "またはメールで続ける",
     "signInWithEmail": "メールでログイン",
     "createNewAccount": "新しいアカウントを作成",
+    "continueAsGuest": "ゲストとして続ける",
+    "or": "または",
     "byContinuingYouAgreeSimple": "続行することで、",
     "phoneVerification": {
       "title": "電話番号を確認",

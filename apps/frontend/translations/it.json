@@ -756,6 +756,8 @@
     "orContinueWithEmail": "o continua con email",
     "signInWithEmail": "Accedi con email",
     "createNewAccount": "Crea nuovo account",
+    "continueAsGuest": "Continua come ospite",
+    "or": "o",
     "byContinuingYouAgreeSimple": "Continuando, accetti la nostra",
     "phoneVerification": {
       "title": "Verifica il tuo numero di telefono",

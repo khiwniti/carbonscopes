@@ -796,6 +796,7 @@ dependencies = [
     { name = "daytona-sdk" },
     { name = "e2b-code-interpreter" },
     { name = "email-validator" },
+    { name = "exa-py" },
     { name = "fastapi" },
     { name = "fastapi-sso" },
     { name = "fastembed" },
@@ -906,6 +907,7 @@ requires-dist = [
     { name = "daytona-sdk", specifier = ">=0.115.0" },
     { name = "e2b-code-interpreter", specifier = "==1.2.0" },
     { name = "email-validator", specifier = "==2.0.0" },
+    { name = "exa-py", specifier = ">=1.14.0" },
     { name = "fastapi", specifier = "==0.115.12" },
     { name = "fastapi-sso", specifier = ">=0.9.0" },
     { name = "fastembed", specifier = ">=0.3.0" },
@@ -1753,6 +1755,24 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d3/38/af70d7ab1ae9d4da450eeec1fa3918940a5fafb9055e934af8d6eb0c2313/et_xmlfile-2.0.0.tar.gz", hash = "sha256:dab3f4764309081ce75662649be815c4c9081e88f0837825f90fd28317d4da54", size = 17234, upload-time = "2024-10-25T17:25:40.039Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c1/8b/5fe2cc11fee489817272089c4203e679c63b570a5aaeb18d852ae3cbba6a/et_xmlfile-2.0.0-py3-none-any.whl", hash = "sha256:7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa", size = 18059, upload-time = "2024-10-25T17:25:39.051Z" },
+]
+
+[[package]]
+name = "exa-py"
+version = "2.11.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpcore" },
+    { name = "httpx" },
+    { name = "openai" },
+    { name = "pydantic" },
+    { name = "python-dotenv" },
+    { name = "requests" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c5/08/af21dace845b5cd67d728e9d7747e4d1024ec90bd83e007d78f969dc6e19/exa_py-2.11.0.tar.gz", hash = "sha256:989103cbd83aae6dbe88cb70e11522a4bb06026fdb54b8659e3a7922da41fc93", size = 54905, upload-time = "2026-04-04T00:04:32.455Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9b/c9/129dd486505e3c0dadda0d6c83c560060f76d4cf14ef4b7b93053846598a/exa_py-2.11.0-py3-none-any.whl", hash = "sha256:3b0070a6ce98e02895755f0f81752dff64e2e121cf9d9a82facf715a4b9a5238", size = 73424, upload-time = "2026-04-04T00:04:33.699Z" },
 ]
 
 [[package]]

@@ -55,6 +55,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         switch (event) {
           case 'SIGNED_IN':
             // Auth tracking handled by AuthEventTracker component via URL params
+            // Fire-and-forget fallback init for anonymous users in case the webhook missed the INSERT.
+            // Gated by sessionStorage so it only fires once per browser session, not on every tab restore.
+            if (newSession?.user?.is_anonymous) {
+              const initKey = `anon_init_${newSession.user.id}`;
+              if (!sessionStorage.getItem(initKey)) {
+                sessionStorage.setItem(initKey, '1');
+                import('@/lib/api-client').then(({ backendApi }) => {
+                  backendApi.post('/setup/initialize-anonymous').catch(() => {});
+                });
+              }
+            }
             break;
           case 'SIGNED_OUT':
             clearUserLocalStorage();
@@ -83,13 +94,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const signInAnonymously = async () => {
-    try {
-      const { error } = await supabase.auth.signInAnonymously();
-      if (error) console.error('Anonymous sign-in error:', error.message);
-    } catch (error) {
-      console.error('❌ Error signing in anonymously:', error);
-    }
+  const signInAnonymously = async (): Promise<void> => {
+    const { error } = await supabase.auth.signInAnonymously();
+    if (error) throw error;
   };
 
   const value = {

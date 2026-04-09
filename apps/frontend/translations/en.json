@@ -763,6 +763,8 @@
     "orContinueWithEmail": "or continue with email",
     "signInWithEmail": "Sign in with email",
     "createNewAccount": "Create new account",
+    "continueAsGuest": "Continue as Guest",
+    "or": "or",
     "byContinuingYouAgreeSimple": "By continuing, you agree to our",
     "phoneVerification": {
       "title": "Verify Your Phone Number",

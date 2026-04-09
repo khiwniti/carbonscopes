@@ -48,6 +48,7 @@ dependencies = [
   "nest-asyncio==1.6.0",
   "vncdotool==1.2.0",
   "tavily-python==0.5.4",
+  "exa-py>=1.14.0",
   "pytesseract==0.3.13",
   "stripe==11.6.0",
   "phonenumbers==8.13.50",

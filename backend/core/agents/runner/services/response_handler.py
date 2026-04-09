@@ -29,8 +29,9 @@ class ResponseHandler:
                 if metadata.get('agent_should_terminate'):
                     tool_call = content.get('function_name')
                     return True, False, tool_call
-            except Exception:
-                pass
+            except Exception as e:
+                import logging
+                logging.getLogger(__name__).debug(f"[ResponseHandler] Could not parse status chunk: {e}")
 
         if chunk.get('type') == 'assistant' and 'content' in chunk:
             try:
@@ -44,8 +45,9 @@ class ResponseHandler:
                         return True, False, 'ask'
                     elif '</complete>' in text:
                         return True, False, 'complete'
-            except Exception:
-                pass
+            except Exception as e:
+                import logging
+                logging.getLogger(__name__).debug(f"[ResponseHandler] Could not parse assistant chunk: {e}")
 
         return False, False, None
 

@@ -20,6 +20,9 @@ class AgentState(TypedDict):
         task_results: Dictionary mapping agent names to their execution results
         error_count: Number of errors encountered during execution
         scenario_context: Optional dictionary with scenario comparison state
+        pipeline_queue: Ordered list of remaining agent names in a multi-agent pipeline.
+                        Populated by supervisor_node when a complex query is detected.
+                        Each agent pops itself from the front when it runs.
     """
     user_query: str
     current_agent: str
@@ -27,6 +30,7 @@ class AgentState(TypedDict):
     task_results: Dict[str, Any]
     error_count: int
     scenario_context: Optional[Dict[str, Any]]
+    pipeline_queue: Optional[Sequence[str]]
 
 
 def validate_state(state: Dict[str, Any]) -> bool:
@@ -67,6 +71,10 @@ def validate_state(state: Dict[str, Any]) -> bool:
     if state["scenario_context"] is not None and not isinstance(
         state["scenario_context"], dict
     ):
+        return False
+    # pipeline_queue is optional
+    pq = state.get("pipeline_queue")
+    if pq is not None and not isinstance(pq, (list, tuple)):
         return False
 
     return True

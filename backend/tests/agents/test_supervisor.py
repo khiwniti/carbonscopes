@@ -132,28 +132,18 @@ def test_create_supervisor_graph_compiles():
 
 def test_supervisor_graph_execution(mock_state, configured_router):
     """Test supervisor graph executes and routes correctly."""
-    from core.agents.supervisor import set_router
-
     mock_state["user_query"] = "Find material alternatives"
 
-    # Set the global router for graph execution
-    set_router(configured_router)
+    # Pass the configured_router directly so it isn't overwritten internally
+    graph = create_supervisor_graph(router=configured_router)
+    result = graph.invoke(mock_state)
 
-    try:
-        graph = create_supervisor_graph()
-        result = graph.invoke(mock_state)
-
-        assert result["current_agent"] == "material_analyst"
-        assert "material_analyst" in result["agent_history"]
-    finally:
-        # Clean up global router
-        set_router(None)
+    assert result["current_agent"] == "material_analyst"
+    assert "material_analyst" in result["agent_history"]
 
 
 def test_supervisor_graph_with_different_queries(configured_router):
     """Test supervisor graph handles various query types."""
-    from core.agents.supervisor import set_router
-
     test_cases = [
         ("Calculate carbon footprint", "carbon_calculator"),
         ("Match materials", "material_analyst"),
@@ -162,27 +152,21 @@ def test_supervisor_graph_with_different_queries(configured_router):
         ("Fork scenario", "scenario_manager"),
     ]
 
-    # Set the global router for graph execution
-    set_router(configured_router)
+    # Pass the configured_router directly so its scenario_manager is available
+    graph = create_supervisor_graph(router=configured_router)
 
-    try:
-        graph = create_supervisor_graph()
+    for query, expected_agent in test_cases:
+        state = {
+            "user_query": query,
+            "current_agent": "",
+            "agent_history": [],
+            "task_results": {},
+            "error_count": 0,
+            "scenario_context": None,
+        }
 
-        for query, expected_agent in test_cases:
-            state = {
-                "user_query": query,
-                "current_agent": "",
-                "agent_history": [],
-                "task_results": {},
-                "error_count": 0,
-                "scenario_context": None,
-            }
-
-            result = graph.invoke(state)
-            assert result["current_agent"] == expected_agent, f"Query '{query}' should route to {expected_agent}"
-    finally:
-        # Clean up global router
-        set_router(None)
+        result = graph.invoke(state)
+        assert result["current_agent"] == expected_agent, f"Query '{query}' should route to {expected_agent}"
 
 
 def test_supervisor_node_case_insensitive_routing(mock_state, configured_router):
@@ -213,8 +197,6 @@ def test_supervisor_node_multiple_keyword_match(mock_state, configured_router):
 
 def test_supervisor_graph_preserves_task_results(configured_router):
     """Test supervisor graph preserves existing task results."""
-    from core.agents.supervisor import set_router
-
     state = {
         "user_query": "Calculate carbon",
         "current_agent": "",
@@ -227,16 +209,9 @@ def test_supervisor_graph_preserves_task_results(configured_router):
         "scenario_context": None,
     }
 
-    # Set the global router for graph execution
-    set_router(configured_router)
+    graph = create_supervisor_graph(router=configured_router)
+    result = graph.invoke(state)
 
-    try:
-        graph = create_supervisor_graph()
-        result = graph.invoke(state)
-
-        # Task results should be preserved
-        assert result["task_results"]["boq_parsed"] is True
-        assert result["task_results"]["materials_matched"] == ["concrete", "steel"]
-    finally:
-        # Clean up global router
-        set_router(None)
+    # Task results should be preserved (agent may add more keys but not remove existing ones)
+    assert result["task_results"]["boq_parsed"] is True
+    assert result["task_results"]["materials_matched"] == ["concrete", "steel"]

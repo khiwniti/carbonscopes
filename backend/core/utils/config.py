@@ -342,6 +342,7 @@ class Configuration:
     
     # Search and other API keys (all optional tools)
     TAVILY_API_KEY: Optional[str] = None
+    EXA_API_KEY: Optional[str] = None
     RAPID_API_KEY: Optional[str] = None
     SERPER_API_KEY: Optional[str] = None
     CLOUDFLARE_API_TOKEN: Optional[str] = None
