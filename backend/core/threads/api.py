@@ -194,6 +194,28 @@ async def get_project(
             "updated_at": project.get('updated_at')
         }
         
+
+
+@router.get("/projects", summary="List User Projects", operation_id="list_user_projects")
+async def list_projects(
+    request: Request,
+    user_id: str = Depends(verify_and_get_user_id_from_jwt),
+    limit: int = Query(50, ge=1, le=100, description="Maximum number of projects to return"),
+    offset: int = Query(0, ge=0, description="Offset for pagination"),
+):
+    """
+    List projects for the authenticated user.
+    
+    Returns a list of projects owned by the authenticated user with pagination support.
+    """
+    try:
+        projects = await db.client.from_("projects")
+            .select("id, name, description, created_at, updated_at, archived")
+            .eq("account_id", user_id)
+            .order("created_at", desc=True)
+            .range(offset, offset + limit - 1)
+        logger.error(f"Error listing projects: {e}")
+        raise HTTPException(status_code=500, detail="Failed to list projects")
         logger.debug(f"Successfully fetched project {project_id}")
         return project_data
         

@@ -32,12 +32,15 @@ from core.agents.agent_setup import router as agent_setup_router
 from core.threads.api import router as threads_router
 from core.categorization.api import router as categorization_router
 from core.endpoints import router as endpoints_router
+from api_health import router as health_router
 
 from core.sandbox import api as sandbox_api
+
 # BILLING DISABLED
-# from core.billing.api import router as billing_router
+from core.billing.api import router as billing_router
 from core.setup import router as setup_router, webhook_router
 from core.admin.admin_api import router as admin_router
+
 # BILLING DISABLED
 # from core.admin.billing_admin_api import router as billing_admin_router
 from core.admin.feedback_admin_api import router as feedback_admin_router
@@ -203,6 +206,7 @@ async def lifespan(app: FastAPI):
         # Initialize agent system checkpointer
         try:
             from core.agents.checkpointer import initialize_checkpointer
+
             initialize_checkpointer()
             logger.info("[STARTUP] Agent system checkpointer initialized")
         except Exception as e:
@@ -290,6 +294,7 @@ async def lifespan(app: FastAPI):
         # Shutdown agent system checkpointer
         try:
             from core.agents.checkpointer import close_checkpointer
+
             close_checkpointer()
             logger.info("[SHUTDOWN] Agent system checkpointer closed")
         except Exception as e:
@@ -429,7 +434,9 @@ if config.ENV_MODE == EnvMode.LOCAL:
     allowed_origins.append("http://localhost:3003")
     allowed_origins.append("http://127.0.0.1:3003")
     # GitHub Codespaces forwarded ports
-    allowed_origins.append("https://refactored-robot-97jrj5576766h7rvg-3000.app.github.dev")
+    allowed_origins.append(
+        "https://refactored-robot-97jrj5576766h7rvg-3000.app.github.dev"
+    )
 
 # Allow cloudspaces for Lightning Studios (regex pattern for all subdomains)
 allow_origin_regex = r"https://([a-z0-9-]+\.)?CarbonScope\.com$|https://[a-z0-9-]+-CarbonScopeai\.vercel\.app$|https://[0-9a-z-]+\.cloudspaces\.litng\.ai$"
@@ -470,9 +477,10 @@ api_router.include_router(agent_setup_router)
 api_router.include_router(threads_router)
 api_router.include_router(categorization_router)
 api_router.include_router(endpoints_router)
+api_router.include_router(health_router)
 api_router.include_router(sandbox_api.router)
 # BILLING DISABLED
-# api_router.include_router(billing_router)
+api_router.include_router(billing_router)
 api_router.include_router(setup_router)
 api_router.include_router(webhook_router)  # Webhooks at /api/webhooks/*
 api_router.include_router(api_keys_api.router)
@@ -551,6 +559,7 @@ api_router.include_router(stateless_admin_router)
 api_router.include_router(auth_api.router)
 
 from core.chat.api import router as chat_router
+
 api_router.include_router(chat_router)  # Chat / computer-use entry point
 
 

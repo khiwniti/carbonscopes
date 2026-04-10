@@ -103,11 +103,12 @@ export function useSandboxStatus(projectId: string | undefined, options?: { enab
         // This handles cases where sandbox status endpoint is unavailable
         // (e.g., basejump schema not exposed in Supabase)
         return {
-          status: 'UNKNOWN' as const,
-          daytonaState: null,
-          servicesHealth: null,
+          status: 'UNKNOWN',
           sandbox_id: null,
-          lastChecked: new Date().toISOString(),
+          project_id: projectId,
+          daytona_state: 'unknown',
+          services_health: null,
+          last_checked: new Date().toISOString(),
         } as SandboxState;
       }
 

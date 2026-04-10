@@ -32,6 +32,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
+  productionBrowserSourceMaps: false,
+
+  experimental: {
+    reactCompiler: false,
+  },
   allowedDevOrigins: [
     'https://3000-01kjj6zms0r5qvm5pxcmq9dx3t.cloudspaces.litng.ai',
     'https://*.cloudspaces.litng.ai',
@@ -56,13 +61,12 @@ const nextConfig: NextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@agentpress/shared': path.resolve(__dirname, '../../packages/shared'),
+      react: path.resolve(__dirname, '../../node_modules/react'),
+      'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
+      'lodash-es': path.resolve(__dirname, '../../node_modules/lodash-es'),
     };
     if (isServer) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        react: path.resolve(__dirname, '../../node_modules/react'),
-        'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
-      };
+      config.externals = [...(config.externals || []), 'mermaid'];
     }
     return config;
   },
