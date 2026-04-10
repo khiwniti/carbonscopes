@@ -1,109 +1,96 @@
 # Technology Stack
 
-**Analysis Date:** 2026-04-09
+**Analysis Date:** 2026-04-10
 
 ## Languages
 
 **Primary:**
-- Python 3.11+ - Backend services, AI agents, LCA calculations
-- TypeScript 5.x - Frontend (Next.js), Mobile (React Native), Desktop (Electron), Shared packages
+- TypeScript 5.x - Used throughout frontend applications (Next.js) and shared packages
+- Python 3.11+ - Used for backend API services, agents, and infrastructure
 
 **Secondary:**
-- Bash/Shell - DevOps scripts, deployment automation
-- SQL - Database queries via Supabase/PostgreSQL
+- JavaScript ES2017 - Used in frontend with TypeScript transpilation
+- SQL - Used for database queries and migrations
 
 ## Runtime
 
 **Environment:**
-- Python 3.11 (backend)
-- Node.js (frontend/mobile/desktop - versions vary by platform)
+- Node.js 20.x - Frontend and infrastructure runtime
+- Python 3.11+ - Backend services runtime
 
 **Package Manager:**
-- pnpm (primary for monorepo)
-- uv (Python package management, referenced in docs)
-- pip (fallback for Python packages)
+- pnpm - Used for frontend, shared packages, and infrastructure
+- pip/uv - Used for backend Python dependencies (inferred from pyproject.toml and uv.lock presence)
 
 ## Frameworks
 
 **Core:**
-- FastAPI 0.115.12 - Backend API framework
-- Next.js 15.3.8 - Frontend web application (App Router)
-- React Native 0.81.5 - Mobile application
-- Electron 33.0.0 - Desktop application
-- LangGraph 0.2.0 - Agent orchestration and state management
-- LangChain - LLM integrations (openai, anthropic)
+- Next.js 15.3.8 - React framework for frontend application
+- FastAPI 0.115.12 - Python web framework for backend API
+- React 18 - Frontend UI library
+- Pulumi 3.113.0 - Infrastructure as Code framework
 
 **Testing:**
-- pytest 8.3.4 - Backend testing framework
-- Playwright 1.59.1 - Frontend E2E testing
-- Jest/Vitest - Implied via React Native testing setup
+- Playwright 1.59.1 - End-to-end testing framework
+- pytest 8.3.4 - Python testing framework
+- @tanstack/react-query - React state management for server state
 
 **Build/Dev:**
-- Turbopack - Next.js compilation (optional)
-- Webpack - Metro bundler for React Native
-- Electron Builder - Desktop application packaging
-- Tailwind CSS v4 - Styling framework
-- PostCSS 8.4.33 - CSS processing
-- ESLint 9.x - Linting
+- Turbopack - Next.js bundler (dev mode)
+- Webpack - Bundling (production build)
+- Tailwind CSS 4 - Utility-first CSS framework
+- ESLint 9 - JavaScript/TypeScript linting
 - Prettier 3.5.3 - Code formatting
-- TypeScript - Type checking
+- TypeScript 5 - Type checking
 
 ## Key Dependencies
 
 **Critical:**
-- Supabase 2.17.0 - PostgreSQL database, auth, storage
-- Redis 5.2.1 - Caching, session management, SSE fan-out via StreamHub
-- LiteLLM >=1.80.11 - Unified LLM API interface (OpenAI, Anthropic, Azure, etc.)
-- LangGraph-checkpoint-postgres>=2.0.0 - Agent state persistence
-- Brightway2<2.5.0 - LCA (Life Cycle Assessment) calculations
-- Qdrant-client>=1.11.0 - Vector database for embeddings
-- Structlog==25.4.0 - Structured logging
-- Novu-py>=3.11.0 - Notification infrastructure
-- Zod^3.25.76 - Schema validation (shared TS package)
+- @supabase/supabase-js - Database and authentication client
+- stripe - Payment processing integration
+- novu - Notification infrastructure
+- langfuse - LLM observability and tracing
+- redis/upstash-redis - Caching and session storage
+- openai - LLM API integration
+- anthropic - Claude LLM API integration
+- prisma - ORM for database interactions
+- langchain/openai/langchain-anthropic - LLM orchestration
+- qdrant-client - Vector database for embeddings
+- composio - Agent tooling framework
+- mcp - Model Context Protocol implementation
 
 **Infrastructure:**
-- Upstash-Redis==1.3.0 - Redis compatibility layer
-- Boto3>=1.40.74 - AWS S3 integration
-- Python-multipart==0.0.20 - File upload handling
-- FastAPI-SSO>=0.9.0 - Authentication extensions
-- Slowapi>=0.1.9 - Rate limiting
-- Psycopg[binary]>=3.3.2 - PostgreSQL adapter
-- SQLAlchemy>=2.0.45 - ORM
-- Gunicorn>=23.0.0 - Production WSGI server
-- Watchtower>=3.0.0 - CloudWatch Logs handler
-- Composio>=0.8.0 - Tool integrations
+- @pulumi/aws, @pulumi/awsx, @pulumi/kubernetes - Cloud infrastructure provisioning
+- docker - Containerization
+- gunicorn - Python WSGI HTTP server
+- uvicorn - ASGI server for FastAPI
 
 ## Configuration
 
 **Environment:**
-- Configured via .env files (backend/.env, apps/frontend/.env.local, etc.)
-- Key variables: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, DATABASE_URL, REDIS_HOST/PORT/PASSWORD
-- LLM API keys: ANTHROPIC_API_KEY, OPENAI_API_KEY, AWS_BEARER_TOKEN_BEDROCK
-- Configuration loaded via pydantic-settings pattern in core/utils/config.py
+- Configured via .env files (not committed) and .env.example templates
+- Key configurations: SUPABASE_URL, SUPABASE_ANON_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, STRIPE_KEY, etc.
 
 **Build:**
-- Backend: pyproject.toml with Poetry/uv dependencies
-- Frontend: package.json with Next.js, Tailwind, Radix UI
-- Mobile: package.json with Expo, React Native, NativeWind
-- Desktop: package.json with Electron, Electron-builder
-- Shared: package.json with TypeScript utilities
+- Frontend: next.config.ts, tailwind.config.ts, postcss.config.js
+- Backend: pyproject.toml, alembic.ini (inferred)
+- Infrastructure: Pulumi.yaml, TypeScript configuration
 
 ## Platform Requirements
 
 **Development:**
+- Node.js 20.x+
 - Python 3.11+
-- Node.js 20.x (frontend), 18.x (mobile per overrides)
 - pnpm package manager
-- Docker (optional for containerized deployment)
-- Git
+- Docker for containerized services
+- Git for version control
 
 **Production:**
-- Linux-based containers (Docker/Kubernetes)
-- Supabase PostgreSQL backend
-- Redis instance
-- Supported LLM provider APIs (OpenAI, Anthropic, Azure, etc.)
-- HTTPS termination (via reverse proxy or platform)
+- Deployment targets: AWS, Azure, Vercel (inferred from deployment scripts)
+- Container orchestration: Docker Compose, Kubernetes (inferred from Pulumi configs)
+- Database: Supabase PostgreSQL
+- Redis for caching and session storage
 
 ---
 
-*Stack analysis: 2026-04-09*
+*Stack analysis: 2026-04-10*
