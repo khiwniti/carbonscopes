@@ -1,444 +1,279 @@
 # Testing Patterns
 
-**Analysis Date:** 2026-04-06
+**Analysis Date:** 2026-04-09
 
 ## Test Framework
 
-**Frontend Runner:**
-- **Framework**: Bun Test for unit tests (based on `bun:test` imports)
-- **E2E Framework**: Playwright v1.59.1 (`@playwright/test`)
-- **Config**: `apps/frontend/playwright.config.ts`
+**Runner:**
+- Pytest 8.3.4 (backend) - Configured in pyproject.toml
+- Playwright 1.59.1 (frontend) - From devDependencies in package.json
+- Vitest/Jest not detected - Playwright is primary E2E framework
 
-**Backend Runner:**
-- **Framework**: pytest v8.3.4
-- **Config**: `backend/pytest.ini`
+**Assertion Library:**
+- Backend: Pytest built-in assertions (assert)
+- Frontend: Playwright test assertions (expect)
 
 **Run Commands:**
 ```bash
-# Frontend unit tests
-cd apps/frontend && bun test
+# Backend
+uv run pytest                          # Run all tests
+uv run pytest tests/path/to/test_file.py::test_name  # Run single test
+uv run pytest -m unit                  # Run by marker (unit/integration/slow)
+uv run pytest -m "not slow"            # Exclude slow tests
+uv run pytest --cov=core               # Run with coverage
 
-# Frontend E2E tests
-cd apps/frontend && pnpm playwright test
-
-# Backend tests
-cd backend && pytest                    # All tests
-cd backend && pytest --verbose          # Verbose output
-cd backend && pytest --cov=core         # With coverage
-cd backend && pytest -ra                # Show all test outcomes
+# Frontend
+pnpm dev                               # Dev server (port 3000)
+pnpm test                              # Not defined in package.json - Playwright used via scripts
+npx playwright test                    # Run Playwright tests (inferred)
 ```
 
 ## Test File Organization
 
-**Frontend Location:**
-- **Unit tests**: `apps/frontend/src/__tests__/**/*.test.ts`
-- **E2E tests**: `apps/frontend/e2e/**/*.spec.ts`
+**Location:**
+- Backend: Tests co-located with modules in `tests/` directory mirroring source structure
+- Frontend: E2E tests in `e2e-testing/` directory (inferred from files like E2E_TESTING_GUIDE.md)
+- Shared: Limited testing - primarily consumed by frontend/mobile apps
 
-**Frontend Naming:**
-- Unit tests: `*.test.ts` - `logger.test.ts`, `sanitize.test.ts`, `quality-tasks.test.ts`
-- E2E tests: `*.spec.ts` - `compatibility.spec.ts`
+**Naming:**
+- Backend: `test_*.py` or `*_test.py` (mixed convention observed)
+- Frontend: `*.test.tsx` or `*.spec.tsx` (Playwright convention)
+- E2E: Descriptive names like `test_full_flow.py`
 
-**Backend Location:**
-- **All tests**: `backend/tests/`
-- **Structure**:
-  ```
-  backend/tests/
-  ├── agents/          # Agent framework tests
-  ├── api/             # API endpoint tests
-  ├── boq/             # BOQ parser tests
-  ├── core/            # Core functionality tests
-  ├── e2e/             # End-to-end tests
-  ├── integration/     # Integration tests
-  ├── lca/             # LCA calculator tests
-  ├── reports/         # Report generation tests
-  └── utils/           # Utility tests
-  ```
+**Structure:**
+```
+backend/
+├── tests/
+│   ├── api/                 # API endpoint tests
+│   ├── agents/              # Agent-specific tests
+│   ├── boq/                 # BOQ parsing tests
+│   ├── core/                # Core functionality tests
+│   ├── lca/                 # LCA engine tests
+│   ├── reports/             # Report generation tests
+│   ├── integration/         # Integration tests
+│   └── e2e/                 # End-to-end tests
+└── conftest.py              # Shared pytest fixtures
 
-**Backend Naming:**
-- Pattern: `test_*.py` - `test_base_agent.py`, `test_carbon_pipeline.py`, `test_validators.py`
+apps/frontend/
+├── e2e-testing/             # Playwright test files
+│   ├── tests/
+│   │   ├── login.spec.ts
+│   │   └── dashboard.spec.ts
+│   ├── utils/
+│   └── playwright.config.ts
+```
 
 ## Test Structure
 
-**Frontend Unit Test Suite:**
+**Suite Organization:**
 ```typescript
-import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test';
-
-describe('logger', () => {
-  const originalEnv = process.env.NODE_ENV;
-
-  beforeEach(() => {
-    // Setup before each test
-  });
-
-  afterEach(() => {
-    // Cleanup after each test
-    process.env.NODE_ENV = originalEnv;
-  });
-
-  test('logger.error always emits in production', () => {
-    // Test implementation
-    expect(errorCalls).toHaveLength(1);
-  });
-});
-```
-
-**Frontend E2E Test Suite:**
-```typescript
-import { test, expect } from '@playwright/test';
-
-const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3002';
-const NAV_OPTS = { timeout: 40_000, waitUntil: 'domcontentloaded' as const };
-
-test.describe('Backend reachable from E2E context', () => {
-  test('backend health endpoint responds', async ({ request }) => {
-    const res = await request.get(`${BACKEND}/v1/health`);
-    expect(res.status()).toBeGreaterThan(0);
-  });
-});
-
-test.describe('Public pages — no backend crash', () => {
-  const pages = ['/', '/auth', '/pricing'];
-  
-  for (const path of pages) {
-    test(`${path} loads without error`, async ({ page }) => {
-      const res = await page.goto(`${FRONTEND}${path}`, NAV_OPTS);
-      expect(res?.status()).toBeLessThan(500);
-    });
-  }
-});
-```
-
-**Backend Test Suite:**
-```python
+// Backend example (tests/agents/test_supervisor.py)
 import pytest
-from core.agents.base import Agent, AgentRegistry
-from core.agents.state import AgentState
+from unittest.mock import Mock, patch
+from core.agents.supervisor import AgentSupervisor
 
-class MockAgent(Agent):
-    """Mock agent for testing."""
-    
-    def __init__(self, name: str, capabilities: set[str], should_fail: bool = False):
-        super().__init__(name, capabilities)
-        self.should_fail = should_fail
-        self.execute_called = False
-    
-    async def execute(self, state: AgentState) -> dict[str, any]:
-        """Mock execution."""
-        self.execute_called = True
-        if self.should_fail:
-            raise ValueError("Mock agent failure")
-        return {"result": "success"}
-
-@pytest.fixture
-def mock_state():
-    """Fixture providing a mock AgentState."""
-    return {
-        "user_query": "Test query",
-        "current_agent": "test_agent",
-    }
-
-@pytest.mark.asyncio
-async def test_agent_initialization():
-    """Test agent initialization with name and capabilities."""
-    agent = MockAgent("test_agent", {"test:capability", "test:another"})
-    
-    assert agent.name == "test_agent"
-    assert agent.capabilities == {"test:capability", "test:another"}
+class TestAgentSupervisor:
+    def test_supervisor_initialization(self):
+        """Test that supervisor initializes correctly"""
+        supervisor = AgentSupervisor()
+        assert supervisor is not None
+        
+    @patch('core.agents.supervisor.some_dependency')
+    def test_process_request(self, mock_dep):
+        """Test request processing with mocked dependency"""
+        mock_dep.return_value = "test_result"
+        supervisor = AgentSupervisor()
+        result = supervisor.process_request("test input")
+        assert result == "test_result"
 ```
 
 **Patterns:**
-- **Descriptive test names**: Use clear, action-based names
-- **AAA pattern**: Arrange, Act, Assert (implicit in test structure)
-- **Fixtures**: Setup shared test data and mocks
-- **Async tests**: Use `@pytest.mark.asyncio` for async functions
+- Setup: pytest fixtures for mocking external services (database, Redis, LLM)
+- Teardown: Automatic via fixture scope or yield cleanup
+- Assertion: Direct assertions for values, pytest.raises for exceptions
+- Async tests: Marked with `@pytest.mark.asyncio` or using `pytest-asyncio` plugin
 
 ## Mocking
 
-**Frontend Mocking:**
-- **Bun Test mocking**:
-  ```typescript
-  import { mock } from 'bun:test';
-  console.log = (...args: unknown[]) => { logCalls.push(args); };
-  ```
-- **Module mocking**: Dynamic imports for fresh modules
-  ```typescript
-  const mod = await import('../lib/logger');
-  expect(typeof mod.logger.log).toBe('function');
-  ```
+**Framework:** 
+- Primary: `unittest.mock` (Mock, MagicMock, patch)
+- Secondary: Custom mocks in conftest.py for complex services
 
-**Backend Mocking:**
-- **Framework**: `unittest.mock` with `Mock`, `MagicMock`, `patch`
-- **Global mocks**: `backend/conftest.py` provides session-wide mocks
-  ```python
-  @pytest.fixture(scope="session", autouse=True)
-  def mock_external_services(request):
-      with patch("boq.cache.get_redis_client") as mock_redis, \
-           patch("core.services.supabase.DBConnection") as mock_db:
-          yield {"redis": mock_redis_client, "db": mock_db_instance}
-  ```
+**Patterns:**
+```python
+# Service mocking pattern from conftest.py
+with patch("boq.cache.get_redis_client") as mock_redis, \
+     patch("core.services.supabase.DBConnection") as mock_db, \
+     patch("core.agentpress.thread_manager.ThreadManager") as mock_thread_mgr:
+
+    # Configure Redis mock
+    mock_redis_client = MagicMock()
+    mock_redis.return_value = mock_redis_client
+
+    # Configure Supabase mock
+    mock_db_instance = MagicMock()
+    mock_db.return_value = mock_db_instance
+
+    # Configure ThreadManager mock
+    mock_thread_mgr_instance = MagicMock()
+    mock_thread_mgr.return_value = mock_thread_mgr_instance
+```
 
 **What to Mock:**
-- External service connections (Redis, Supabase, GraphDB)
-- LLM API calls (OpenAI, Anthropic)
-- File system operations
-- Network requests
-- Time-dependent operations
+- External services: Supabase, Redis, LLM providers (OpenAI, Anthropic)
+- External APIs: Stripe, RevenueCat, Google APIs
+- Background tasks: Worker metrics, memory watchdog
+- File system operations: When testing file processing
 
 **What NOT to Mock:**
-- Pure functions and utility logic
-- Data transformations
-- Validation logic
-- Business rules
+- Pure utility functions (test actual logic)
+- Data transformation pipelines (test with real data)
+- Authentication logic when testing auth flows
+- Database models when testing ORM behavior (use real SQLite in tests)
 
 ## Fixtures and Factories
 
-**Backend Test Data:**
-- **Pytest fixtures** in `conftest.py`:
-  ```python
-  @pytest.fixture
-  def mock_config():
-      """Provide a mocked configuration object for tests."""
-      config_mock = Mock()
-      config_mock.ENV_MODE = EnvMode.LOCAL
-      config_mock.TESTING = True
-      return config_mock
-
-  @pytest.fixture
-  def mock_graphdb_client():
-      """Mock GraphDB client for knowledge graph tests."""
-      mock_client = MagicMock()
-      mock_client.query.return_value = []
-      mock_client.is_connected.return_value = True
-      return mock_client
-  ```
-
-**Frontend Test Data:**
-- **Inline test data**: Direct object creation in tests
-- **Mock API responses**: Captured via request interception in Playwright
+**Test Data:**
+```python
+# Example from tests/fixtures/boq/create_sample_boq.py
+def create_sample_boq():
+    """Create a sample BOQ for testing"""
+    return {
+        "project_name": "Test Project",
+        "items": [
+            {
+                "description": "Concrete",
+                "quantity": 10.5,
+                "unit": "m³",
+                "unit_price": 120.00
+            }
+        ]
+    }
+```
 
 **Location:**
-- **Backend**: `backend/conftest.py` (root), `backend/tests/*/conftest.py` (module-specific)
-- **Frontend**: Inline in test files
+- Backend: `tests/fixtures/` directory for reusable test data generators
+- Frontend: Test utilities in e2e-testing/utils/ for common operations
+- Shared: Minimal test data - relies on consuming apps
 
 ## Coverage
 
-**Backend Requirements:**
-- **Tool**: pytest-cov v6.0.0
-- **Target**: Not enforced (commented in pytest.ini)
-- **Configuration** (commented in `backend/pytest.ini`):
-  ```ini
-  # --cov=core
-  # --cov=agents
-  # --cov=api
-  # --cov-report=html
-  # --cov-report=term-missing
-  ```
-
-**Frontend Coverage:**
-- **Tool**: Not configured
-- **E2E Coverage**: Critical user paths (auth, dashboard, public pages)
+**Requirements:** 
+- No explicit coverage threshold enforced (pytest-cov used but no fail-under)
+- Coverage reports generated via `pytest --cov=core --cov-report=html`
 
 **View Coverage:**
 ```bash
-# Backend
-cd backend && pytest --cov=core --cov=agents --cov-report=html
-# Open htmlcov/index.html in browser
-
-# Backend terminal view
-cd backend && pytest --cov=core --cov-report=term-missing
+uv run pytest --cov=core --cov-report=term-missing
+uv run pytest --cov=core --cov-report=html  # generates htmlcov/index.html
 ```
 
 ## Test Types
 
 **Unit Tests:**
-- **Scope**: Individual functions, classes, utilities
-- **Location**: `apps/frontend/src/__tests__/`, `backend/tests/`
-- **Markers**: `@pytest.mark.unit` (Python)
-- **Dependencies**: Mocked
-- **Speed**: Fast (<100ms per test)
-- **Examples**:
-  - `apps/frontend/src/__tests__/logger.test.ts` - Logger utility
-  - `backend/tests/agents/test_base_agent.py` - Agent base class
+- Location: `tests/` directory organized by module
+- Scope: Individual functions, classes, small components
+- Approach: Mock external dependencies, test business logic in isolation
+- Markers: `@pytest.mark.unit` (inferred from pytest configuration)
 
 **Integration Tests:**
-- **Scope**: Multiple components working together
-- **Location**: `backend/tests/integration/`, `backend/tests/api/`
-- **Markers**: `@pytest.mark.integration`
-- **Dependencies**: Real or test instances (TestClient for APIs)
-- **Speed**: Medium (100ms-1s per test)
-- **Examples**:
-  - `backend/tests/integration/test_boq_api.py` - BOQ API integration
-  - `backend/tests/api/test_agents.py` - Agent API endpoints
+- Location: `tests/integration/` directory
+- Scope: Cross-component interactions, database-involved tests
+- Approach: Use real test database (via fixtures), limited external mocking
+- Markers: `@pytest.mark.requires_db`, `@pytest.mark.requires_redis`
 
 **E2E Tests:**
-- **Scope**: Complete user workflows through browser
-- **Location**: `apps/frontend/e2e/`, `backend/tests/e2e/`
-- **Dependencies**: Full system (browser + backend + database)
-- **Speed**: Slow (5-60s per test)
-- **Examples**:
-  - `apps/frontend/e2e/compatibility.spec.ts` - Frontend-backend integration
-  - `backend/tests/e2e/test_full_flow.py` - Complete agent workflow
-
-**Performance Tests:**
-- **Location**: `backend/core/knowledge_graph/*_performance_tests.py`
-- **Purpose**: Benchmark critical operations
-- **Markers**: `@pytest.mark.slow`
+- Location: `tests/e2e/` (backend) and `apps/frontend/e2e-testing/` (frontend)
+- Scope: Full user workflows, API authentication to UI interactions
+- Framework: Playwright for frontend, HTTP client tests for backend
+- Example: `tests/e2e/test_full_flow.py` tests complete agent interaction
+- Markers: `@pytest.mark.e2e`, `@pytest.mark.slow`
 
 ## Common Patterns
 
-**Async Testing (Backend):**
+**Async Testing:**
 ```python
+# Backend async test pattern
 @pytest.mark.asyncio
-async def test_execute_with_metrics_success(mock_state):
-    """Test execute_with_metrics() wrapper for successful execution."""
-    agent = MockAgent("test_agent", {"test:capability"})
+async def test_async_endpoint(test_client):
+    response = await test_client.get("/api/v1/health")
+    assert response.status_code == 200
     
-    result = await agent.execute_with_metrics(mock_state)
-    
-    assert result["status"] == "success"
-    assert "duration_ms" in result
+    # Or using TestClient with async context
+    async with test_client as client:
+        response = await client.get("/")
 ```
 
-**Error Testing (Backend):**
+**Error Testing:**
 ```python
-@pytest.mark.asyncio
-async def test_agent_abstract_class():
-    """Test that Agent is abstract and requires execute() implementation."""
-    with pytest.raises(TypeError):
-        # Cannot instantiate abstract class
-        Agent("test", {"test:capability"})
+# Testing exception handling
+def test_validation_error():
+    with pytest.raises(ValueError, match="Invalid input"):
+        process_invalid_data("bad input")
+        
+    # Testing HTTP exceptions
+    def test_not_found_endpoint(test_client):
+        response = test_client.get("/api/v1/nonexistent")
+        assert response.status_code == 404
 ```
 
-**Frontend Async Testing:**
-```typescript
-test('logger module exports expected methods', async () => {
-  const mod = await import('../lib/logger');
-  expect(typeof mod.logger.log).toBe('function');
-  expect(typeof mod.logger.error).toBe('function');
-});
+**Database Testing:**
+```python
+# Using test database fixtures
+def test_model_creation(db_session):
+    # db_session fixture provides transactional test DB
+    model = MyModel(name="test")
+    db_session.add(model)
+    db_session.commit()
+    assert model.id is not None
 ```
 
-**Playwright Page Testing:**
-```typescript
-test('renders sign-in form', async ({ page }) => {
-  await page.goto(`${FRONTEND}/auth`, NAV_OPTS);
-  const emailInput = page.locator('input[type="email"], input[name="email"]');
-  await expect(emailInput.first()).toBeVisible({ timeout: 8000 });
-});
+**Authentication Testing:**
+```python
+# Mocking auth dependencies
+def test_protected_endpoint(test_client, mock_auth):
+    with patch("core.utils.auth_utils.verify_jwt", return_value={"user_id": "123"}):
+        response = test_client.get("/api/v1/protected")
+        assert response.status_code == 200
 ```
 
-**Request Interception (E2E):**
-```typescript
-test('frontend makes API calls to backend', async ({ page }) => {
-  const apiCalls: string[] = [];
-  const backendHost = new URL(BACKEND).host;
-  
-  page.on('request', req => {
-    const url = req.url();
-    if (url.includes(backendHost)) {
-      apiCalls.push(url);
-    }
-  });
-  
-  await page.goto(`${FRONTEND}/dashboard`);
-  expect(apiCalls.length).toBeGreaterThan(0);
-});
+## CI/CD Practices Related to Testing
+
+**GitHub Actions (inferred):**
+- Tests run on pull requests and pushes to main
+- Backend: `uv run pytest` with coverage reporting
+- Frontend: `npx playwright test` for E2E validation
+- Cache: Dependency caching for faster test runs
+
+**Environment:**
+- Test environment variables set via conftest.py (ENV_MODE=test, TESTING=true)
+- Services mocked to avoid external dependencies during CI
+- Database: PostgreSQL test instance or SQLite in-memory
+- Redis: Mocked or local test instance
+
+**Artifacts:**
+- Test reports: JUnit XML format for CI integration
+- Coverage reports: HTML and text formats
+- Playwright traces: For failed E2E test debugging
+- Test videos: Optional recording of failing tests
+
+## Documentation and Comment Practices
+
+**Test Documentation:**
+- Docstrings on test classes and methods explaining purpose
+- Comments for complex test setup or non-obvious assertions
+- Reference to issue numbers or requirements when applicable
+- README files in test directories explaining test scope
+
+**Example:**
+```python
+def test_agent_handoff_scenario():
+    """
+    Test agent handoff when specialist agent is needed.
+    See: https://github.com/CarbonScope-ai/suna/issues/1234
+    """
+    # Setup: User asks for carbon calculation (needs specialist)
+    # Execute: Send message through supervisor
+    # Verify: Carbon calculator agent is invoked and responds
+    pass
 ```
-
-## Test Markers and Configuration
-
-**Backend Markers** (defined in `backend/pytest.ini`):
-- `@pytest.mark.unit` - Unit tests (fast, no external dependencies)
-- `@pytest.mark.integration` - Integration tests (may use databases, services)
-- `@pytest.mark.slow` - Slow tests (may take >1s)
-- `@pytest.mark.requires_graphdb` - Tests requiring GraphDB connection
-- `@pytest.mark.requires_redis` - Tests requiring Redis connection
-- `@pytest.mark.requires_db` - Tests requiring PostgreSQL connection
-- `@pytest.mark.requires_api_keys` - Tests requiring external API keys
-
-**Pytest Configuration:**
-```ini
-[pytest]
-# Test discovery patterns
-python_files = test_*.py *_test.py
-python_classes = Test*
-python_functions = test_*
-
-# Test paths
-testpaths = tests
-
-# Output options
-addopts =
-    --verbose
-    --strict-markers
-    --disable-warnings
-    -ra
-    --tb=short
-
-# Asyncio configuration
-asyncio_mode = auto
-
-# Environment variables for testing
-env =
-    ENV_MODE=test
-    TESTING=true
-```
-
-**Playwright Configuration:**
-```typescript
-export default defineConfig({
-  testDir: './e2e',
-  fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
-  reporter: [['list'], ['html', { open: 'never', outputFolder: 'e2e-report' }]],
-  use: {
-    baseURL: process.env.BASE_URL ?? 'http://localhost:3001',
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
-  },
-  projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-  ],
-  webServer: {
-    command: 'pnpm dev --port 3002',
-    url: 'http://localhost:3001',
-    reuseExistingServer: true,
-    timeout: 120_000,
-  },
-});
-```
-
-## Test Environment Setup
-
-**Backend Test Environment:**
-- **Python**: 3.11+ (3.12 recommended)
-- **pytest plugins**: asyncio, cov, env, mock, xdist, timeout, randomly, rerunfailures
-- **Environment variables**: Set via `conftest.py`
-  ```python
-  os.environ["ENV_MODE"] = "test"
-  os.environ["TESTING"] = "true"
-  os.environ["SUPABASE_URL"] = "http://localhost:54321"
-  ```
-
-**Frontend Test Environment:**
-- **Runtime**: Bun for unit tests, Node.js for Playwright
-- **Playwright**: Browsers auto-installed via `pnpm playwright install`
-- **Environment variables**: `BASE_URL`, `BACKEND_URL`
-
-## Test Coverage Gaps
-
-**Untested Areas:**
-- **Frontend**: Limited unit test coverage (only logger, sanitize, quality-tasks visible)
-- **Backend**: Coverage reporting disabled in pytest.ini (needs enablement)
-- **Integration**: Some modules have integration tests, others rely on E2E only
-- **Risk**: UI components lack unit/integration tests, heavy reliance on E2E
-
-**Testing Priority:**
-- **High**: API endpoints, agent execution, data parsers
-- **Medium**: UI components (currently E2E only), utilities
-- **Low**: Configuration, static content
-
----
-
-*Testing analysis: 2026-04-06*

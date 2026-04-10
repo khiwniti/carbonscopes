@@ -16,8 +16,8 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 # Production URLs
-FRONTEND_URL="https://orange-river-0ce07e10f.6.azurestaticapps.net"
-BACKEND_URL="https://carbonscope-backend.wittybay-b8ab90d4.eastus.azurecontainerapps.io"
+FRONTEND_URL="https://suna-frontend-app.azurewebsites.net"
+BACKEND_URL="https://suna-backend-app.azurewebsites.net"
 
 # Test results
 TOTAL_TESTS=0
@@ -78,9 +78,9 @@ echo ""
 print_header "Backend API Tests"
 
 print_test "Backend health endpoint"
-STATUS=$(timeout 10 curl -s -o /dev/null -w "%{http_code}" "$BACKEND_URL/health" 2>/dev/null || echo "000")
+STATUS=$(timeout 10 curl -s -o /dev/null -w "%{http_code}" "$BACKEND_URL/v1/health" 2>/dev/null || echo "000")
 if [ "$STATUS" = "200" ]; then
-    RESPONSE=$(timeout 10 curl -s "$BACKEND_URL/health" 2>/dev/null || echo '{"error":"timeout"}')
+    RESPONSE=$(timeout 10 curl -s "$BACKEND_URL/v1/health" 2>/dev/null || echo '{"error":"timeout"}')
     print_success "Health endpoint responding (200 OK)"
     echo "$RESPONSE" > "$TEST_DIR/backend-health.json"
     print_info "Response: $RESPONSE"
@@ -89,7 +89,7 @@ else
 fi
 
 print_test "Backend CORS headers"
-CORS=$(timeout 10 curl -s -I "$BACKEND_URL/health" 2>/dev/null | grep -i "access-control" || echo "")
+CORS=$(timeout 10 curl -s -I "$BACKEND_URL/v1/health" 2>/dev/null | grep -i "access-control" || echo "")
 if [ -n "$CORS" ]; then
     print_success "CORS headers present"
     echo "$CORS" > "$TEST_DIR/backend-cors.txt"
@@ -99,7 +99,7 @@ fi
 
 print_test "Backend response time"
 START=$(date +%s%N)
-timeout 10 curl -s -o /dev/null "$BACKEND_URL/health" 2>/dev/null
+timeout 10 curl -s -o /dev/null "$BACKEND_URL/v1/health" 2>/dev/null
 END=$(date +%s%N)
 RESPONSE_TIME=$(( ($END - $START) / 1000000 ))
 if [ $RESPONSE_TIME -lt 2000 ]; then
@@ -222,7 +222,7 @@ print_header "Backend API Endpoint Tests"
 
 API_ENDPOINTS=(
     "/health"
-    "/api/v1/status"
+    "/v1/health"
 )
 
 for endpoint in "${API_ENDPOINTS[@]}"; do
@@ -252,7 +252,7 @@ echo "HTML size: ${SIZE_KB}KB" > "$TEST_DIR/frontend-size.txt"
 
 print_test "Backend uptime check"
 for i in {1..3}; do
-    STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BACKEND_URL/health")
+    STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BACKEND_URL/v1/health")
     if [ "$STATUS" = "200" ]; then
         print_success "Health check #$i: OK"
     else

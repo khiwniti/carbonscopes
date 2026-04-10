@@ -91,14 +91,14 @@ function SandboxStatusIndicator({ status }: { status?: SandboxStatus }) {
     case 'LIVE':
       // Solid green dot
       return (
-        <span className="h-2 w-2 rounded-full bg-emerald-500" title="Live" />
+        <span className="h-2 w-2 rounded-full bg-[var(--carbonscope-success)]" title="Live" />
       );
     case 'STARTING':
       // Flashing/pulsing green dot
       return (
         <span className="relative flex h-2 w-2" title="Starting">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--carbonscope-success-light)] opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--carbonscope-success)]" />
         </span>
       );
     case 'FAILED':
@@ -109,14 +109,14 @@ function SandboxStatusIndicator({ status }: { status?: SandboxStatus }) {
     case 'OFFLINE':
       // Gray dot
       return (
-        <span className="h-2 w-2 rounded-full bg-muted-foreground" title="Offline" />
+        <span className="h-2 w-2 rounded-full text-[var(--carbonscope-text-muted)]" title="Offline" />
       );
     case 'UNKNOWN':
       // Pulsing gray/yellow dot - sandbox may not exist yet or is being created
       return (
         <span className="relative flex h-2 w-2" title="Initializing">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-50" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--carbonscope-warning-light)] opacity-50" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--carbonscope-warning)]" />
         </span>
       );
     default:
@@ -160,7 +160,7 @@ function ActionFilesSwitcher({ currentView, onViewChange, size = 'md' }: ActionF
 
   return (
     <div
-      className="relative flex items-center bg-muted rounded-full"
+      className="relative flex items-center bg-[var(--carbonscope-surface)] rounded-full"
       style={{
         height: config.height,
         width: totalWidth,
@@ -169,38 +169,38 @@ function ActionFilesSwitcher({ currentView, onViewChange, size = 'md' }: ActionF
     >
       {/* Sliding indicator */}
       <motion.div
-        className="absolute top-[3px] bottom-[3px] rounded-full bg-background shadow-sm"
+        className="absolute top-[3px] bottom-[3px] rounded-full bg-[var(--carbonscope-background)] shadow-sm"
         style={{ width: config.btnWidth }}
         initial={false}
         animate={{ x: isAction ? 0 : config.btnWidth }}
         transition={{ type: "spring", stiffness: 500, damping: 35 }}
       />
 
-      {/* Actions button */}
-      <button
-        onClick={() => onViewChange('tools')}
-        className={cn(
-          "relative z-10 flex items-center justify-center gap-1.5 rounded-full font-medium transition-colors cursor-pointer",
-          isAction ? "text-foreground" : "text-muted-foreground"
-        )}
-        style={{ width: config.btnWidth, height: config.height - config.padding * 2, fontSize: config.fontSize }}
-      >
-        <Activity style={{ width: config.iconSize, height: config.iconSize }} strokeWidth={2.5} />
-        <span>Actions</span>
-      </button>
+       {/* Actions button */}
+       <button
+         onClick={() => onViewChange('tools')}
+         className={cn(
+           "relative z-10 flex items-center justify-center gap-1.5 rounded-full font-medium transition-colors cursor-pointer",
+           isAction ? "text-[var(--carbonscope-text-primary)]" : "text-[var(--carbonscope-text-muted)]"
+         )}
+         style={{ width: config.btnWidth, height: config.height - config.padding * 2, fontSize: config.fontSize }}
+       >
+         <Activity style={{ width: config.iconSize, height: config.iconSize }} strokeWidth={2.5} />
+         <span>Actions</span>
+       </button>
 
-      {/* Files button */}
-      <button
-        onClick={() => onViewChange('files')}
-        className={cn(
-          "relative z-10 flex items-center justify-center gap-1.5 rounded-full font-medium transition-colors cursor-pointer",
-          isFiles ? "text-foreground" : "text-muted-foreground"
-        )}
-        style={{ width: config.btnWidth, height: config.height - config.padding * 2, fontSize: config.fontSize }}
-      >
-        <FolderOpen style={{ width: config.iconSize, height: config.iconSize }} strokeWidth={2.5} />
-        <span>Files</span>
-      </button>
+       {/* Files button */}
+       <button
+         onClick={() => onViewChange('files')}
+         className={cn(
+           "relative z-10 flex items-center justify-center gap-1.5 rounded-full font-medium transition-colors cursor-pointer",
+           isFiles ? "text-[var(--carbonscope-text-primary)]" : "text-[var(--carbonscope-text-muted)]"
+         )}
+         style={{ width: config.btnWidth, height: config.height - config.padding * 2, fontSize: config.fontSize }}
+       >
+         <FolderOpen style={{ width: config.iconSize, height: config.iconSize }} strokeWidth={2.5} />
+         <span>Files</span>
+       </button>
     </div>
   );
 }

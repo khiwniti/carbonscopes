@@ -1,242 +1,171 @@
 # External Integrations
 
-**Analysis Date:** 2026-04-06
+**Analysis Date:** 2026-04-09
 
 ## APIs & External Services
 
 **AI/LLM Providers:**
-- Anthropic - Claude API integration via `anthropic` 0.69.0+
-  - SDK/Client: `anthropic` Python package
-  - Usage: AI agent execution, chat completions
-- OpenAI - GPT models via `openai` 1.99.5+
-  - SDK/Client: `openai` Python package
-  - Usage: Alternative LLM provider
-- LiteLLM 1.80.11+ - Multi-provider LLM gateway
-  - Purpose: Unified interface across AI providers
-  - Abstraction layer for model switching
+- OpenAI - GPT models via LiteLLM wrapper
+  - SDK/Client: litellm package
+  - Auth: OPENAI_API_KEY environment variable
+- Anthropic - Claude models via LiteLLM wrapper
+  - SDK/Client: litellm package
+  - Auth: ANTHROPIC_API_KEY environment variable
+- Azure OpenAI - Azure-hosted OpenAI models via LiteLLM
+  - SDK/Client: litellm package
+  - Auth: AZURE_API_KEY, AZURE_API_BASE, AZURE_API_VERSION
+- AWS Bedrock - Anthropic Claude via Bedrock
+  - SDK/Client: litellm package with bedrock/* model prefixes
+  - Auth: AWS_BEARER_TOKEN_BEDROCK environment variable
+- OpenRouter - Aggregated LLM access via LiteLLM
+  - SDK/Client: litellm package
+  - Auth: OPENROUTER_API_KEY environment variable
+- Gemini - Google models via LiteLLM (configured but less prominent)
+  - SDK/Client: litellm package
+  - Auth: GOOGLE_API_KEY environment variable
 
-**Web Search:**
-- Tavily - AI-optimized search API
-  - SDK/Client: `tavily-python` 0.5.4
-  - Usage: Web search tool for agents
-
-**Integration Platforms:**
-- Composio 0.8.0+ - Third-party integration platform
-  - SDK/Client: `composio` Python package
-  - Purpose: Connect to external tools and services
-- Apify 2.3.0 - Web scraping and automation
-  - SDK/Client: `apify-client`
-  - Purpose: Data extraction workflows
-
-**Developer Tools:**
-- E2B Code Interpreter 1.2.0 - Sandboxed code execution
-  - SDK/Client: `e2b-code-interpreter`
-  - Purpose: Safe code execution environment
-- Daytona SDK 0.115.0+ - Development environment management
-  - Multiple clients: `daytona-sdk`, `daytona-api-client`, `daytona-api-client-async`
-  - Purpose: Cloud development environments
-- Replicate 0.25.0+ - ML model hosting
-  - SDK/Client: `replicate`
-  - Purpose: Run AI models via API
-
-## Data Storage
-
-**Databases:**
-- Supabase PostgreSQL
-  - Connection: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
-  - Client: `@supabase/supabase-js` (frontend), `supabase` 2.17.0 (backend)
-  - ORM: Prisma 0.15.0 with custom schema
-  - Features: PostgreSQL, authentication, real-time subscriptions, storage
-
-**Caching:**
-- Redis 5.2.1 - In-memory data store
-  - Connection: Environment-configured
-  - Usage: Caching, session storage, queue management
-- Upstash Redis 1.3.0 - Serverless Redis
-  - Purpose: Edge-compatible Redis alternative
+**Data Storage & Databases:**
+- Supabase - Primary PostgreSQL database, authentication, and storage
+  - SDK/Client: supabase-py (version 2.17.0)
+  - Auth: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_ANON_KEY)
+  - Used for: User data, agent states, threads, billing, configurations
+- Upstash Redis - Redis compatibility layer (used alongside direct Redis)
+  - SDK/Client: upstash-redis package
+  - Auth: UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN
+  - Used for: Fallback/caching layer
+- Qdrant - Vector database for embeddings and similarity search
+  - SDK/Client: qdrant-client package (version >=1.11.0)
+  - Auth: QDRANT_URL and QDRANT_API_KEY environment variables
+  - Used for: Knowledge graph embeddings, semantic search
 
 **File Storage:**
-- Supabase Storage - Object storage via Supabase client
-  - Integration: Same credentials as database
+- Supabase Storage - Object storage for files, documents, exports
+  - Integrated via Supabase client
+  - Used for: Agent outputs, reports, uploads
+- AWS S3 - Binary Large Object storage (via boto3)
+  - SDK/Client: boto3 package (version >=1.40.74)
+  - Auth: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION
+  - Used for: Large file storage, backups, media assets
+
+**Caching:**
+- Redis (Upstash/self-hosted) - Primary caching layer
+  - SDK/Client: redis package (version 5.2.1) with custom StreamHub implementation
+  - Auth: REDIS_HOST, REDIS_PORT, REDIS_PASSWORD, REDIS_USERNAME, REDIS_SSL
+  - Used for: Session caching, rate limiting, SSE fan-out, temporary agent state
 
 ## Authentication & Identity
 
 **Auth Provider:**
-- Supabase Auth - Managed authentication service
-  - Implementation: JWT-based with cookie storage
-  - Methods: Email/password, OAuth (Google, GitHub detected in code)
-  - Frontend: `@supabase/ssr` for server-side rendering
-  - MFA: Phone number verification via `libphonenumber-js` 1.12.10
-  - SSO: `fastapi-sso` 0.9.0+ for backend OAuth flows
+- Supabase Auth - Built-in authentication service
+  - Implementation: JWT-based via Supabase GoTrue
+  - Integration: @supabase/supabase-js (frontend), supabase-py (backend)
+  - Features: Email/password, magic links, OAuth providers (Google, GitHub, etc.)
+  - Environment: SUPABASE_URL, SUPABASE_ANON_KEY (client-side), SUPABASE_SERVICE_ROLE_KEY (admin)
+
+**Additional Auth:**
+- FastAPI Users/OAuth2 - Supplemental auth patterns in custom endpoints
+- Apple Authentication - Expo Apple Authentication module (mobile)
+  - SDK: expo-apple-authentication
+  - Used for: iOS/macOS authentication via Apple ID
 
 ## Monitoring & Observability
 
 **Error Tracking:**
-- Sentry (referenced but optional)
-  - Config: `NEXT_PUBLIC_SENTRY_DSN` environment variable
-  - Implementation: Optional integration
+- Braintrust - LLM experimentation and evaluation tracking
+  - Integration: Automatic via litellm when BRAINTRUST_API_KEY is set
+  - Used for: LLM prompt/response logging, evaluation datasets
+- Sentry - Error tracking (configured but not heavily used in current codebase)
+  - Implied via sentry-sdk references in some tool backups
 
-**Logs:**
-- structlog 25.4.0 - Structured logging (backend)
-  - Format: JSON-structured logs
-- AWS CloudWatch - Log aggregation
-  - SDK: `watchtower` 3.0.0
-  - Purpose: Centralized logging
+**Logging:**
+- Structlog - Structured logging for backend
+  - Configuration: JSON output to stdout/stderr
+  - Shipping: Configured to send to CloudWatch Logs in production via watchtower
+- CloudWatch Logs - AWS logging service
+  - Integration: watchtower >=3.0.0 package
+  - Used for: Production log aggregation and monitoring
 
-**Analytics:**
-- PostHog - Product analytics and feature flags
-  - Client: `posthog-js` 1.258.6 (frontend), `posthog-node` 5.6.0 (backend)
-  - Config: `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` (default: https://eu.i.posthog.com)
-  - Safe wrapper: Custom initialization in `src/lib/posthog.ts`
-- Google Tag Manager - Marketing analytics
-  - Config: `NEXT_PUBLIC_GTM_ID`
-  - Integration: `@next/third-parties` 15.3.1
-- Google Analytics - Web analytics
-  - SDK: `google-analytics-data` 0.18.0+
-  - Purpose: Analytics data access
-
-**Observability:**
-- Langfuse 2.60.5 - LLM observability platform
-  - Purpose: Trace LLM calls, monitor costs, debug AI agents
-  - Connection: `cloud.langfuse.com` in CSP
-- Prometheus - Metrics collection
-  - Client: `prometheus-client` 0.21.1
-  - Purpose: System metrics export
-- Braintrust 0.3.15+ - AI evaluation
-  - SDK: `braintrust`, `autoevals` 0.0.130
-  - Purpose: LLM output evaluation
+**Metrics & Tracing:**
+- Prometheus Client - Metrics exposition
+  - SDK: prometheus-client package (version 0.21.1)
+  - Endpoint: /metrics (exposes agent runs, Redis stats, system metrics)
+- Custom Metrics - Internal metrics collection
+  - Implementation: Worker metrics service tracking agent runs, Redis streams, memory usage
 
 ## CI/CD & Deployment
 
 **Hosting:**
-- Vercel (indicated by `@vercel/*` packages)
-  - Packages: `@vercel/analytics` 1.5.0, `@vercel/speed-insights` 1.2.0, `@vercel/edge-config` 1.4.0
-  - Platform: Edge Functions, serverless deployment
+- Linux Containers - Docker-based deployment
+  - Configuration: Dockerfiles in backend/, apps/frontend/, etc.
+  - Orchestration: Kubernetes or similar (implied by health checks and replica concepts)
+- Vercel - Frontend hosting (for Next.js applications)
+  - Configuration: next.config.ts, vercel.json or similar
+  - Environment variables injected via Vercel dashboard
+- Electron Builder - Desktop application packaging
+  - Configuration: apps/desktop/package.json build section
+  - Targets: macOS (dmg), Windows (nsis), Linux (AppImage)
+- EAS (Expo Application Services) - Mobile app builds
+  - Configuration: app.json, eas.json
+  - Used for: Android/iOS store builds
 
 **CI Pipeline:**
-- GitHub Actions (likely, based on typical Next.js/Vercel workflow)
-  - Deployment: Automated via Vercel integration
-
-**Containerization:**
-- Docker - Backend containerization
-  - Files: `Dockerfile`, `Dockerfile.production`, `Dockerfile.simple`
-  - Base: `python:3.11-slim`
-  - Server: Gunicorn + uvicorn workers
+- GitHub Actions - Implied CI/CD (workflows not visible in current repo snapshot)
+- Local Scripts - Package.json scripts for development:
+  - dev:frontend, dev:mobile, dev:backend
+  - build:frontend, build:mobile
+  - docker compose up -d (for full stack)
+- Makefile - Monorepo-level commands:
+  - make install, make dev-backend, make dev-frontend
 
 ## Environment Configuration
 
 **Required env vars:**
-- **Database:** `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
-- **Backend:** `NEXT_PUBLIC_BACKEND_URL`, `INTERNAL_BACKEND_URL`, `BACKEND_URL`
-- **Payment:** `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, Stripe secret key (backend)
-- **Analytics:** `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_GTM_ID`
-- **Notifications:** `NEXT_PUBLIC_NOVU_APP_IDENTIFIER`
-- **Features:** `NEXT_PUBLIC_DISABLE_MOBILE_ADVERTISING`, `NEXT_PUBLIC_ENV_MODE`, `NEXT_PUBLIC_PHONE_NUMBER_MANDATORY`
-- **Monitoring:** `NEXT_PUBLIC_SENTRY_DSN` (optional), `NEXT_PUBLIC_VERBOSE_LOGGING`
-- **Misc:** `ORSHOT_API_KEY`, `NEXT_PUBLIC_URL`, `NEXT_PUBLIC_APP_URL`
+- SUPABASE_URL - Supabase project URL
+- SUPABASE_SERVICE_ROLE_KEY - Supabase service role key (backend)
+- SUPABASE_ANON_KEY - Supabase anon key (frontend)
+- DATABASE_URL - Direct PostgreSQL connection string (alternative to Supabase)
+- REDIS_HOST - Redis hostname
+- REDIS_PORT - Redis port (default 6379)
+- REDIS_PASSWORD - Redis password (if set)
+- ANTHROPIC_API_KEY - Anthropic API key (for Claude models)
+- OPENAI_API_KEY - OpenAI API key (for GPT models)
+- OPENROUTER_API_KEY - OpenRouter API key (optional alternative)
+- AWS_BEARER_TOKEN_BEDROCK - AWS Bedrock token (for Claude via Bedrock)
+- QDRANT_URL - Qdrant vector database URL
+- QDRANT_API_KEY - Qdrant API key
 
 **Secrets location:**
-- Environment variables (not committed to git)
-- Vercel environment variables (for deployment)
+- .env files - Local development (backend/.env, apps/frontend/.env.local)
+- Platform secret managers - Production (Vercel Env, Docker secrets, K8s secrets)
+- Doppler/AWS Secrets Manager - Referenced in documentation but not visible in code
 
 ## Webhooks & Callbacks
 
 **Incoming:**
-- `/api/integrations/[provider]/callback` - OAuth callbacks
-- `/api/triggers/[triggerId]/webhook` - Trigger webhooks
-- Stripe webhooks (likely, given integration)
+- Supabase Webhooks - Database change triggers
+  - Endpoint: /api/webhooks/* (handled by webhook_router)
+  - Used for: Real-time updates to frontend via Redis streams
+- Stripe Webhooks - Payment processing
+  - Endpoint: /api/webhooks/* (specific handlers in setup/webhook_router)
+  - Used for: Subscription events, payment confirmations
+- GitHub Webhooks - Repository events (for integrations)
+  - Endpoint: /api/webhooks/* (generic handling)
+- Calendar/Webhook Integrations - External service callbacks
+  - Endpoint: /api/webhooks/* (configurable per integration)
 
 **Outgoing:**
-- Backend API calls to external services
-- E2B sandbox execution
-- Composio tool integrations
-- Tavily search requests
-
-## Payment Processing
-
-**Stripe:**
-- Frontend: `@stripe/stripe-js` 8.6.4, `@stripe/react-stripe-js` 5.5.0
-  - Config: `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
-  - Provider: `src/components/billing/stripe-provider.tsx`
-- Backend: `stripe` 11.6.0
-  - Purpose: Payment processing, subscription management
-
-## Notification Systems
-
-**Novu:**
-- Frontend: `@novu/nextjs` 3.11.0, `@novu/notification-center` 2.0.0
-  - Config: `NEXT_PUBLIC_NOVU_APP_IDENTIFIER`
-  - Purpose: In-app notifications
-- Backend: `novu-py` 3.11.0+
-  - Purpose: Notification triggers
-
-**Email:**
-- Mailtrap 2.0.1 - Email testing/delivery
-  - Purpose: Transactional emails
-- `email-validator` 2.0.0 - Email validation
-
-## Calendar Integration
-
-**Cal.com:**
-- Frontend: `@calcom/embed-react` 1.5.2
-  - Purpose: Embedded calendar scheduling
-
-## Security & Validation
-
-**Tools:**
-- `email-validator` 2.0.0 - Email format validation
-- `phonenumbers` 8.13.50 - Phone number validation
-- `cryptography` 41.0.0+ - Encryption primitives
-- `pyjwt` 2.10.1 - JWT handling
-- `certifi` 2025.4.26+ - SSL certificate validation
-
-**Content Security:**
-- `dompurify` 3.3.3 - HTML sanitization
-- `isomorphic-dompurify` 2.19.0 - Universal sanitization
-- Next.js CSP headers in `next.config.ts`
-
-## Cloud Services
-
-**AWS:**
-- boto3 1.40.74+ - AWS SDK
-  - Purpose: AWS service integration (S3, CloudWatch, etc.)
-
-**Google Cloud:**
-- `google-api-python-client` 2.120.0+ - Google APIs
-- `google-auth` 2.28.0+ - Google authentication
-- `google-auth-oauthlib` 1.2.0+ - OAuth flows
-- Purpose: Google Workspace integrations
-
-## Document Processing
-
-**AI Document Processing:**
-- Chunkr AI 0.3.7+ - Document chunking and parsing
-  - Purpose: Intelligent document processing
-
-**Libraries:**
-- PyPDF2 3.0.1 - PDF reading
-- python-docx 1.1.0 - Word document processing
-- openpyxl 3.1.2 - Excel file handling
-- python-pptx 1.0.0+ - PowerPoint processing
-- beautifulsoup4 4.12.0+ - HTML parsing
-- WeasyPrint 63.0+ - HTML to PDF conversion
-
-## Specialized Integrations
-
-**LCA & Knowledge Graph:**
-- qdrant-client 1.11.0+ - Vector database
-- fastembed 0.3.0+ - Fast embeddings
-- langchain-openai 0.2.0+, langchain-anthropic 0.2.0+ - LangChain integrations
-- langgraph 0.2.0+ - Graph-based workflows
-- rdflib 7.0.0+ - RDF triple store
-- SPARQLWrapper 2.0.0+ - SPARQL query interface
-- owlready2 0.46+ - OWL ontology management
-- graphrag-sdk 0.4.0+ - Graph retrieval-augmented generation
-
-**Environmental Data:**
-- brightway2 <2.5.0 - Life cycle assessment framework
-  - Purpose: Carbon/environmental impact calculations
+- Novu - Notification delivery service
+  - Endpoints: Novu API (hosted)
+  - Used for: Email, SMS, push notifications via novu-py SDK
+- Email Services - SMTP/SendGrid/etc. (via mailtrap in dev)
+  - SDK: mailtrap package
+  - Used for: Transactional emails, alerts
+- Calendar APIs - Google Calendar, Outlook (via composio or direct)
+  - Used for: Scheduling, meeting creation
+- Slack/Teams - Team notifications (via composio integrations)
+  - SDK: composio package
+  - Used for: Alert distribution, team collaboration
 
 ---
 
-*Integration audit: 2026-04-06*
+*Integration audit: 2026-04-09*

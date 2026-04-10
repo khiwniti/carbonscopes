@@ -120,6 +120,7 @@ dependencies = [
   "brightway2<2.5.0",  # Python 3.12 compatibility
   "rapidfuzz>=3.0.0",
   "SPARQLWrapper>=2.0.0",
+  "langsmith>=0.7.22",
 ]
 
 [project.urls]
@@ -149,6 +150,7 @@ package = false
 
 [dependency-groups]
 dev = [
+    "pytest>=8.3.4",
 ]
 
 [tool.pytest.ini_options]
