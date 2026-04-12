@@ -44,21 +44,21 @@ jobs:
           # Install linting, testing, and security tools
           uv pip install --quiet ruff pytest pytest-asyncio bandit trivy
 
-          # Install project dependencies using UV (faster than pip)
-          if [ -f "uv.lock" ]; then
-            echo "uv.lock found, installing with uv sync"
-            uv sync --frozen --no-dev
-          else
-            echo "uv.lock not found, installing from requirements.txt or pyproject.toml"
-            if [ -f "requirements.txt" ]; then
-              uv pip install -r requirements.txt
-            elif [ -f "pyproject.toml" ]; then
-              uv pip install .
-            else
-              echo "No requirements.txt or pyproject.toml found"
-              exit 1
-            fi
-          fi
+           # Install project dependencies using UV (faster than pip)
+           if [ -f "uv.lock" ]; then
+             echo "uv.lock found, installing with uv sync"
+             uv sync --frozen --no-dev --system
+           else
+             echo "uv.lock not found, installing from requirements.txt or pyproject.toml"
+             if [ -f "requirements.txt" ]; then
+               uv pip install -r requirements.txt --system
+             elif [ -f "pyproject.toml" ]; then
+               uv pip install . --system
+             else
+               echo "No requirements.txt or pyproject.toml found"
+               exit 1
+             fi
+           fi
 
       - name: Run linting
         working-directory: ./backend
