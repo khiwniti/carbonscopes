@@ -4,7 +4,7 @@ import * as eks from "@pulumi/eks";
 import * as k8s from "@pulumi/kubernetes";
 import { EksClusterConfig, NodeGroupConfig } from "./types";
 
-export class SunaEksCluster extends pulumi.ComponentResource {
+export class carbonscopeEksCluster extends pulumi.ComponentResource {
   public readonly cluster: eks.Cluster;
   public readonly kubeconfig: pulumi.Output<object>;
   public readonly clusterName: pulumi.Output<string>;
@@ -22,7 +22,7 @@ export class SunaEksCluster extends pulumi.ComponentResource {
     },
     opts?: pulumi.ComponentResourceOptions
   ) {
-    super("suna:eks:Cluster", name, {}, opts);
+    super("carbonscope:eks:Cluster", name, {}, opts);
 
     this.cluster = new eks.Cluster(`${name}-cluster`, {
       name: config.name,

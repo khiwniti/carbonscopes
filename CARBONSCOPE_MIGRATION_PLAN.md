@@ -1,13 +1,13 @@
 # CarbonScope Design System Migration Plan
 
 ## Overview
-Complete theme migration from CarbonScope brand to CarbonScope design system across all suna-init applications. Client has approved the CarbonScope design (dark engineering theme with emerald green accents, EN 15978 lifecycle-aligned).
+Complete theme migration from CarbonScope brand to CarbonScope design system across all carbonscope-init applications. Client has approved the CarbonScope design (dark engineering theme with emerald green accents, EN 15978 lifecycle-aligned).
 
 ## Goal
 Every single line of style across frontend, mobile, and backend templates must align with the CarbonScope design system tokens and components.
 
 ## Completed Work
-✅ Task #7: Analyzed suna-init codebase structure
+✅ Task #7: Analyzed carbonscope-init codebase structure
 ✅ Task #8: Created centralized design tokens in `/packages/shared/design-system/`
 
 ## Implementation Tasks
@@ -322,8 +322,8 @@ The migration is complete when:
 
 ## Reference Files
 
-- Source design: `/teamspace/studios/this_studio/comprehensive-suna-bim-agent/design_system.jsx`
-- Design tokens: `/teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/packages/shared/design-system/tokens.ts`
-- Global styles: `/teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/packages/shared/design-system/global.css`
-- Frontend globals: `/teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/apps/frontend/src/app/globals.css`
-- Mobile globals: `/teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/apps/mobile/global.css`
+- Source design: `/teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/design_system.jsx`
+- Design tokens: `/teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/packages/shared/design-system/tokens.ts`
+- Global styles: `/teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/packages/shared/design-system/global.css`
+- Frontend globals: `/teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/apps/frontend/src/app/globals.css`
+- Mobile globals: `/teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/apps/mobile/global.css`

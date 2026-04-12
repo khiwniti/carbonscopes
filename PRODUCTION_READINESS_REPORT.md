@@ -1,6 +1,6 @@
 # 🚀 Production Readiness Report
 
-**Project:** `/carbonscope/suna-init/`  
+**Project:** `/carbonscope/carbonscope-init/`  
 **Generated:** Sun Apr  5 07:42:22 UTC 2026  
 **Repository:** https://github.com/khiwniti/carbonscope.git
 
@@ -9,7 +9,7 @@
 ## ✅ Project Structure
 
 ```
-/carbonscope/suna-init/
+/carbonscope/carbonscope-init/
 ├── apps/frontend/src/   → 911 source files
 ├── backend/             → 2,584 files
 ├── packages/shared/     → Shared TypeScript utilities

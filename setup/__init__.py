@@ -1,7 +1,7 @@
 """
-CarbonScope Suna Setup Package
+CarbonScope carbonscope Setup Package
 
-A modular, testable, and extensible setup system for CarbonScope Suna.
+A modular, testable, and extensible setup system for CarbonScope carbonscope.
 Supports interactive wizard mode, non-interactive config file mode,
 dry-run preview, and individual step execution.
 """

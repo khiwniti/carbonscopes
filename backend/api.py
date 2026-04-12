@@ -126,10 +126,10 @@ async def lifespan(app: FastAPI):
 
         warm_up_tools_cache()
 
-        # Pre-load static Suna config for fast path in API requests
-        from core.cache.runtime_cache import load_static_suna_config
+        # Pre-load static carbonscope config for fast path in API requests
+        from core.cache.runtime_cache import load_static_carbonscope_config
 
-        load_static_suna_config()
+        load_static_carbonscope_config()
 
         sandbox_api.initialize(db)
 
@@ -564,9 +564,17 @@ api_router.include_router(chat_router)  # Chat / computer-use entry point
 
 
 @api_router.get(
-    "/health", summary="Health Check", operation_id="health_check", tags=["system"]
+    "/healthz", summary="Health Check", operation_id="health_check_z", tags=["system"]
 )
-async def health_check():
+# Existing health check under /v1/healthz
+
+# Expose root health check for Docker/CF healthchecks
+@app.get("/healthz", summary="Root Health Check", tags=["system"])
+async def root_healthz():
+    return await health_check_z()
+
+
+async def health_check_z():
     logger.debug("Health check endpoint called")
 
     # During shutdown, return unhealthy status

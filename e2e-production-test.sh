@@ -16,8 +16,8 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 # Production URLs
-FRONTEND_URL="https://suna-frontend-app.azurewebsites.net"
-BACKEND_URL="https://suna-backend-app.azurewebsites.net"
+FRONTEND_URL="https://carbonscope-frontend-app.azurewebsites.net"
+BACKEND_URL="https://carbonscope-backend-app.azurewebsites.net"
 
 # Test results
 TOTAL_TESTS=0

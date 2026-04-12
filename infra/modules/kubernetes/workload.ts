@@ -16,7 +16,7 @@ export class ApiWorkload extends pulumi.ComponentResource {
     provider: k8s.Provider,
     opts?: pulumi.ComponentResourceOptions
   ) {
-    super("suna:k8s:ApiWorkload", name, {}, opts);
+    super("carbonscope:k8s:ApiWorkload", name, {}, opts);
 
     const providerOpt = { provider, parent: this };
 
@@ -36,7 +36,7 @@ export class ApiWorkload extends pulumi.ComponentResource {
       },
       type: "Opaque",
       stringData: {
-        SUNA_SECRETS_ARN: pulumi.output(config.secretsArn).apply(s => s),
+        carbonscope_SECRETS_ARN: pulumi.output(config.secretsArn).apply(s => s),
       },
     }, providerOpt);
 

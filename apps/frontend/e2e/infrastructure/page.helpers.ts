@@ -40,7 +40,7 @@ export class PageHelpers {
   }
 
   async navigateToAgentChat(): Promise<void> {
-    await this.navigateTo('/suna');
+    await this.navigateTo('/carbonscope');
   }
 
   // ── Auth state ───────────────────────────────────────────────────────────
@@ -62,9 +62,9 @@ export class PageHelpers {
     return this.page.locator('h1, h2, h3').filter({ hasText: /Good|Hello|Welcome/i }).first();
   }
 
-  getSunaModesPanel(): Locator {
-    // TODO: Update to match actual selector for the Suna modes panel.
-    return this.page.locator('[data-testid="suna-modes"], [class*="modes"]').first();
+  getcarbonscopeModesPanel(): Locator {
+    // TODO: Update to match actual selector for the carbonscope modes panel.
+    return this.page.locator('[data-testid="carbonscope-modes"], [class*="modes"]').first();
   }
 
   // ── Projects ─────────────────────────────────────────────────────────────
@@ -91,7 +91,7 @@ export class PageHelpers {
       .fill(name);
   }
 
-  // ── Agent Chat (Suna) ────────────────────────────────────────────────────
+  // ── Agent Chat (carbonscope) ────────────────────────────────────────────────────
 
   getChatInput(): Locator {
     return this.page.locator('textarea[placeholder*="message"], input[placeholder*="message"]').first();

@@ -35,7 +35,7 @@ Ctrl+Shift+Delete (Chrome/Firefox)
 
 ### 2. Restart Supabase (if running locally)
 ```bash
-cd /path/to/suna-init
+cd /path/to/carbonscope-init
 
 # If using Supabase CLI
 supabase stop

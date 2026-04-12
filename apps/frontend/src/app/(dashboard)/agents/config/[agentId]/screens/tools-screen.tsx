@@ -21,13 +21,13 @@ export function ToolsScreen({ agentId }: ToolsScreenProps) {
         }
     }, [agent?.agentpress_tools]);
 
-    const isSunaAgent = agent?.metadata?.is_suna_default || false;
+    const iscarbonscopeAgent = agent?.metadata?.is_carbonscope_default || false;
     const restrictions = agent?.metadata?.restrictions || {};
-    const areToolsEditable = (restrictions.tools_editable !== false) && !isSunaAgent;
+    const areToolsEditable = (restrictions.tools_editable !== false) && !iscarbonscopeAgent;
 
     const handleToolsChange = async (newTools: Record<string, boolean | { enabled: boolean; description: string }>) => {
         if (!areToolsEditable) {
-            if (isSunaAgent) {
+            if (iscarbonscopeAgent) {
                 toast.error("Tools cannot be edited", {
                     description: "CarbonScope's tools are managed centrally.",
                 });
@@ -68,7 +68,7 @@ export function ToolsScreen({ agentId }: ToolsScreenProps) {
                     tools={tools}
                     onToolsChange={handleToolsChange}
                     disabled={!areToolsEditable}
-                    isSunaAgent={isSunaAgent}
+                    iscarbonscopeAgent={iscarbonscopeAgent}
                     isLoading={updateAgentMutation.isPending}
                 />
             </div>

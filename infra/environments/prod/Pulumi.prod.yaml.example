@@ -13,7 +13,7 @@ config:
   #   secure: <encrypted>
 
   # Container (required)
-  CarbonScope-infra-prod:containerImage: ghcr.io/CarbonScope-ai/suna/suna-backend:prod
+  CarbonScope-infra-prod:containerImage: ghcr.io/CarbonScope-ai/carbonscope/carbonscope-backend:prod
 
   # Alerts (required)
   CarbonScope-infra-prod:alertEmails: '["ops@yourdomain.com"]'
@@ -28,7 +28,7 @@ config:
   # CarbonScope-infra-prod:burstNodeMax: 10
 
   # Pod config (optional — defaults shown)
-  # CarbonScope-infra-prod:serviceName: suna-api
+  # CarbonScope-infra-prod:serviceName: carbonscope-api
   # CarbonScope-infra-prod:containerPort: 8000
   # CarbonScope-infra-prod:healthCheckPath: /v1/health-docker
   # CarbonScope-infra-prod:podReplicas: 4

@@ -13,7 +13,7 @@ def create_parser() -> argparse.ArgumentParser:
     """Create and configure the argument parser."""
     parser = argparse.ArgumentParser(
         prog="setup",
-        description="CarbonScope Suna Setup Wizard - Configure and install CarbonScope Suna",
+        description="CarbonScope carbonscope Setup Wizard - Configure and install CarbonScope carbonscope",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

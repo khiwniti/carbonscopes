@@ -333,7 +333,7 @@ export function ExampleShowcase() {
                         <div className="flex items-center gap-1 mb-1">
                           <img
                             src="/CarbonScope-logomark-white.svg"
-                            alt="Suna"
+                            alt="carbonscope"
                             className="dark:invert-0 invert flex-shrink-0"
                             style={{ height: '8px', width: 'auto' }}
                           />

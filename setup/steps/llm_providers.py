@@ -124,7 +124,7 @@ class LLMProvidersStep(BaseStep):
         self.console.print("\n" + "=" * 60)
         self.console.print("[bold]Main LLM Model Selection[/bold]")
         self.console.print("=" * 60)
-        self.info("CarbonScope Suna requires a main LLM to power 'CarbonScope/basic' and 'CarbonScope/power'.")
+        self.info("CarbonScope carbonscope requires a main LLM to power 'CarbonScope/basic' and 'CarbonScope/power'.")
         self.console.print("")
 
         # Get codebase default

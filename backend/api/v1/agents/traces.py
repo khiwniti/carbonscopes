@@ -21,7 +21,7 @@ def get_db():
     For now, returns None as a placeholder.
     """
     # TODO: Implement actual database session factory
-    # from suna.backend.db.session import get_db as get_db_session
+    # from carbonscope.backend.db.session import get_db as get_db_session
     # return next(get_db_session())
     return None
 
@@ -57,7 +57,7 @@ async def get_agent_traces(
         GET /api/v1/agents/traces?agent_name=carbon_calculator&limit=50
     """
     try:
-        from suna.backend.db.models.agent_trace import AgentTrace
+        from carbonscope.backend.db.models.agent_trace import AgentTrace
 
         if db is None:
             # Return mock data if DB not configured
@@ -152,7 +152,7 @@ async def get_trace_detail(
         GET /api/v1/agents/traces/abc-123-def-456
     """
     try:
-        from suna.backend.db.models.agent_trace import AgentTrace
+        from carbonscope.backend.db.models.agent_trace import AgentTrace
 
         if db is None:
             # Return mock data if DB not configured
@@ -257,7 +257,7 @@ async def delete_trace(
         HTTPException: 404 if trace not found
     """
     try:
-        from suna.backend.db.models.agent_trace import AgentTrace
+        from carbonscope.backend.db.models.agent_trace import AgentTrace
 
         if db is None:
             return {

@@ -12,7 +12,7 @@ from .template_service import (
     AgentTemplate,
     TemplateNotFoundError,
     TemplateAccessDeniedError,
-    SunaDefaultAgentTemplateError
+    carbonscopeDefaultAgentTemplateError
 )
 from .installation_service import (
     get_installation_service,
@@ -171,8 +171,8 @@ async def create_template_from_agent(
     except TemplateAccessDeniedError as e:
         logger.warning(f"Template creation failed - access denied: {e}")
         raise HTTPException(status_code=403, detail=str(e))
-    except SunaDefaultAgentTemplateError as e:
-        logger.warning(f"Template creation failed - Suna default agent: {e}")
+    except carbonscopeDefaultAgentTemplateError as e:
+        logger.warning(f"Template creation failed - carbonscope default agent: {e}")
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         try:

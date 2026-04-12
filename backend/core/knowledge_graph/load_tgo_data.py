@@ -74,7 +74,7 @@ class TGODataLoader:
     - Data validation and quality checks
     """
 
-    def __init__(self, graphdb_url: str = "http://localhost:7200/repositories/suna-bim-kg"):
+    def __init__(self, graphdb_url: str = "http://localhost:7200/repositories/carbonscope-bim-kg"):
         """
         Initialize the TGO data loader.
 
@@ -543,8 +543,8 @@ Examples:
     parser.add_argument(
         '--graphdb-url',
         type=str,
-        default='http://localhost:7200/repositories/suna-bim-kg',
-        help='GraphDB repository URL (default: http://localhost:7200/repositories/suna-bim-kg)'
+        default='http://localhost:7200/repositories/carbonscope-bim-kg',
+        help='GraphDB repository URL (default: http://localhost:7200/repositories/carbonscope-bim-kg)'
     )
 
     parser.add_argument(

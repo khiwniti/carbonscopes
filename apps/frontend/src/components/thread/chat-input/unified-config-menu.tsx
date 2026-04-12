@@ -111,14 +111,14 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
 
     const agents: any[] = allAgents;
 
-    const sunaAgent = useMemo(() => {
-        return agents.find(a => a.metadata?.is_suna_default === true);
+    const carbonscopeAgent = useMemo(() => {
+        return agents.find(a => a.metadata?.is_carbonscope_default === true);
     }, [agents]);
 
-    const placeholderSunaAgent = useMemo(() => ({
+    const placeholdercarbonscopeAgent = useMemo(() => ({
         agent_id: undefined,
         name: 'CarbonScope',
-        metadata: { is_suna_default: true }
+        metadata: { is_carbonscope_default: true }
     }), []);
 
     useEffect(() => {
@@ -171,9 +171,9 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
             const found = agents.find(a => a.agent_id === selectedAgentId);
             if (found) return found;
         }
-        if (sunaAgent) return sunaAgent;
+        if (carbonscopeAgent) return carbonscopeAgent;
         return agents[0];
-    }, [agents, selectedAgentId, sunaAgent]);
+    }, [agents, selectedAgentId, carbonscopeAgent]);
 
     const handleQuickAction = useCallback((action: 'instructions' | 'knowledge' | 'triggers' | 'tools') => {
         if (!selectedAgentId && !displayAgent?.agent_id) {
@@ -184,11 +184,11 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
     }, [selectedAgentId, displayAgent?.agent_id]);
 
     const renderAgentIcon = useCallback((agent: any, size: number = 32) => {
-        if (!agent && (isLoading || sunaAgent)) {
-            return <AgentAvatar isSunaDefault={true} agentName="CarbonScope" size={size} className="flex-shrink-0 !border-0" />;
+        if (!agent && (isLoading || carbonscopeAgent)) {
+            return <AgentAvatar iscarbonscopeDefault={true} agentName="CarbonScope" size={size} className="flex-shrink-0 !border-0" />;
         }
         return <AgentAvatar agent={agent} agentId={agent?.agent_id} size={size} className="flex-shrink-0 !border-0" />;
-    }, [isLoading, sunaAgent]);
+    }, [isLoading, carbonscopeAgent]);
 
     // Shared content components
     const AgentsList = useCallback(({ compact = false }: { compact?: boolean }) => (
@@ -197,7 +197,7 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
                 <div className={cn("space-y-2", compact ? "px-2" : "px-3")}>
                     {Array.from({ length: 3 }).map((_, i) => (
                         <div key={i} className="flex items-center gap-3 p-2 sm:p-3 rounded-xl sm:rounded-2xl">
-                            <div className="h-9 w-9 sm:h-8 sm:w-8 bg-muted/60 border-[1.5px] border-border rounded-xl sm:rounded-2xl animate-pulse"></div>
+                            <div className="h-9 w-9 sm:h-8 sm:w-8 bg-muted/60 border border-border rounded-xl sm:rounded-2xl animate-pulse"></div>
                             <div className="h-4 bg-muted rounded flex-1 animate-pulse"></div>
                         </div>
                     ))}
@@ -226,9 +226,9 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
                                     onClick={() => handleAgentClick(agent.agent_id)}
                                 >
                                     <div className={cn(
-                                        "flex items-center justify-center bg-transparent border-[1.5px] border-border flex-shrink-0",
+                                        "flex items-center justify-center bg-transparent border border-border rounded-xl flex-shrink-0",
                                         compact ? "w-8 h-8" : "w-10 h-10 sm:w-8 sm:h-8"
-                                    )} style={{ borderRadius: '10.4px' }}>
+                                    )}>
                                         {renderAgentIcon(agent, compact ? 32 : (isMobile ? 40 : 32))}
                                     </div>
                                     <span className={cn(
@@ -294,12 +294,12 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
                 }}
             >
                 <div className={cn(
-                    "flex items-center justify-center border-[1.5px] flex-shrink-0 transition-colors",
+                    "flex items-center justify-center border rounded-xl flex-shrink-0 transition-colors",
                     compact ? "w-8 h-8" : "w-10 h-10 sm:w-8 sm:h-8",
                     isFreeTier
                         ? "bg-primary/10 border-primary/30"
                         : "bg-card border-border"
-                )} style={{ borderRadius: '10.4px' }}>
+                )}>
                     {isFreeTier ? (
                         <Sparkles className={cn(
                             "text-primary",
@@ -352,7 +352,7 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
                                     variant="ghost"
                                     size="icon"
                                     className={cn(
-                                        "flex-1 p-0 cursor-pointer hover:bg-muted/60 border-[1.5px] border-border rounded-2xl",
+                                        "flex-1 p-0 cursor-pointer hover:bg-muted/60 border border-border rounded-2xl",
                                         compact ? "h-8" : "h-11 sm:h-8"
                                     )}
                                     onClick={() => {
@@ -445,12 +445,12 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
                                 className="w-full flex items-center gap-3 p-3 rounded-2xl border border-border bg-card hover:bg-muted/50 active:bg-muted/70 transition-colors"
                             >
                                 {isCarbonScopeAgent ? (
-                                    <div className="flex items-center justify-center w-10 h-10 bg-card border-[1.5px] border-border flex-shrink-0" style={{ borderRadius: '10.4px' }}>
+                                    <div className="flex items-center justify-center w-10 h-10 bg-card border border-border rounded-xl flex-shrink-0">
                                         {renderAgentIcon(null, 40)}
                                     </div>
                                 ) : (
-                                    <div className="flex items-center justify-center w-10 h-10 bg-card border-[1.5px] border-border flex-shrink-0" style={{ borderRadius: '10.4px' }}>
-                                        {renderAgentIcon(isLoading && !displayAgent ? placeholderSunaAgent : displayAgent, 40)}
+                                    <div className="flex items-center justify-center w-10 h-10 bg-card border border-border rounded-xl flex-shrink-0">
+                                        {renderAgentIcon(isLoading && !displayAgent ? placeholdercarbonscopeAgent : displayAgent, 40)}
                                     </div>
                                 )}
                                 <span className="flex-1 truncate text-base font-medium text-left min-w-0">
@@ -470,20 +470,20 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
                 )}
             </div>
         );
-    }, [mobileSection, searchQuery, onAgentSelect, displayAgent, isLoading, placeholderSunaAgent, renderAgentIcon, selectedAgentId, AgentsList, CreateWorkerButton, WorkerSettingsButtons, isCarbonScopeAgent]);
+    }, [mobileSection, searchQuery, onAgentSelect, displayAgent, isLoading, placeholdercarbonscopeAgent, renderAgentIcon, selectedAgentId, AgentsList, CreateWorkerButton, WorkerSettingsButtons, isCarbonScopeAgent]);
 
     // Trigger button
     const TriggerButton = (
         <Button
             variant="ghost"
             size="sm"
-            className="h-10 px-2 bg-transparent border-[1.5px] border-border rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-1.5"
+            className="h-10 px-2 bg-transparent border border-border rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-1.5"
             aria-label="Config menu"
             onClick={() => setIsOpen(true)}
         >
             {onAgentSelect ? (
                 <div className="flex items-center gap-2 min-w-0 max-w-[180px]">
-                    {renderAgentIcon(isLoading && !displayAgent ? placeholderSunaAgent : displayAgent, 24)}
+                    {renderAgentIcon(isLoading && !displayAgent ? placeholdercarbonscopeAgent : displayAgent, 24)}
                     <span className="truncate text-sm font-medium">
                         {isCarbonScopeAgent ? 'CarbonScope' : displayAgent?.name}
                     </span>
@@ -542,7 +542,7 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
                         </TooltipContent>
                     </Tooltip>
 
-                    <DropdownMenuContent align="end" className="w-[320px] px-0 py-3 border-[1.5px] border-border rounded-2xl" sideOffset={6}>
+                    <DropdownMenuContent align="end" className="w-[320px] px-0 py-3 border border-border rounded-2xl" sideOffset={6}>
                         <TooltipProvider>
                             {/* Agents Submenu */}
                             {onAgentSelect && (
@@ -555,14 +555,14 @@ const LoggedInMenu: React.FC<UnifiedConfigMenuProps> = memo(function LoggedInMen
                                             <DropdownMenuSub>
                                                 <DropdownMenuSubTrigger className="flex items-center gap-3 text-sm cursor-pointer px-1 hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent w-full">
                                                     <div className="flex items-center gap-3">
-                                                        {renderAgentIcon(isLoading && !displayAgent ? placeholderSunaAgent : displayAgent)}
+                                                        {renderAgentIcon(isLoading && !displayAgent ? placeholdercarbonscopeAgent : displayAgent)}
                                                         <span className="flex-1 truncate font-medium text-left">
                                                             {isCarbonScopeAgent ? 'CarbonScope' : displayAgent?.name}
                                                         </span>
                                                     </div>
                                                 </DropdownMenuSubTrigger>
                                                 <DropdownMenuPortal>
-                                                    <DropdownMenuSubContent className="w-[320px] px-0 py-3 border-[1.5px] border-border rounded-2xl max-h-[500px] overflow-hidden" sideOffset={8}>
+                                                    <DropdownMenuSubContent className="w-[320px] px-0 py-3 border border-border rounded-2xl max-h-[500px] overflow-hidden" sideOffset={8}>
                                                         <div className="mb-3 px-3">
                                                             <div className="relative">
                                                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-muted-foreground pointer-events-none" />
@@ -641,7 +641,7 @@ const GuestMenu: React.FC<UnifiedConfigMenuProps> = memo(function GuestMenu() {
                     <Button
                         variant="outline"
                         size="sm"
-                        className="h-10 px-2 sm:px-3 py-2 bg-transparent border-[1.5px] border-border rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-1 sm:gap-1.5 cursor-pointer transition-all duration-200 flex-shrink-0 animate-in fade-in-0 zoom-in-95"
+                        className="h-10 px-2 sm:px-3 py-2 bg-transparent border border-border rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-1 sm:gap-1.5 cursor-pointer transition-all duration-200 flex-shrink-0 animate-in fade-in-0 zoom-in-95"
                         disabled
                     >
                         <div className="flex items-center gap-2 min-w-0 max-w-[180px]">

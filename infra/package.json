@@ -1,7 +1,7 @@
 {
-  "name": "suna-infrastructure",
+  "name": "carbonscope-infrastructure",
   "version": "1.0.0",
-  "description": "Suna unified infrastructure - Pulumi IaC",
+  "description": "carbonscope unified infrastructure - Pulumi IaC",
   "private": true,
   "main": "index.ts",
   "scripts": {

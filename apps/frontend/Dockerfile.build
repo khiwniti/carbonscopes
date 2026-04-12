@@ -7,18 +7,18 @@ RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev 
 WORKDIR /app
 
 # Copy root package.json for workspace configuration
-COPY suna-init/package.json ./suna-init/
+COPY carbonscope-init/package.json ./carbonscope-init/
 
 # Copy shared package
-COPY suna-init/packages/shared/package.json ./suna-init/packages/shared/
-COPY suna-init/packages/shared/src ./suna-init/packages/shared/src
-COPY suna-init/packages/shared/tsconfig.json ./suna-init/packages/shared/
+COPY carbonscope-init/packages/shared/package.json ./carbonscope-init/packages/shared/
+COPY carbonscope-init/packages/shared/src ./carbonscope-init/packages/shared/src
+COPY carbonscope-init/packages/shared/tsconfig.json ./carbonscope-init/packages/shared/
 
 # Copy frontend package.json
-COPY suna-init/apps/frontend/package.json ./suna-init/apps/frontend/
+COPY carbonscope-init/apps/frontend/package.json ./carbonscope-init/apps/frontend/
 
 # Install dependencies for the whole workspace
-WORKDIR /app/suna-init
+WORKDIR /app/carbonscope-init
 RUN bun install --filter=carbonscope-frontend --filter=@agentpress/shared
 
 # Builder stage
@@ -30,20 +30,20 @@ RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev 
 WORKDIR /app
 
 # Copy dependencies from deps stage
-COPY --from=deps /app/suna-init ./suna-init
+COPY --from=deps /app/carbonscope-init ./carbonscope-init
 
 # Copy frontend source code
-COPY suna-init/apps/frontend ./suna-init/apps/frontend
+COPY carbonscope-init/apps/frontend ./carbonscope-init/apps/frontend
 
 # Set build-time environment variables
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NEXT_PUBLIC_BACKEND_URL=https://suna-backend-app.azurewebsites.net
-ENV NEXT_PUBLIC_API_URL=https://suna-backend-app.azurewebsites.net
+ENV NEXT_PUBLIC_BACKEND_URL=https://carbonscope-backend-app.azurewebsites.net
+ENV NEXT_PUBLIC_API_URL=https://carbonscope-backend-app.azurewebsites.net
 ENV NEXT_PUBLIC_APP_URL=https://carbonscope.ensimu.space
 
 # Build Next.js
-WORKDIR /app/suna-init/apps/frontend
+WORKDIR /app/carbonscope-init/apps/frontend
 RUN bun run build
 
 # Production stage
@@ -59,11 +59,11 @@ RUN addgroup --system --gid 1001 nodejs && \
 WORKDIR /app
 
 # Copy the entire standalone output (includes monorepo structure)
-COPY --from=builder --chown=nextjs:nodejs /app/suna-init/apps/frontend/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/carbonscope-init/apps/frontend/.next/standalone ./
 # Copy static files to the frontend app location
-COPY --from=builder --chown=nextjs:nodejs /app/suna-init/apps/frontend/.next/static ./apps/frontend/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/carbonscope-init/apps/frontend/.next/static ./apps/frontend/.next/static
 # Copy public files to the frontend app location
-COPY --from=builder --chown=nextjs:nodejs /app/suna-init/apps/frontend/public ./apps/frontend/public
+COPY --from=builder --chown=nextjs:nodejs /app/carbonscope-init/apps/frontend/public ./apps/frontend/public
 
 USER nextjs
 

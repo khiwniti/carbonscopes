@@ -14,13 +14,13 @@ A Python SDK that enables you to create, manage, and interact with AI Workers on
 Install directly from the GitHub repository:
 
 ```bash
-pip install "CarbonScope @ git+https://github.com/CarbonScope-ai/suna.git@main#subdirectory=sdk"
+pip install "CarbonScope @ git+https://github.com/CarbonScope-ai/carbonscope.git@main#subdirectory=sdk"
 ```
 
 Or using uv:
 
 ```bash
-uv add "CarbonScope @ git+https://github.com/CarbonScope-ai/suna.git@main#subdirectory=sdk"
+uv add "CarbonScope @ git+https://github.com/CarbonScope-ai/carbonscope.git@main#subdirectory=sdk"
 ```
 
 ## 🔧 Quick Start

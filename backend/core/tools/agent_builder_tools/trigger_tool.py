@@ -104,12 +104,12 @@ class TriggerTool(AgentBuilderBaseTool):
                 if explicit_defaults:
                     target_worker = explicit_defaults[0]
                 else:
-                    suna_defaults = [
+                    carbonscope_defaults = [
                         worker for worker in workers
-                        if isinstance(worker.get('metadata'), dict) and worker['metadata'].get('is_suna_default') is True
+                        if isinstance(worker.get('metadata'), dict) and worker['metadata'].get('is_carbonscope_default') is True
                     ]
-                    if suna_defaults:
-                        target_worker = suna_defaults[0]
+                    if carbonscope_defaults:
+                        target_worker = carbonscope_defaults[0]
 
             if not target_worker:
                 for worker in workers:
@@ -233,7 +233,7 @@ class TriggerTool(AgentBuilderBaseTool):
             for worker in workers:
                 raw_metadata = worker.get('metadata')
                 metadata: Dict[str, Any] = raw_metadata if isinstance(raw_metadata, dict) else {}
-                is_CarbonScope = bool(metadata.get('is_suna_default'))
+                is_CarbonScope = bool(metadata.get('is_carbonscope_default'))
                 name = worker.get('name') or 'Untitled Worker'
 
                 if not include_CarbonScope and is_CarbonScope:
@@ -825,8 +825,8 @@ class TriggerTool(AgentBuilderBaseTool):
             if not composio_trigger_id:
                 return self.fail_response("Failed to get Composio trigger id from response")
             
-            # Build Suna trigger config (same as API)
-            suna_config: Dict[str, Any] = {
+            # Build carbonscope trigger config (same as API)
+            carbonscope_config: Dict[str, Any] = {
                 "provider_id": "composio",
                 "composio_trigger_id": composio_trigger_id,
                 "trigger_slug": slug,
@@ -838,22 +838,22 @@ class TriggerTool(AgentBuilderBaseTool):
             }
             
             if variables:
-                suna_config["trigger_variables"] = variables
+                carbonscope_config["trigger_variables"] = variables
                 logger.debug(f"Found variables in event trigger prompt: {variables}")
             
-            # Create Suna trigger
+            # Create carbonscope trigger
             trigger_svc = get_trigger_service(self.db)
             try:
                 trigger = await trigger_svc.create_trigger(
                     agent_id=target_agent_id,
                     provider_id="composio",
                     name=name or slug,
-                    config=suna_config,
+                    config=carbonscope_config,
                     description=f"{slug}"
                 )
             except Exception as e:
-                logger.error(f"Failed to create Suna trigger: {e}")
-                return self.fail_response(f"Failed to create Suna trigger: {str(e)}")
+                logger.error(f"Failed to create carbonscope trigger: {e}")
+                return self.fail_response(f"Failed to create carbonscope trigger: {str(e)}")
 
             # Sync triggers to version config
             try:
@@ -864,7 +864,7 @@ class TriggerTool(AgentBuilderBaseTool):
             message = f"Event trigger '{trigger.name}' created successfully.\n"
             message += f"**Worker**: {target_worker_name}\n"
             message += f"**Profile ID**: {resolved_profile_id}\n"
-            message += f"**Model**: {suna_config['model']}\n"
+            message += f"**Model**: {carbonscope_config['model']}\n"
             message += "Worker execution configured."
             if variables:
                 message += f"\n**Template Variables Detected**: {', '.join(['{{' + v + '}}' for v in variables])}\n"
@@ -879,7 +879,7 @@ class TriggerTool(AgentBuilderBaseTool):
                     "worker_name": target_worker_name,
                     "profile_id": resolved_profile_id,
                     "connected_account_id": resolved_connected_account_id,
-                    "model": suna_config['model'],
+                    "model": carbonscope_config['model'],
                     "is_active": trigger.is_active,
                     "variables": variables if variables else []
                 }

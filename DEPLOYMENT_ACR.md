@@ -1,6 +1,6 @@
 # Azure Container Registry (ACR) Deployment Guide
 
-Complete guide for deploying the suna-init frontend to Azure Container Registry and Azure Container Apps.
+Complete guide for deploying the carbonscope-init frontend to Azure Container Registry and Azure Container Apps.
 
 ## 📋 Prerequisites
 
@@ -27,7 +27,7 @@ az login
 
 ### 2. Deploy Everything
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 ./deploy-frontend-acr.sh
 ```
 

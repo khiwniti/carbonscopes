@@ -24,7 +24,7 @@ Azure Static Web Apps integrates with GitHub Actions for automatic builds.
 ### Step 1: Push Code to GitHub
 
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 
 # Commit the fixes
 git add apps/frontend/src/app/auth/error.tsx
@@ -117,7 +117,7 @@ pnpm build
 
 ```bash
 # Skip local build, let Azure build in the cloud
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 
 # Get deployment token
 DEPLOYMENT_TOKEN=$(az staticwebapp secrets list \

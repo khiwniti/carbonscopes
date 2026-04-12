@@ -141,7 +141,7 @@ Try Free tier instead of Basic:
 npm install -g vercel
 
 # Deploy
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/apps/frontend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/apps/frontend
 vercel login
 vercel --prod
 
@@ -173,7 +173,7 @@ vercel --prod
 npm install -g @railway/cli
 
 # Deploy
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/backend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/backend
 railway login
 railway init
 railway up

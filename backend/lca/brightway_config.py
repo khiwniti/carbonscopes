@@ -1,4 +1,4 @@
-"""Brightway2 Configuration for SUNA BIM Agent.
+"""Brightway2 Configuration for carbonscope BIM Agent.
 
 This module provides configuration for deterministic, reproducible LCA calculations
 using Brightway2 with Thailand-specific building materials data.
@@ -196,10 +196,10 @@ class GraphDBConfig:
     BATCH_SIZE: int = 100
 
     # TGO ontology namespace
-    TGO_NAMESPACE: str = "http://suna-bim.com/ontology/tgo#"
+    TGO_NAMESPACE: str = "http://carbonscope-bim.com/ontology/tgo#"
 
     # EDGE V3 ontology namespace
-    EDGE_NAMESPACE: str = "http://suna-bim.com/ontology/edge#"
+    EDGE_NAMESPACE: str = "http://carbonscope-bim.com/ontology/edge#"
 
 
 # ============================================================================

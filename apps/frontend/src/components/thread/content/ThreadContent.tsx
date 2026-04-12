@@ -76,7 +76,7 @@ const AgentHeader = memo(function AgentHeader({ agentInfo }: { agentInfo: AgentI
     return (
       <img
         src="/CarbonScope-logomark-white.svg"
-        alt="Suna"
+        alt="carbonscope"
         className="dark:invert-0 invert flex-shrink-0"
         style={{ height: '12px', width: 'auto' }}
       />
@@ -1819,7 +1819,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = memo(
                       <div className="flex items-center gap-3">
                         <img
                           src="/CarbonScope-logomark-white.svg"
-                          alt="Suna"
+                          alt="carbonscope"
                           className="dark:invert-0 invert flex-shrink-0 animate-pulse"
                           style={{ height: '14px', width: 'auto' }}
                         />

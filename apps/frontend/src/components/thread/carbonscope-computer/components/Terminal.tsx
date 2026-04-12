@@ -2,7 +2,9 @@
 
 import { memo, useState, useRef, useEffect, useCallback, KeyboardEvent } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
+import { carbonScope } from '@/lib/design-tokens';
 import { backendApi } from '@/lib/api-client';
 import { CarbonScopeLoader } from '@/components/ui/carbonscope-loader';
 import { fileQueryKeys } from '@/hooks/files/use-file-queries';
@@ -23,6 +25,9 @@ const TERMINAL_HISTORY_KEY = 'CarbonScope-terminal-history';
 
 export const Terminal = memo(function Terminal({ sandboxId, className }: TerminalProps) {
   const queryClient = useQueryClient();
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+  const c = carbonScope.colors;
   const [lines, setLines] = useState<TerminalLine[]>([
     { id: '0', type: 'output', content: 'Welcome to CarbonScope Terminal' },
     { id: '1', type: 'output', content: 'Type commands below and press Enter to execute.' },
@@ -213,14 +218,38 @@ export const Terminal = memo(function Terminal({ sandboxId, className }: Termina
   return (
     <div 
       className={cn(
-        "flex flex-col h-full font-mono text-sm overflow-hidden",
-        "bg-zinc-100 text-zinc-800 dark:bg-[#1a1b26] dark:text-[#a9b1d6]",
+        "flex flex-col h-full text-sm overflow-hidden",
+        "[font-family:var(--cs-font-mono,ui-monospace),ui-monospace]",
+        !isDark && "bg-zinc-100 text-zinc-800",
         className
       )}
+      style={
+        isDark
+          ? { backgroundColor: c.backgroundAlt, color: c.textSecondary }
+          : undefined
+      }
       onClick={focusInput}
     >
-      <div className="flex items-center h-7 px-3 bg-zinc-200/80 dark:bg-[#24283b] border-b border-zinc-300 dark:border-[#414868] gap-2 flex-shrink-0">
-        <span className="text-zinc-500 dark:text-[#565f89] text-xs">{getPromptDisplay(cwd)} — bash</span>
+      <div
+        className={cn(
+          "flex items-center h-7 px-3 gap-2 flex-shrink-0 border-b",
+          !isDark && "bg-zinc-200/80 border-zinc-300"
+        )}
+        style={
+          isDark
+            ? {
+                backgroundColor: c.backgroundSubtle,
+                borderColor: c.border,
+              }
+            : undefined
+        }
+      >
+        <span
+          className={cn("text-xs", !isDark && "text-zinc-500")}
+          style={isDark ? { color: c.textMuted } : undefined}
+        >
+          {getPromptDisplay(cwd)} — bash
+        </span>
         {isExecuting && (
           <CarbonScopeLoader size="small" className="ml-auto" />
         )}
@@ -235,17 +264,40 @@ export const Terminal = memo(function Terminal({ sandboxId, className }: Termina
           <div key={line.id} className="flex items-start">
             {line.type === 'input' ? (
               <>
-                <span className="text-blue-500 dark:text-[#7aa2f7] mr-1.5">{getPromptDisplay(line.cwd || '/workspace')}</span>
-                <span className="text-emerald-600 dark:text-[#9ece6a] mr-2">❯</span>
-                <span className="text-zinc-900 dark:text-[#c0caf5]">{line.content}</span>
+                <span
+                  className={cn("mr-1.5", !isDark && "text-blue-500")}
+                  style={isDark ? { color: c.lifecycle.a4a5Light } : undefined}
+                >
+                  {getPromptDisplay(line.cwd || '/workspace')}
+                </span>
+                <span
+                  className={cn("mr-2", !isDark && "text-emerald-600")}
+                  style={isDark ? { color: c.primaryLight } : undefined}
+                >
+                  ❯
+                </span>
+                <span
+                  className={cn(!isDark && "text-zinc-900")}
+                  style={isDark ? { color: c.textPrimary } : undefined}
+                >
+                  {line.content}
+                </span>
               </>
             ) : (
-              <span className={cn(
-                "whitespace-pre-wrap break-all",
-                line.type === 'error' 
-                  ? 'text-red-600 dark:text-[#f7768e]' 
-                  : 'text-zinc-700 dark:text-[#a9b1d6]'
-              )}>
+              <span
+                className={cn(
+                  "whitespace-pre-wrap break-all",
+                  !isDark && line.type === 'error' && "text-red-600",
+                  !isDark && line.type !== 'error' && "text-zinc-700"
+                )}
+                style={
+                  isDark
+                    ? {
+                        color: line.type === 'error' ? c.lifecycle.c1c4Light : c.textSecondary,
+                      }
+                    : undefined
+                }
+              >
                 {line.content}
               </span>
             )}
@@ -253,8 +305,18 @@ export const Terminal = memo(function Terminal({ sandboxId, className }: Termina
         ))}
 
         <div className="flex items-center">
-          <span className="text-blue-500 dark:text-[#7aa2f7] mr-1.5">{getPromptDisplay(cwd)}</span>
-          <span className="text-emerald-600 dark:text-[#9ece6a] mr-2">❯</span>
+          <span
+            className={cn("mr-1.5", !isDark && "text-blue-500")}
+            style={isDark ? { color: c.lifecycle.a4a5Light } : undefined}
+          >
+            {getPromptDisplay(cwd)}
+          </span>
+          <span
+            className={cn("mr-2", !isDark && "text-emerald-600")}
+            style={isDark ? { color: c.primaryLight } : undefined}
+          >
+            ❯
+          </span>
           <div className="flex-1 relative">
             <input
               ref={inputRef}
@@ -269,11 +331,18 @@ export const Terminal = memo(function Terminal({ sandboxId, className }: Termina
               autoCapitalize="off"
               className={cn(
                 "w-full bg-transparent outline-none",
-                "text-zinc-900 dark:text-[#c0caf5]",
-                "caret-blue-500 dark:caret-[#7aa2f7]",
-                "placeholder:text-zinc-400 dark:placeholder:text-[#565f89]",
+                !isDark && "text-zinc-900 caret-blue-500 placeholder:text-zinc-400",
+                isDark && "placeholder:text-slate-500",
                 isExecuting && "opacity-50"
               )}
+              style={
+                isDark
+                  ? {
+                      color: c.textPrimary,
+                      caretColor: c.lifecycle.a4a5Light,
+                    }
+                  : undefined
+              }
               placeholder={isExecuting ? "Executing..." : ""}
             />
           </div>
@@ -284,4 +353,3 @@ export const Terminal = memo(function Terminal({ sandboxId, className }: Termina
 });
 
 Terminal.displayName = 'Terminal';
-

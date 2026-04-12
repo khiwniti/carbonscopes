@@ -110,7 +110,7 @@ export const MarketplaceAgentPreviewDialog: React.FC<MarketplaceAgentPreviewDial
   
   if (!agent) return null;
 
-  const isSunaAgent = agent.is_CarbonScope_team || false;
+  const iscarbonscopeAgent = agent.is_CarbonScope_team || false;
   
   const tools = agent.mcp_requirements || [];
   

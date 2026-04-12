@@ -52,12 +52,12 @@ DATABASE_URL="postgresql://postgres.vplbjxijbrgwskgxiukd:***@aws-1-ap-northeast-
 ```bash
 # Updated environment variable
 az webapp config appsettings set \
-  --name suna-backend-app \
-  --resource-group suna-bim-rg \
+  --name carbonscope-backend-app \
+  --resource-group carbonscope-bim-rg \
   --settings DATABASE_URL="postgresql://...?sslmode=require"
 
 # Restarted backend
-az webapp restart --name suna-backend-app --resource-group suna-bim-rg
+az webapp restart --name carbonscope-backend-app --resource-group carbonscope-bim-rg
 ```
 
 ---
@@ -104,7 +104,7 @@ az webapp restart --name suna-backend-app --resource-group suna-bim-rg
 
 ```bash
 # Test endpoint
-curl "https://suna-backend-app.azurewebsites.net/v1/agents?limit=5"
+curl "https://carbonscope-backend-app.azurewebsites.net/v1/agents?limit=5"
 
 # Expected: HTTP 200 with JSON array of agents
 ```

@@ -85,10 +85,10 @@ Three environments are configured for deployment protection:
 
 | Environment | Instance | IP | Tunnel ID |
 |-------------|----------|-----|-----------|
-| DEV | suna-dev | 52.24.67.100 | 3a533a53-67d0-487c-b716-261c863270ee |
-| STAGING | suna-staging | 54.184.54.33 | 503813f5-2426-401a-b72f-15bd11d4b4ba |
-| PRODUCTION | suna-prod | 54.148.221.72 | f4125d84-33d5-424d-ae6b-2b84b790392b |
-| PRODUCTION (ECS) | suna-ecs | ALB | N/A |
+| DEV | carbonscope-dev | 52.24.67.100 | 3a533a53-67d0-487c-b716-261c863270ee |
+| STAGING | carbonscope-staging | 54.184.54.33 | 503813f5-2426-401a-b72f-15bd11d4b4ba |
+| PRODUCTION | carbonscope-prod | 54.148.221.72 | f4125d84-33d5-424d-ae6b-2b84b790392b |
+| PRODUCTION (ECS) | carbonscope-ecs | ALB | N/A |
 
 ## Pulumi Stacks
 

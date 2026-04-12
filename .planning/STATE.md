@@ -4,7 +4,7 @@
 **Status:** ACTIVE - Phase 1 Complete, Testing Fix
 **Last Activity:** 2026-04-06 15:30
 **Live Site:** https://carbonscope.ensimu.space
-**Backend:** https://suna-backend-app.azurewebsites.net
+**Backend:** https://carbonscope-backend-app.azurewebsites.net
 
 ## Current Milestone
 
@@ -26,7 +26,7 @@
 - Status: Deployed, awaiting verification
 
 ### 🟡 LOW (P3)
-- GitHub stars API returns 404 from CarbonScope-ai/suna
+- GitHub stars API returns 404 from CarbonScope-ai/carbonscope
 - Location: `apps/frontend/src/hooks/utils/use-github-stars.ts`
 - Impact: Console pollution only, no functional impact
 

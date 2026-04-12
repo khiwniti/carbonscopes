@@ -73,7 +73,7 @@ export function FooterSection() {
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <a
-                  href="https://github.com/CarbonScope-ai/suna"
+                  href="https://github.com/CarbonScope-ai/carbonscope"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"

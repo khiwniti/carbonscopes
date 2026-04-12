@@ -89,10 +89,10 @@ def test_pipeline_initialization(mock_graphdb_client, mock_carbon_calculator):
     assert pipeline.tgo_version == "2026-03"
 
 
-@patch('suna.backend.boq.carbon_pipeline.parse_boq')
-@patch('suna.backend.boq.carbon_pipeline.match_boq_materials')
-@patch('suna.backend.boq.carbon_pipeline.get_emission_factor')
-@patch('suna.backend.boq.carbon_pipeline.get_db')
+@patch('carbonscope.backend.boq.carbon_pipeline.parse_boq')
+@patch('carbonscope.backend.boq.carbon_pipeline.match_boq_materials')
+@patch('carbonscope.backend.boq.carbon_pipeline.get_emission_factor')
+@patch('carbonscope.backend.boq.carbon_pipeline.get_db')
 def test_calculate_boq_carbon_complete_pipeline(
     mock_get_db,
     mock_get_ef,
@@ -161,7 +161,7 @@ def test_calculate_material_carbon_with_match(
         carbon_calculator=mock_carbon_calculator
     )
 
-    with patch('suna.backend.boq.carbon_pipeline.get_emission_factor') as mock_get_ef:
+    with patch('carbonscope.backend.boq.carbon_pipeline.get_emission_factor') as mock_get_ef:
         mock_get_ef.return_value = {
             "emission_factor": Decimal("445.6"),
             "unit": "kgCO2e/m³",

@@ -343,7 +343,7 @@ main() {
     echo ""
     echo "╔═══════════════════════════════════════════════════════════════╗"
     echo "║                                                               ║"
-    echo "║        Frontend ACR Deployment - suna-init                    ║"
+    echo "║        Frontend ACR Deployment - carbonscope-init                    ║"
     echo "║                                                               ║"
     echo "║        Build → Push → Deploy to Azure Container Apps         ║"
     echo "║                                                               ║"

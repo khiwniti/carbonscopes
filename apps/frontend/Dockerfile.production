@@ -1,5 +1,5 @@
 # Production Next.js - Monorepo aware build for Azure ACR
-# Build from suna-init root: docker build -f apps/frontend/Dockerfile.production .
+# Build from carbonscope-init root: docker build -f apps/frontend/Dockerfile.production .
 
 FROM node:20-slim AS base
 RUN apt-get update && apt-get install -y --no-install-recommends \

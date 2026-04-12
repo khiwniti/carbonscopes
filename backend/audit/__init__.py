@@ -1,5 +1,5 @@
 """
-Comprehensive audit trail system for SUNA BIM agent.
+Comprehensive audit trail system for carbonscope BIM agent.
 
 This module provides a robust audit logging system that tracks:
 - TGO data version changes

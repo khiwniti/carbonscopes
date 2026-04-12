@@ -246,7 +246,7 @@ swa deploy
 
 ### Alternative 1: Deploy to VM
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 
 # Create VM
 ./create-azure-vm.sh

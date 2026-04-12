@@ -61,4 +61,4 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 COMMENT ON FUNCTION public.trigger_welcome_email() IS 
-'Triggers a webhook to the backend when a new user is created. The webhook handles account initialization (free tier + Suna agent) and welcome email. Endpoint: /v1/webhooks/user-created';
+'Triggers a webhook to the backend when a new user is created. The webhook handles account initialization (free tier + carbonscope agent) and welcome email. Endpoint: /v1/webhooks/user-created';

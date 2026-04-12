@@ -1,5 +1,5 @@
 """
-Utility scripts for SUNA backend.
+Utility scripts for carbonscope backend.
 
 This module contains various utility scripts for:
 - Data validation

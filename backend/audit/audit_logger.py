@@ -42,7 +42,7 @@ class AuditLogger:
     - Aggregate statistics
 
     Args:
-        db_path: Path to SQLite database file (default: suna/backend/audit/audit_log.db)
+        db_path: Path to SQLite database file (default: carbonscope/backend/audit/audit_log.db)
         auto_create_db: Whether to create database if it doesn't exist (default: True)
 
     Example:

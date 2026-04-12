@@ -1,8 +1,23 @@
-import { BACKEND_URL } from '@/lib/api-client';
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
+import { carbonScope } from '@/lib/design-tokens';
 
-export const runtime = 'edge';
+// Node runtime: Edge + @vercel/og ImageResponse can hit incorrect `react` resolution
+// ("react-server" condition) during `next build` static analysis.
+export const runtime = 'nodejs';
+
+const ogTheme = {
+  bgBase: carbonScope.colors.background,
+  bgAlt: carbonScope.colors.backgroundAlt,
+  bgSubtle: carbonScope.colors.backgroundSubtle,
+  textPrimary: carbonScope.colors.textPrimary,
+  textSecondary: carbonScope.colors.textSecondary,
+  textMuted: carbonScope.colors.textMuted,
+  border: carbonScope.colors.border,
+  info: carbonScope.colors.info,
+  infoLight: carbonScope.colors.infoLight,
+  fontBody: carbonScope.typography.fontBody,
+} as const;
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,8 +28,10 @@ export async function GET(request: NextRequest) {
       return new Response('Missing shareId parameter', { status: 400 });
     }
 
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, '') || 'http://localhost:8000/v1';
+
     const templateResponse = await fetch(
-      `${BACKEND_URL || 'http://localhost:8000/v1'}/templates/public/${shareId}`
+      `${backendUrl}/templates/public/${shareId}`
     );
 
     if (!templateResponse.ok) {
@@ -32,8 +49,8 @@ export async function GET(request: NextRequest) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#0a0a0a',
-            backgroundImage: 'linear-gradient(to bottom right, #1e1b4b, #0a0a0a)',
+            backgroundColor: ogTheme.bgBase,
+            backgroundImage: `linear-gradient(to bottom right, ${ogTheme.bgAlt}, ${ogTheme.bgBase})`,
           }}
         >
           <div
@@ -43,7 +60,7 @@ export async function GET(request: NextRequest) {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundImage: `radial-gradient(circle at 1px 1px, #ffffff10 1px, transparent 1px)`,
+              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 1px)`,
               backgroundSize: '40px 40px',
             }}
           />
@@ -53,8 +70,9 @@ export async function GET(request: NextRequest) {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '60px',
+              padding: '64px',
               textAlign: 'center',
+              fontFamily: ogTheme.fontBody,
             }}
           >
             {template.is_CarbonScope_team && (
@@ -62,14 +80,14 @@ export async function GET(request: NextRequest) {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  backgroundColor: '#3b82f620',
+                  backgroundColor: `${ogTheme.info}20`,
                   borderRadius: '9999px',
                   padding: '8px 16px',
                   marginBottom: '24px',
-                  border: '1px solid #3b82f640',
+                  border: `1px solid ${ogTheme.info}40`,
                 }}
               >
-                <span style={{ color: '#93c5fd', fontSize: '14px', fontWeight: 600 }}>
+                <span style={{ color: ogTheme.infoLight, fontSize: '14px', fontWeight: 600 }}>
                   ✨ Official Template
                 </span>
               </div>
@@ -92,7 +110,7 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: '56px',
                 fontWeight: 700,
-                color: '#ffffff',
+                color: ogTheme.textPrimary,
                 marginBottom: '16px',
                 lineHeight: 1.1,
                 maxWidth: '900px',
@@ -103,7 +121,7 @@ export async function GET(request: NextRequest) {
             <p
               style={{
                 fontSize: '24px',
-                color: '#94a3b8',
+                color: ogTheme.textSecondary,
                 marginBottom: '40px',
                 maxWidth: '800px',
                 lineHeight: 1.4,
@@ -120,23 +138,23 @@ export async function GET(request: NextRequest) {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: '#64748b', fontSize: '18px' }}>by</span>
-                <span style={{ color: '#e2e8f0', fontSize: '18px', fontWeight: 600 }}>
+                <span style={{ color: ogTheme.textMuted, fontSize: '18px' }}>by</span>
+                <span style={{ color: ogTheme.textPrimary, fontSize: '18px', fontWeight: 600 }}>
                   {template.creator_name || 'Anonymous'}
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: '#e2e8f0', fontSize: '18px', fontWeight: 600 }}>
+                <span style={{ color: ogTheme.textPrimary, fontSize: '18px', fontWeight: 600 }}>
                   {template.download_count}
                 </span>
-                <span style={{ color: '#64748b', fontSize: '18px' }}>installs</span>
+                <span style={{ color: ogTheme.textMuted, fontSize: '18px' }}>installs</span>
               </div>
               {template.mcp_requirements && template.mcp_requirements.length > 0 && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ color: '#e2e8f0', fontSize: '18px', fontWeight: 600 }}>
+                  <span style={{ color: ogTheme.textPrimary, fontSize: '18px', fontWeight: 600 }}>
                     {template.mcp_requirements.length}
                   </span>
-                  <span style={{ color: '#64748b', fontSize: '18px' }}>integrations</span>
+                  <span style={{ color: ogTheme.textMuted, fontSize: '18px' }}>integrations</span>
                 </div>
               )}
             </div>
@@ -146,12 +164,12 @@ export async function GET(request: NextRequest) {
                   <div
                     key={index}
                     style={{
-                      backgroundColor: '#1e293b',
+                      backgroundColor: ogTheme.bgSubtle,
                       borderRadius: '8px',
                       padding: '6px 12px',
                       fontSize: '16px',
-                      color: '#94a3b8',
-                      border: '1px solid #334155',
+                      color: ogTheme.textSecondary,
+                      border: `1px solid ${ogTheme.border}`,
                     }}
                   >
                     {tag}
@@ -168,9 +186,9 @@ export async function GET(request: NextRequest) {
                 bottom: '40px',
               }}
             >
-              <span style={{ color: '#64748b', fontSize: '20px' }}>CarbonScope</span>
-              <span style={{ color: '#334155', fontSize: '20px' }}>•</span>
-              <span style={{ color: '#64748b', fontSize: '20px' }}>AI Agent Marketplace</span>
+              <span style={{ color: ogTheme.textMuted, fontSize: '20px' }}>CarbonScope</span>
+              <span style={{ color: ogTheme.border, fontSize: '20px' }}>•</span>
+              <span style={{ color: ogTheme.textMuted, fontSize: '20px' }}>AI Agent Marketplace</span>
             </div>
           </div>
         </div>
@@ -192,8 +210,8 @@ export async function GET(request: NextRequest) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#0a0a0a',
-            backgroundImage: 'linear-gradient(to bottom right, #1e1b4b, #0a0a0a)',
+            backgroundColor: ogTheme.bgBase,
+            backgroundImage: `linear-gradient(to bottom right, ${ogTheme.bgAlt}, ${ogTheme.bgBase})`,
           }}
         >
           <div
@@ -203,6 +221,7 @@ export async function GET(request: NextRequest) {
               alignItems: 'center',
               justifyContent: 'center',
               textAlign: 'center',
+              fontFamily: ogTheme.fontBody,
             }}
           >
             <div
@@ -217,7 +236,7 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: '48px',
                 fontWeight: 700,
-                color: '#ffffff',
+                color: ogTheme.textPrimary,
                 marginBottom: '16px',
               }}
             >
@@ -226,7 +245,7 @@ export async function GET(request: NextRequest) {
             <p
               style={{
                 fontSize: '20px',
-                color: '#94a3b8',
+                color: ogTheme.textSecondary,
               }}
             >
               Discover powerful AI agents on CarbonScope

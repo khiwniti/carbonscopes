@@ -5,7 +5,7 @@ This script validates that the Redis caching layer achieves the required
 performance improvement for BOQ carbon calculation pipeline.
 
 Usage:
-    python suna/backend/scripts/test_cache_performance.py <boq_file.xlsx>
+    python carbonscope/backend/scripts/test_cache_performance.py <boq_file.xlsx>
 
 Note: Requires carbon_pipeline.py from Plan 02-03 to be implemented.
 Until then, this script serves as a placeholder for performance validation.
@@ -116,10 +116,10 @@ def test_cache_performance_real(boq_file_path: str):
 
     try:
         # Import carbon pipeline (will fail until Plan 02-03 is implemented)
-        from suna.backend.boq.carbon_pipeline import CarbonCalculationPipeline
-        from suna.backend.boq.cache import get_cache_manager
-        from suna.backend.core.knowledge_graph.graphdb_client import GraphDBClient
-        from suna.backend.lca.carbon_calculator import CarbonCalculator
+        from carbonscope.backend.boq.carbon_pipeline import CarbonCalculationPipeline
+        from carbonscope.backend.boq.cache import get_cache_manager
+        from carbonscope.backend.core.knowledge_graph.graphdb_client import GraphDBClient
+        from carbonscope.backend.lca.carbon_calculator import CarbonCalculator
 
         logger.info(f"Testing with BOQ file: {boq_file_path}")
 

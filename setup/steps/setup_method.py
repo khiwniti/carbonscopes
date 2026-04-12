@@ -25,7 +25,7 @@ class SetupMethodStep(BaseStep):
             )
 
         self.info(
-            "You can start CarbonScope Suna using either Docker Compose or by manually starting the services."
+            "You can start CarbonScope carbonscope using either Docker Compose or by manually starting the services."
         )
 
         # Important note about Supabase compatibility
@@ -34,14 +34,14 @@ class SetupMethodStep(BaseStep):
         self.console.print("  - Manual Setup -> Only supports Cloud Supabase (Local Supabase not supported)")
         self.console.print("")
         self.console.print("  Why? Docker networking can't easily reach local Supabase containers.")
-        self.info("Want to fix this? See: https://github.com/CarbonScope-ai/suna/issues/1920")
+        self.info("Want to fix this? See: https://github.com/CarbonScope-ai/carbonscope/issues/1920")
 
         choices = [
             ("1", "Manual", "Cloud Supabase only - Local not supported"),
             ("2", "Docker Compose", "Cloud Supabase only - Local not supported"),
         ]
 
-        self.console.print("\nHow would you like to set up CarbonScope Suna?")
+        self.console.print("\nHow would you like to set up CarbonScope carbonscope?")
         for key, label, desc in choices:
             self.console.print(f"  [{key}] {label} ({desc})")
 

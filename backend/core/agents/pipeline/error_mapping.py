@@ -114,7 +114,7 @@ class ErrorMapper:
             recoverable=True,
             actions=[
                 {"type": "retry", "label": "Try again", "delay_seconds": 5},
-                {"type": "link", "label": "Check status", "url": "https://status.suna.so"}
+                {"type": "link", "label": "Check status", "url": "https://status.carbonscope.so"}
             ]
         ),
         "BILLING_ERROR": UserFriendlyError(

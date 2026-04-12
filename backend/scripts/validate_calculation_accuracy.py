@@ -39,9 +39,9 @@ from typing import Dict, List, Optional
 # Adjust import path if running as script
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from suna.backend.boq.carbon_pipeline import CarbonCalculationPipeline
-from suna.backend.lca.carbon_calculator import CarbonCalculator
-from suna.backend.core.knowledge_graph.graphdb_client import GraphDBClient
+from carbonscope.backend.boq.carbon_pipeline import CarbonCalculationPipeline
+from carbonscope.backend.lca.carbon_calculator import CarbonCalculator
+from carbonscope.backend.core.knowledge_graph.graphdb_client import GraphDBClient
 
 logging.basicConfig(
     level=logging.INFO,

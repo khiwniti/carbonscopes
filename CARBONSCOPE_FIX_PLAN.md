@@ -63,7 +63,7 @@ Replace Tailwind semantic classes with direct CarbonScope styling matching user'
 
 ---
 
-### Task #3: Replace CarbonScope Branding with CarbonScope/Suna
+### Task #3: Replace CarbonScope Branding with CarbonScope/carbonscope
 **Priority**: CRITICAL
 **Files**:
 - `/apps/frontend/src/components/home/hero-section.tsx` (line 89)
@@ -72,9 +72,9 @@ Replace Tailwind semantic classes with direct CarbonScope styling matching user'
 
 **Spec**:
 - Remove all references to `CarbonScope-brandmark-bg.svg`
-- Replace `CarbonScopeLogo` component with `SunaLogo` or `CarbonScopeLogo`
+- Replace `CarbonScopeLogo` component with `carbonscopeLogo` or `CarbonScopeLogo`
 - Update background to use CarbonScope design patterns (carbon grid, molecular patterns)
-- Ensure all branding reflects Suna/CarbonScope identity, not CarbonScope
+- Ensure all branding reflects carbonscope/CarbonScope identity, not CarbonScope
 
 ---
 

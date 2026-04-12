@@ -26,7 +26,7 @@ class DaytonaStep(BaseStep):
             )
         else:
             self.info(
-                "CarbonScope Suna REQUIRES Daytona for sandboxing functionality. "
+                "CarbonScope carbonscope REQUIRES Daytona for sandboxing functionality. "
                 "Without this key, sandbox features will fail."
             )
             self.prompts.press_enter_to_continue(
@@ -74,12 +74,12 @@ class DaytonaStep(BaseStep):
 
         # Show important note about snapshot
         self.warning(
-            "IMPORTANT: You must create a CarbonScope Suna snapshot in Daytona for it to work properly."
+            "IMPORTANT: You must create a CarbonScope carbonscope snapshot in Daytona for it to work properly."
         )
         self.info("Visit https://app.daytona.io/dashboard/snapshots to create a snapshot.")
         self.info("Create a snapshot with these exact settings:")
-        self.info("   - Name:          CarbonScope/suna:0.1.3.30")
-        self.info("   - Snapshot name: CarbonScope/suna:0.1.3.30")
+        self.info("   - Name:          CarbonScope/carbonscope:0.1.3.30")
+        self.info("   - Snapshot name: CarbonScope/carbonscope:0.1.3.30")
         self.info("   - Entrypoint:    /usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisord.conf")
 
         self.prompts.press_enter_to_continue(

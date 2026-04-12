@@ -7,6 +7,8 @@
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
     "start": "next start",
     "lint": "next lint",
+    "test:e2e": "playwright test",
+    "test:prod-readiness": "playwright test -c playwright.prod.config.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "dev:turbo": "next dev --turbopack"

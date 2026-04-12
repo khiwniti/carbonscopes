@@ -122,7 +122,7 @@ PYTHONPATH=. python3 backend/core/knowledge_graph/verify_tgo_load.py \
 ### Query Materials
 
 ```python
-from suna.backend.core.knowledge_graph import GraphDBClient, get_emission_factor
+from carbonscope.backend.core.knowledge_graph import GraphDBClient, get_emission_factor
 
 # Initialize client
 client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
@@ -239,10 +239,10 @@ WHERE {
 docker ps | grep graphdb
 
 # Start GraphDB if not running
-docker start suna-graphdb
+docker start carbonscope-graphdb
 
 # Check logs
-docker logs suna-graphdb
+docker logs carbonscope-graphdb
 ```
 
 ### Repository Not Found

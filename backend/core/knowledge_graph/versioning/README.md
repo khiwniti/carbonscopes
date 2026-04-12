@@ -26,8 +26,8 @@ pip install python-dateutil>=2.8.0
 ### Basic Usage
 
 ```python
-from suna.backend.core.knowledge_graph.graphdb_client import GraphDBClient
-from suna.backend.core.knowledge_graph.versioning import VersionManager
+from carbonscope.backend.core.knowledge_graph.graphdb_client import GraphDBClient
+from carbonscope.backend.core.knowledge_graph.versioning import VersionManager
 
 # Initialize
 client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
@@ -429,6 +429,6 @@ See main project LICENSE file.
 ## Contact
 
 For questions or issues:
-- Technical Support: devops@sunabim.com
-- Data Quality: data-team@sunabim.com
+- Technical Support: devops@carbonscopebim.com
+- Data Quality: data-team@carbonscopebim.com
 - TGO Contact: info@tgo.or.th

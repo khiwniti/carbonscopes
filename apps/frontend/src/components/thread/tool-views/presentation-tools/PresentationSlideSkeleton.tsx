@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { carbonScope } from '@/lib/design-tokens';
 
 interface PresentationSlideSkeletonProps {
   slideNumber: number;
@@ -54,16 +55,16 @@ export function PresentationSlideSkeleton({
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { 
       width: 1920px; 
       height: 1080px; 
       overflow: hidden;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(135deg, ${carbonScope.colors.background} 0%, ${carbonScope.colors.backgroundAlt} 100%);
+      color: ${carbonScope.colors.textPrimary};
     }
     body { padding: 60px; }
   </style>

@@ -38,7 +38,7 @@ ON credit_accounts(account_id);
 -- AGENTS QUERY: Composite index for non-default agents count
 CREATE INDEX IF NOT EXISTS idx_agents_account_non_default 
 ON agents(account_id) 
-WHERE (metadata->>'is_suna_default')::boolean IS NOT TRUE;
+WHERE (metadata->>'is_carbonscope_default')::boolean IS NOT TRUE;
 
 -- RESOURCES: Index for sandbox lookup in project/thread queries
 CREATE INDEX IF NOT EXISTS idx_resources_id 

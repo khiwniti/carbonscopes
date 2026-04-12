@@ -37,7 +37,7 @@ export type Agent = {
     template_name?: string;
     CarbonScope_template_id?: string;
     is_CarbonScope_team?: boolean;
-    is_suna_default?: boolean;
+    is_carbonscope_default?: boolean;
     centrally_managed?: boolean;
     management_version?: string;
     restrictions?: {

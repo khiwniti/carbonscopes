@@ -11,7 +11,7 @@
 ### Using the Helper Script (Recommended)
 
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 
 # Start server
 ./start-frontend.sh start
@@ -36,7 +36,7 @@ cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
 ### Start in Background
 
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 nohup pnpm --filter CarbonScope dev > /tmp/carbonscope-frontend.log 2>&1 &
 ```
 
@@ -167,7 +167,7 @@ kill -9 $(lsof -ti:3000)
 cat /tmp/carbonscope-frontend.log | grep -i "error"
 
 # Clear cache and restart
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/apps/frontend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/apps/frontend
 rm -rf .next .turbopack
 cd ../..
 ./start-frontend.sh restart
@@ -202,7 +202,7 @@ After=network.target
 [Service]
 Type=simple
 User=your-username
-WorkingDirectory=/teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+WorkingDirectory=/teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 ExecStart=/usr/bin/pnpm --filter CarbonScope dev
 Restart=always
 RestartSec=10
@@ -225,7 +225,7 @@ sudo systemctl start carbonscope
 npm install -g pm2
 
 # Start with pm2
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 pm2 start "pnpm --filter CarbonScope dev" --name carbonscope
 
 # Save pm2 config

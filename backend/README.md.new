@@ -5,7 +5,7 @@ You can manually launch all BKS services using Docker Compose from the project r
 
 ```bash
 # From project root directory
-cd /path/to/suna
+cd /path/to/carbonscope
 ```
 
 **0.1 Start all services**

@@ -281,7 +281,7 @@ az group delete --name carbonscope-rg --yes
 ## 📖 File Structure
 
 ```
-suna-init/
+carbonscope-init/
 ├── setup-oauth.sh                    ⭐ NEW - Automated OAuth
 ├── deploy-azure.sh                   Azure infrastructure
 ├── deploy-code.sh                    Application deployment

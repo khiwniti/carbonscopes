@@ -86,7 +86,7 @@ uv pip install -r lca/requirements.txt
 After installation, initialize the Brightway2 project:
 
 ```python
-from suna.backend.lca import initialize_brightway
+from carbonscope.backend.lca import initialize_brightway
 
 # First-time setup
 project = initialize_brightway()

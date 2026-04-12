@@ -47,15 +47,15 @@ export function InstructionsScreen({ agentId, onUpdate }: InstructionsScreenProp
   const handleSave = async () => {
     if (!hasChanges) return;
 
-    const isSunaAgent = agent?.metadata?.is_suna_default || false;
+    const iscarbonscopeAgent = agent?.metadata?.is_carbonscope_default || false;
     const restrictions = agent?.metadata?.restrictions || {};
-    const isEditable = restrictions.system_prompt_editable !== false && !isSunaAgent;
+    const isEditable = restrictions.system_prompt_editable !== false && !iscarbonscopeAgent;
 
     if (!isEditable) {
-      if (isSunaAgent) {
+      if (iscarbonscopeAgent) {
         Alert.alert(
           t('workers.instructions.cannotEditAlert'),
-          t('workers.instructions.sunaManaged')
+          t('workers.instructions.carbonscopeManaged')
         );
       }
       return;
@@ -88,9 +88,9 @@ export function InstructionsScreen({ agentId, onUpdate }: InstructionsScreenProp
     );
   }
 
-  const isSunaAgent = agent?.metadata?.is_suna_default || false;
+  const iscarbonscopeAgent = agent?.metadata?.is_carbonscope_default || false;
   const restrictions = agent?.metadata?.restrictions || {};
-  const isEditable = restrictions.system_prompt_editable !== false && !isSunaAgent;
+  const isEditable = restrictions.system_prompt_editable !== false && !iscarbonscopeAgent;
 
   return (
     <View className="flex-1" style={{ flex: 1, position: 'relative' }}>
@@ -111,8 +111,8 @@ export function InstructionsScreen({ agentId, onUpdate }: InstructionsScreenProp
               className="mt-0.5 text-yellow-600 dark:text-yellow-400"
             />
             <Text className="flex-1 font-roobert text-sm text-yellow-600 dark:text-yellow-400">
-              {isSunaAgent
-                ? t('workers.instructions.cannotEditSuna')
+              {iscarbonscopeAgent
+                ? t('workers.instructions.cannotEditcarbonscope')
                 : t('workers.instructions.cannotEdit')}
             </Text>
           </View>

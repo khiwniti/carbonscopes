@@ -10,23 +10,23 @@ export * from './hooks';
 export { agentKeys, useAgents, useAgent, useCreateAgent, useUpdateAgent, useDeleteAgent } from './hooks';
 
 /**
- * Check if an agent is the default CarbonScope/SUNA agent
+ * Check if an agent is the default CarbonScope/carbonscope agent
  * Uses metadata and name checks - no hardcoded IDs
  */
 export const isCarbonScopeDefaultAgent = (agent?: { 
   agent_id?: string; 
   name?: string; 
-  metadata?: { is_suna_default?: boolean } 
+  metadata?: { is_carbonscope_default?: boolean } 
 } | null): boolean => {
   if (!agent) return false;
   
   // Check metadata first (most reliable)
-  if (agent.metadata?.is_suna_default) return true;
+  if (agent.metadata?.is_carbonscope_default) return true;
   
   // Fallback to name checks
   const name = agent.name?.toLowerCase();
   return name === 'CarbonScope' ||
-         name === 'suna' ||
+         name === 'carbonscope' ||
          name === 'superworker' ||
          name === 'CarbonScope super worker';
 };
@@ -37,7 +37,7 @@ export const isCarbonScopeDefaultAgent = (agent?: {
  */
 export const isCarbonScopeDefaultAgentId = (
   agentId: string | null | undefined, 
-  agents: Array<{ agent_id?: string; name?: string; metadata?: { is_suna_default?: boolean } }>
+  agents: Array<{ agent_id?: string; name?: string; metadata?: { is_carbonscope_default?: boolean } }>
 ): boolean => {
   if (!agentId) return true; // No agent ID = default CarbonScope
   const agent = agents.find(a => a.agent_id === agentId);

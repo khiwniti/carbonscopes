@@ -108,7 +108,7 @@ Use the provided test script:
 
 ```bash
 # Start the API server first
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/backend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/backend
 python test_rate_limit.py
 ```
 

@@ -2,12 +2,12 @@
 """Brightway2 Installation Verification Script.
 
 This script verifies that Brightway2 is properly installed and configured
-for the SUNA BIM Agent LCA integration.
+for the carbonscope BIM Agent LCA integration.
 
 Usage:
     python3 verify_installation.py
     # or
-    python3 suna/backend/lca/verify_installation.py
+    python3 carbonscope/backend/lca/verify_installation.py
 """
 
 import sys
@@ -73,7 +73,7 @@ def check_brightway_imports() -> tuple[bool, list]:
 def check_config_module() -> bool:
     """Check if brightway_config can be imported."""
     try:
-        from suna.backend.lca.brightway_config import (
+        from carbonscope.backend.lca.brightway_config import (
             DeterministicConfig,
             ProjectConfig,
             initialize_brightway,
@@ -96,7 +96,7 @@ def check_config_module() -> bool:
 def check_data_directory() -> bool:
     """Check if data directory exists."""
     try:
-        from suna.backend.lca.brightway_config import PathConfig
+        from carbonscope.backend.lca.brightway_config import PathConfig
 
         PathConfig.ensure_directories()
 
@@ -119,7 +119,7 @@ def check_data_directory() -> bool:
 def check_brightway_project() -> bool:
     """Check if Brightway2 project can be initialized."""
     try:
-        from suna.backend.lca.brightway_config import initialize_brightway
+        from carbonscope.backend.lca.brightway_config import initialize_brightway
 
         project = initialize_brightway()
 
@@ -140,7 +140,7 @@ def check_brightway_project() -> bool:
 def check_determinism() -> bool:
     """Check if deterministic config can be applied."""
     try:
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
         from decimal import getcontext
 
         # Apply config
@@ -211,7 +211,7 @@ def check_basic_calculation() -> bool:
 def run_verification():
     """Run all verification checks."""
     print_header("BRIGHTWAY2 INSTALLATION VERIFICATION")
-    print("SUNA BIM Agent - LCA Module")
+    print("carbonscope BIM Agent - LCA Module")
     print()
 
     checks = []
@@ -226,7 +226,7 @@ def run_verification():
     checks.append(bw2_ok)
 
     # Configuration module
-    print_header("SUNA LCA Configuration")
+    print_header("carbonscope LCA Configuration")
     checks.append(check_config_module())
 
     # Data directories

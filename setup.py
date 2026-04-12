@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CarbonScope Suna Setup Wizard
+CarbonScope carbonscope Setup Wizard
 
 This is a compatibility wrapper that redirects to the new modular setup package.
 Run: python -m setup

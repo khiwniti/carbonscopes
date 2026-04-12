@@ -15,16 +15,16 @@ interface AgentAvatarProps extends ViewProps {
  * Automatically handles:
  * - Agent icon from backend (icon_name)
  * - Agent colors (icon_color, icon_background)
- * - SUNA/CarbonScope SUPER WORKER special case (CarbonScope symbol)
+ * - carbonscope/CarbonScope SUPER WORKER special case (CarbonScope symbol)
  * - Fallback to agent name initial
  * 
  * @example
  * <AgentAvatar agent={agent} size={48} />
  */
 export function AgentAvatar({ agent, size = 48, style, ...props }: AgentAvatarProps) {
-  // Check if this is the SUNA/CarbonScope SUPER WORKER
-  const isSunaAgent = agent?.metadata?.is_suna_default || 
-                      agent?.name?.toLowerCase() === 'suna' ||
+  // Check if this is the carbonscope/CarbonScope SUPER WORKER
+  const iscarbonscopeAgent = agent?.metadata?.is_carbonscope_default || 
+                      agent?.name?.toLowerCase() === 'carbonscope' ||
                       agent?.name?.toLowerCase() === 'superworker' ||
                       agent?.name?.toLowerCase() === 'CarbonScope super worker';
 
@@ -33,9 +33,9 @@ export function AgentAvatar({ agent, size = 48, style, ...props }: AgentAvatarPr
       variant="agent"
       size={size}
       icon={agent?.icon_name || undefined}
-      iconColor={isSunaAgent ? undefined : agent?.icon_color}
-      backgroundColor={isSunaAgent ? undefined : agent?.icon_background}
-      useCarbonScopeSymbol={isSunaAgent}
+      iconColor={iscarbonscopeAgent ? undefined : agent?.icon_color}
+      backgroundColor={iscarbonscopeAgent ? undefined : agent?.icon_background}
+      useCarbonScopeSymbol={iscarbonscopeAgent}
       fallbackText={agent?.name}
       style={style}
       {...props}

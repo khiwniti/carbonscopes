@@ -4,7 +4,7 @@
 
 set -e
 
-REPO="CarbonScope-ai/suna"
+REPO="CarbonScope-ai/carbonscope"
 
 echo "=========================================="
 echo "GitHub Secrets Setup for CI/CD"

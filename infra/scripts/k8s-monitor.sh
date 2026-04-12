@@ -2,13 +2,13 @@
 set -euo pipefail
 
 # ============================================================================
-# Suna EKS Monitor — Terminal Dashboard
+# carbonscope EKS Monitor — Terminal Dashboard
 # Usage: ./k8s-monitor.sh [namespace] [refresh_seconds]
 # ============================================================================
 
-NAMESPACE="${1:-suna}"
+NAMESPACE="${1:-carbonscope}"
 REFRESH="${2:-5}"
-CLUSTER="suna-eks"
+CLUSTER="carbonscope-eks"
 REGION="us-west-2"
 
 # ── Colors ──────────────────────────────────────────────────────────────────

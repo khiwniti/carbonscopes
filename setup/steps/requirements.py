@@ -67,10 +67,10 @@ class RequirementsStep(BaseStep):
         if not self._check_project_structure():
             return StepResult.fail(
                 "Invalid project structure",
-                ["Make sure you're in the CarbonScope Suna repository root"],
+                ["Make sure you're in the CarbonScope carbonscope repository root"],
             )
 
-        self.success("CarbonScope Suna repository detected.")
+        self.success("CarbonScope carbonscope repository detected.")
 
         return StepResult.ok("All requirements satisfied")
 
@@ -104,7 +104,7 @@ class RequirementsStep(BaseStep):
             path = os.path.join(self.root_dir, directory)
             if not os.path.isdir(path):
                 self.error(
-                    f"'{directory}' directory not found. Make sure you're in the CarbonScope Suna repository root."
+                    f"'{directory}' directory not found. Make sure you're in the CarbonScope carbonscope repository root."
                 )
                 return False
 
@@ -112,7 +112,7 @@ class RequirementsStep(BaseStep):
             path = os.path.join(self.root_dir, file)
             if not os.path.isfile(path):
                 self.error(
-                    f"'{file}' not found. Make sure you're in the CarbonScope Suna repository root."
+                    f"'{file}' not found. Make sure you're in the CarbonScope carbonscope repository root."
                 )
                 return False
 

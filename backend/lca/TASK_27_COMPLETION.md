@@ -149,7 +149,7 @@ The existing `CarbonCalculator` at `/backend/core/carbon/brightway/calculator.py
 Recommended integration in main application:
 
 ```python
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 def main():
     # Initialize with validation
@@ -162,7 +162,7 @@ def main():
 All tests should use `reset_brightway()` for isolation:
 
 ```python
-from suna.backend.lca.brightway_config import reset_brightway
+from carbonscope.backend.lca.brightway_config import reset_brightway
 
 def test_calculation():
     reset_brightway()

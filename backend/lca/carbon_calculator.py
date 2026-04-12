@@ -5,8 +5,8 @@ This module provides the core carbon calculation functionality for construction
 projects, integrating with TGO emission factors from GraphDB.
 
 Example:
-    >>> from suna.backend.core.knowledge_graph import GraphDBClient
-    >>> from suna.backend.lca.carbon_calculator import CarbonCalculator
+    >>> from carbonscope.backend.core.knowledge_graph import GraphDBClient
+    >>> from carbonscope.backend.lca.carbon_calculator import CarbonCalculator
     >>>
     >>> client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
     >>> calculator = CarbonCalculator(client)

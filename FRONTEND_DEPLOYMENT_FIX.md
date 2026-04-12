@@ -56,7 +56,7 @@ DEPLOYMENT_TOKEN=$(az staticwebapp secrets list \
   --query "properties.apiKey" -o tsv)
 
 # 2. Navigate to frontend
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/apps/frontend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/apps/frontend
 
 # 3. Build the application
 pnpm build
@@ -173,7 +173,7 @@ If you prefer to deploy the frontend as a container (not recommended, more expen
 
 ```bash
 # 1. Build Docker image from monorepo root
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 docker build -f apps/frontend/Dockerfile -t carbonbimbc6740962ecd.azurecr.io/carbonscope-frontend:latest .
 
 # 2. Push to ACR

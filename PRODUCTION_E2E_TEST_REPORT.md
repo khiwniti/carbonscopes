@@ -352,7 +352,7 @@ openssl s_client -connect orange-river-0ce07e10f.6.azurestaticapps.net:443
 
 1. **Deploy Frontend Code** (5 minutes)
    ```bash
-   cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/apps/frontend
+   cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/apps/frontend
    npm install -g @azure/static-web-apps-cli
    swa deploy
    ```

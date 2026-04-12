@@ -27,7 +27,7 @@ def initialize_checkpointer() -> PostgresSaver:
     to avoid tripping the Supabase circuit breaker during development.
 
     Environment Variables:
-        DATABASE_URL: PostgreSQL connection string (default: postgresql://localhost/suna)
+        DATABASE_URL: PostgreSQL connection string (default: postgresql://localhost/carbonscope)
 
     Returns:
         PostgresSaver instance configured for the database

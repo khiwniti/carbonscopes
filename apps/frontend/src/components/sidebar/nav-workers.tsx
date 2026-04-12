@@ -44,12 +44,12 @@ export function NavWorkers() {
     );
   }, [agents, searchQuery]);
 
-  const sunaAgent = useMemo(() => {
-    return agents.find(a => a.metadata?.is_suna_default === true);
+  const carbonscopeAgent = useMemo(() => {
+    return agents.find(a => a.metadata?.is_carbonscope_default === true);
   }, [agents]);
 
   const customAgents = useMemo(() => {
-    return filteredAgents.filter(a => !a.metadata?.is_suna_default);
+    return filteredAgents.filter(a => !a.metadata?.is_carbonscope_default);
   }, [filteredAgents]);
 
   const handleAgentClick = useCallback((agentId: string) => {
@@ -96,22 +96,22 @@ export function NavWorkers() {
           </div>
         ) : (
           <>
-            {sunaAgent && !searchQuery && (
+            {carbonscopeAgent && !searchQuery && (
               <div
                 className={cn(
                   "flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-colors",
                   "hover:bg-muted/50"
                 )}
-                onClick={() => handleAgentClick(sunaAgent.agent_id)}
+                onClick={() => handleAgentClick(carbonscopeAgent.agent_id)}
               >
                 <AgentAvatar 
-                  agent={sunaAgent} 
-                  agentId={sunaAgent.agent_id} 
+                  agent={carbonscopeAgent} 
+                  agentId={carbonscopeAgent.agent_id} 
                   size={32} 
                   className="flex-shrink-0"
                 />
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium truncate">{sunaAgent.name}</div>
+                  <div className="text-sm font-medium truncate">{carbonscopeAgent.name}</div>
                   <div className="text-xs text-muted-foreground truncate">Default agent</div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />

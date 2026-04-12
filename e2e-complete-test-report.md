@@ -46,7 +46,7 @@
 ✅ /checkout
 ✅ /countryerror
 ✅ /templates/[shareId]
-✅ /suna
+✅ /carbonscope
 ✅ /setting-up
 ✅ /subscription
 ✅ /activate-trial

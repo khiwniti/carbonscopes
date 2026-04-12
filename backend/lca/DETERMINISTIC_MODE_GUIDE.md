@@ -114,7 +114,7 @@ Consultant: 750.0000 kg CO2e ✅ "Perfect match!"
 All deterministic settings are in `brightway_config.py`:
 
 ```python
-from suna.backend.lca.brightway_config import (
+from carbonscope.backend.lca.brightway_config import (
     DeterministicConfig,      # Core determinism settings
     ValidationConfig,         # Testing parameters
     initialize_brightway,     # Setup function
@@ -199,7 +199,7 @@ def apply(cls):
 Call `initialize_brightway()` at application startup:
 
 ```python
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 # Initialize with validation
 project = initialize_brightway(validate=True)
@@ -216,7 +216,7 @@ project = initialize_brightway(validate=True)
 For testing reproducibility, use `reset_brightway()`:
 
 ```python
-from suna.backend.lca.brightway_config import reset_brightway
+from carbonscope.backend.lca.brightway_config import reset_brightway
 
 # Run 1
 result1 = calculate_lca(materials)
@@ -235,8 +235,8 @@ assert result1 == result2  # ✅ Passes
 The `CarbonCalculator` class automatically uses deterministic configuration:
 
 ```python
-from suna.backend.core.carbon.brightway.calculator import CarbonCalculator
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.core.carbon.brightway.calculator import CarbonCalculator
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 # Initialize once at startup
 initialize_brightway()
@@ -282,8 +282,8 @@ test_different_input_order_same_result ............. PASSED
 #### Test 1: Single Material, 10 Runs
 
 ```python
-from suna.backend.lca.brightway_config import initialize_brightway, reset_brightway
-from suna.backend.core.carbon.brightway.calculator import CarbonCalculator
+from carbonscope.backend.lca.brightway_config import initialize_brightway, reset_brightway
+from carbonscope.backend.core.carbon.brightway.calculator import CarbonCalculator
 from decimal import Decimal
 
 # Initialize
@@ -358,7 +358,7 @@ print("✅ Order-independent calculation confirmed")
 Check configuration status at any time:
 
 ```python
-from suna.backend.lca.brightway_config import DeterministicConfig
+from carbonscope.backend.lca.brightway_config import DeterministicConfig
 from decimal import getcontext
 
 # Check if config is applied
@@ -381,7 +381,7 @@ print(f"Determinism active: {is_deterministic}")
 
 **Diagnosis**:
 ```python
-from suna.backend.lca.brightway_config import DeterministicConfig
+from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
 # Check if config is applied
 if not DeterministicConfig.validate_determinism():
@@ -394,7 +394,7 @@ else:
 
 1. **Re-initialize Brightway2**:
    ```python
-   from suna.backend.lca.brightway_config import initialize_brightway
+   from carbonscope.backend.lca.brightway_config import initialize_brightway
    initialize_brightway(validate=True)
    ```
 
@@ -405,7 +405,7 @@ else:
 
 3. **Reset between runs**:
    ```python
-   from suna.backend.lca.brightway_config import reset_brightway
+   from carbonscope.backend.lca.brightway_config import reset_brightway
    reset_brightway()  # Call before each calculation in tests
    ```
 
@@ -637,7 +637,7 @@ Always initialize Brightway2 with validation:
 
 ```python
 # In main application entry point
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 def main():
     # Initialize LCA system
@@ -658,7 +658,7 @@ Use `reset_brightway()` between test runs:
 
 ```python
 import pytest
-from suna.backend.lca.brightway_config import reset_brightway
+from carbonscope.backend.lca.brightway_config import reset_brightway
 
 class TestLCACalculations:
     def test_calculation_1(self):
@@ -676,7 +676,7 @@ Always use Decimal type for quantities:
 
 ```python
 from decimal import Decimal
-from suna.backend.core.carbon.brightway.calculator import CarbonCalculator
+from carbonscope.backend.core.carbon.brightway.calculator import CarbonCalculator
 
 calculator = CarbonCalculator()
 
@@ -776,7 +776,7 @@ Add determinism check to CI/CD pipeline:
 Gracefully handle validation failures:
 
 ```python
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 try:
     initialize_brightway(validate=True)

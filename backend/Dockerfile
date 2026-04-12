@@ -21,12 +21,12 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 RUN useradd -m -u 1001 appuser && chown -R appuser:appuser /app
 USER appuser
 
-# Expose port
-EXPOSE 8000
+# Expose port (Cloudflare Container Images expects 8080)
+EXPOSE 8080
 
-# Health check
+# Health check (Cloudflare Container Images expects /healthz)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8000/health')"
+    CMD python -c "import requests; requests.get('http://localhost:8080/healthz')"
 
-# Run the application
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
+# Run the application on port 8080 for Cloudflare Container Images
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "2"]

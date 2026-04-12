@@ -20,7 +20,7 @@ on:
           - staging
 
 env:
-  AZURE_APP_NAME: suna-frontend-app
+  AZURE_APP_NAME: carbonscope-frontend-app
   AZURE_RESOURCE_GROUP: carbonscope-rg
   NODE_VERSION: '20'
 

@@ -53,8 +53,8 @@ def test_agent_health_structure(test_client):
     assert isinstance(agent_system["active_agents"], int)
 
 
-@patch("suna.backend.core.agents.supervisor.create_supervisor_graph")
-@patch("suna.backend.core.agents.checkpointer.get_checkpointer")
+@patch("carbonscope.backend.core.agents.supervisor.create_supervisor_graph")
+@patch("carbonscope.backend.core.agents.checkpointer.get_checkpointer")
 def test_agent_health_success(mock_checkpointer, mock_graph, test_client):
     """Test agent health check when everything is healthy."""
     # Mock successful initialization
@@ -70,7 +70,7 @@ def test_agent_health_success(mock_checkpointer, mock_graph, test_client):
     assert data["agent_system"]["checkpointer_connected"] is True
 
 
-@patch("suna.backend.core.agents.checkpointer.get_checkpointer")
+@patch("carbonscope.backend.core.agents.checkpointer.get_checkpointer")
 def test_agent_health_checkpointer_failure(mock_checkpointer, test_client):
     """Test agent health when checkpointer fails."""
     # Mock checkpointer failure
@@ -84,8 +84,8 @@ def test_agent_health_checkpointer_failure(mock_checkpointer, test_client):
     assert data["agent_system"]["initialized"] is False
 
 
-@patch("suna.backend.core.agents.supervisor.create_supervisor_graph")
-@patch("suna.backend.core.agents.checkpointer.get_checkpointer")
+@patch("carbonscope.backend.core.agents.supervisor.create_supervisor_graph")
+@patch("carbonscope.backend.core.agents.checkpointer.get_checkpointer")
 def test_agent_health_graph_failure(mock_checkpointer, mock_graph, test_client):
     """Test agent health when supervisor graph creation fails."""
     # Checkpointer succeeds, but graph creation fails
@@ -124,7 +124,7 @@ def test_health_instance_id_present(test_client):
 
 def test_health_during_shutdown(test_client):
     """Test health check during graceful shutdown."""
-    with patch("suna.backend.api._is_shutting_down", True):
+    with patch("carbonscope.backend.api._is_shutting_down", True):
         response = test_client.get("/v1/health")
 
         # Should return 503 during shutdown
@@ -145,8 +145,8 @@ def test_health_active_agents_is_number(test_client):
     assert active_agents >= 0  # Should be non-negative
 
 
-@patch("suna.backend.core.agents.supervisor.create_supervisor_graph")
-@patch("suna.backend.core.agents.checkpointer.get_checkpointer")
+@patch("carbonscope.backend.core.agents.supervisor.create_supervisor_graph")
+@patch("carbonscope.backend.core.agents.checkpointer.get_checkpointer")
 def test_health_response_time(mock_checkpointer, mock_graph, test_client):
     """Test that health check responds quickly."""
     import time
@@ -164,8 +164,8 @@ def test_health_response_time(mock_checkpointer, mock_graph, test_client):
     assert response.status_code == 200
 
 
-@patch("suna.backend.core.agents.supervisor.create_supervisor_graph")
-@patch("suna.backend.core.agents.checkpointer.get_checkpointer")
+@patch("carbonscope.backend.core.agents.supervisor.create_supervisor_graph")
+@patch("carbonscope.backend.core.agents.checkpointer.get_checkpointer")
 def test_health_endpoint_idempotent(mock_checkpointer, mock_graph, test_client):
     """Test that health check can be called multiple times."""
     # Mock successful initialization

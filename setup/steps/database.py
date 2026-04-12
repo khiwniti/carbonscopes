@@ -22,7 +22,7 @@ class DatabaseStep(BaseStep):
 
     def run(self) -> StepResult:
         self.info("This step will apply database migrations to your Supabase instance.")
-        self.info("Migrations are required for CarbonScope Suna to function properly.")
+        self.info("Migrations are required for CarbonScope carbonscope to function properly.")
 
         # Determine if local or cloud setup
         if self.config.supabase_setup_method == SupabaseSetupMethod.LOCAL:

@@ -16,11 +16,11 @@
 
 ### 2. Azure Backend Access Established
 - ✅ Logged in to Azure: `khiw.n@bks.net`
-- ✅ Found backend app: `suna-backend-app` in `suna-bim-rg`
+- ✅ Found backend app: `carbonscope-backend-app` in `carbonscope-bim-rg`
 - ✅ Downloaded logs: `.planning/backend-logs.zip` (643KB)
 - ✅ Status: Both apps running
-  - `suna-backend-app.azurewebsites.net` - Running
-  - `suna-frontend-app.azurewebsites.net` - Running
+  - `carbonscope-backend-app.azurewebsites.net` - Running
+  - `carbonscope-frontend-app.azurewebsites.net` - Running
 
 ### 3. Commits Made
 ```
@@ -131,11 +131,11 @@ uv run pytest tests/routers/test_agents.py -v
 
 # Deploy to Azure
 az webapp deployment source sync \
-  --name suna-backend-app \
-  --resource-group suna-bim-rg
+  --name carbonscope-backend-app \
+  --resource-group carbonscope-bim-rg
 
 # Verify production
-curl "https://suna-backend-app.azurewebsites.net/v1/agents?limit=50" \
+curl "https://carbonscope-backend-app.azurewebsites.net/v1/agents?limit=50" \
   -H "Authorization: Bearer <token>"
 ```
 
@@ -152,18 +152,18 @@ curl "https://suna-backend-app.azurewebsites.net/v1/agents?limit=50" \
 ### Azure Commands
 ```bash
 # Check app status
-az webapp show --name suna-backend-app --resource-group suna-bim-rg
+az webapp show --name carbonscope-backend-app --resource-group carbonscope-bim-rg
 
 # Tail logs live
-az webapp log tail --name suna-backend-app --resource-group suna-bim-rg
+az webapp log tail --name carbonscope-backend-app --resource-group carbonscope-bim-rg
 
 # Restart app
-az webapp restart --name suna-backend-app --resource-group suna-bim-rg
+az webapp restart --name carbonscope-backend-app --resource-group carbonscope-bim-rg
 
 # Check environment variables
 az webapp config appsettings list \
-  --name suna-backend-app \
-  --resource-group suna-bim-rg
+  --name carbonscope-backend-app \
+  --resource-group carbonscope-bim-rg
 ```
 
 ### Backend Testing

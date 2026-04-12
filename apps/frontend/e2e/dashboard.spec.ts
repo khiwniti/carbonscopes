@@ -23,13 +23,13 @@ test.describe('Dashboard Features', () => {
     await expect(greeting.first()).toBeVisible({ timeout: 10000 });
   });
 
-  test('dashboard displays Suna modes panel', async ({ page }) => {
+  test('dashboard displays carbonscope modes panel', async ({ page }) => {
     if (page.url().includes('/auth')) {
       test.skip(true, 'Skipping authenticated test - redirected to login');
     }
     
-    // SunaModesPanel should be visible
-    // Based on suna-modes-panel.tsx, it likely contains mode buttons like "Slides", "Data", etc.
+    // carbonscopeModesPanel should be visible
+    // Based on carbonscope-modes-panel.tsx, it likely contains mode buttons like "Slides", "Data", etc.
     const slidesMode = page.locator('button').filter({ hasText: /Slides/i });
     await expect(slidesMode).toBeVisible();
     

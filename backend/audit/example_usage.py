@@ -402,7 +402,7 @@ def example_compliance_report():
 def main():
     """Run all examples."""
     print("=" * 60)
-    print("SUNA BIM Audit Trail System - Example Usage")
+    print("carbonscope BIM Audit Trail System - Example Usage")
     print("=" * 60)
 
     try:

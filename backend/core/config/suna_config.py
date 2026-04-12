@@ -1,6 +1,6 @@
 from core.prompts.core_prompt import CORE_SYSTEM_PROMPT
 
-SUNA_CONFIG = {
+carbonscope_CONFIG = {
     "name": "CarbonScope",
     "description": "CarbonScope is your AI assistant with access to various tools and integrations to help you with tasks across domains.",
     "model": "CarbonScope/basic",

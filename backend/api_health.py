@@ -21,7 +21,7 @@ async def health_check():
     """
     return {
         "status": "healthy",
-        "service": "suna-bim-backend",
+        "service": "carbonscope-bim-backend",
         "timestamp": datetime.utcnow().isoformat(),
         "version": "1.0.0"
     }

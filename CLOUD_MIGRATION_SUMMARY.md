@@ -63,7 +63,7 @@ All scripts are **executable** (`chmod +x`) and **ready to run**.
 ### Step 1: PostgreSQL (Neon)
 
 ```bash
-cd /path/to/suna-init
+cd /path/to/carbonscope-init
 
 # Install Neon CLI
 npm install -g neonctl

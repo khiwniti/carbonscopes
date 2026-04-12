@@ -76,7 +76,7 @@ Public Routes (25):
   /, /about, /pricing, /tutorials, /careers, /support, /legal, /brand,
   /app, /berlin, /milano, /status, /help, /help/credits, /agents-101,
   /checkout, /countryerror, /activate-trial, /setting-up, /subscription,
-  /suna, /templates/[shareId], /careers/ai-engineer,
+  /carbonscope, /templates/[shareId], /careers/ai-engineer,
   /careers/design-engineer, /careers/sre-engineer
 
 Auth Routes (5):

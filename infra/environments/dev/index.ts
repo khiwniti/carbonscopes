@@ -1,8 +1,8 @@
 import { COMMON_TAGS } from "../../modules/constants";
 import { LightsailInstance } from "../../modules/lightsail";
 
-const lightsail = new LightsailInstance("suna-dev", {
-  name: "suna-dev",
+const lightsail = new LightsailInstance("carbonscope-dev", {
+  name: "carbonscope-dev",
   environment: "dev",
   availabilityZone: "us-west-2a",
   blueprintId: "ubuntu_24_04",
