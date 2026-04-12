@@ -31,7 +31,7 @@ interface AvatarProps extends ViewProps {
   /** Show border (default: true) */
   showBorder?: boolean;
   
-  /** Use CarbonScope symbol instead of icon (for SUNA agent) */
+  /** Use CarbonScope symbol instead of icon (for carbonscope agent) */
   useCarbonScopeSymbol?: boolean;
   
   /** Fallback text (first letter shown if no icon) */

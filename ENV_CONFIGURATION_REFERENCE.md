@@ -7,8 +7,8 @@
 #### Frontend URLs
 ```env
 # Used for metadata, canonical URLs, and redirects
-NEXT_PUBLIC_APP_URL=https://suna-frontend-app.azurewebsites.net
-NEXT_PUBLIC_URL=https://suna-frontend-app.azurewebsites.net
+NEXT_PUBLIC_APP_URL=https://carbonscope-frontend-app.azurewebsites.net
+NEXT_PUBLIC_URL=https://carbonscope-frontend-app.azurewebsites.net
 ```
 
 #### Supabase Authentication
@@ -21,15 +21,15 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<JWT token>
 #### NextAuth Configuration
 ```env
 # NextAuth redirects - MUST match deployed domain
-NEXTAUTH_URL=https://suna-frontend-app.azurewebsites.net
+NEXTAUTH_URL=https://carbonscope-frontend-app.azurewebsites.net
 NEXTAUTH_SECRET=<secure random string>
 ```
 
 #### Backend API
 ```env
 # API calls to backend services
-NEXT_PUBLIC_BACKEND_URL=https://suna-backend-app.azurewebsites.net/v1
-NEXT_PUBLIC_API_URL=https://suna-backend-app.azurewebsites.net/v1
+NEXT_PUBLIC_BACKEND_URL=https://carbonscope-backend-app.azurewebsites.net/v1
+NEXT_PUBLIC_API_URL=https://carbonscope-backend-app.azurewebsites.net/v1
 ```
 
 ---

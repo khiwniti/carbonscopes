@@ -68,7 +68,7 @@ print_header "Step 1: Checking Prerequisites"
 # Check if we're in the right directory
 if [ ! -d "$FRONTEND_DIR" ]; then
     print_error "Frontend directory not found: $FRONTEND_DIR"
-    print_info "Please run this script from the suna-init directory"
+    print_info "Please run this script from the carbonscope-init directory"
     exit 1
 fi
 print_success "Frontend directory found"

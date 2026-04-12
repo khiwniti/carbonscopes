@@ -32,10 +32,10 @@ class SearchAPIsStep(BaseStep):
             )
         else:
             self.info(
-                "Search APIs are OPTIONAL tools that enhance CarbonScope Suna's capabilities."
+                "Search APIs are OPTIONAL tools that enhance CarbonScope carbonscope's capabilities."
             )
             self.info(
-                "Without these, CarbonScope Suna will work but won't have web search or scraping functionality."
+                "Without these, CarbonScope carbonscope will work but won't have web search or scraping functionality."
             )
             self.console.print("\nAvailable Search Tools:")
             self.console.print("  🔍 Tavily - Web search")
@@ -153,7 +153,7 @@ class SearchAPIsStep(BaseStep):
             self.success(f"Search tools configured: {', '.join(configured)}")
         else:
             self.info(
-                "No search tools configured - CarbonScope Suna will work without web search capabilities."
+                "No search tools configured - CarbonScope carbonscope will work without web search capabilities."
             )
 
         self.success("Search and scraping keys saved.")

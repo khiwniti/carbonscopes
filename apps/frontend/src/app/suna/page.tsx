@@ -4,18 +4,18 @@ import { ArrowRight, Github } from 'lucide-react';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Suna is now CarbonScope | CarbonScope Suna - Open Source AI Worker',
-  description: 'Suna has rebranded to CarbonScope. CarbonScope (formerly Suna) is the same powerful open source AI assistant and generalist AI worker you know and love, now with a new name and bigger vision.',
+  title: 'carbonscope is now CarbonScope | CarbonScope carbonscope - Open Source AI Worker',
+  description: 'carbonscope has rebranded to CarbonScope. CarbonScope (formerly carbonscope) is the same powerful open source AI assistant and generalist AI worker you know and love, now with a new name and bigger vision.',
   keywords: [
-    'Suna',
-    'CarbonScope Suna',
-    'Suna AI',
-    'Suna assistant',
-    'Suna.so',
-    'where is Suna',
+    'carbonscope',
+    'CarbonScope carbonscope',
+    'carbonscope AI',
+    'carbonscope assistant',
+    'carbonscope.so',
+    'where is carbonscope',
     'CarbonScope',
-    'Suna rebrand',
-    'Suna is now CarbonScope',
+    'carbonscope rebrand',
+    'carbonscope is now CarbonScope',
     'AI assistant',
     'open source AI',
     'generalist AI worker',
@@ -23,28 +23,28 @@ export const metadata: Metadata = {
     'autonomous AI',
   ],
   openGraph: {
-    title: 'Suna is now CarbonScope',
-    description: 'CarbonScope (formerly Suna) - Same powerful open source AI worker, new name.',
+    title: 'carbonscope is now CarbonScope',
+    description: 'CarbonScope (formerly carbonscope) - Same powerful open source AI worker, new name.',
     type: 'website',
-    url: 'https://www.CarbonScope.com/suna',
+    url: 'https://www.CarbonScope.com/carbonscope',
     siteName: 'CarbonScope',
     images: [
       {
         url: '/banner.png',
         width: 1200,
         height: 630,
-        alt: 'CarbonScope - Formerly Suna',
+        alt: 'CarbonScope - Formerly carbonscope',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Suna is now CarbonScope',
-    description: 'CarbonScope (formerly Suna) - Same powerful open source AI worker, new name.',
+    title: 'carbonscope is now CarbonScope',
+    description: 'CarbonScope (formerly carbonscope) - Same powerful open source AI worker, new name.',
     images: ['/banner.png'],
   },
   alternates: {
-    canonical: 'https://www.CarbonScope.com/suna',
+    canonical: 'https://www.CarbonScope.com/carbonscope',
   },
   robots: {
     index: true,
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SunaPage() {
+export default function carbonscopePage() {
   return (
     <>
       {/* Structured Data for SEO */}
@@ -62,7 +62,7 @@ export default function SunaPage() {
           '@context': 'https://schema.org',
           '@type': 'Organization',
           name: 'CarbonScope',
-          alternateName: ['Suna', 'CarbonScope Suna', 'Suna AI'],
+          alternateName: ['carbonscope', 'CarbonScope carbonscope', 'carbonscope AI'],
           url: 'https://www.CarbonScope.com',
           logo: 'https://www.CarbonScope.com/favicon.png',
           sameAs: [
@@ -71,7 +71,7 @@ export default function SunaPage() {
             'https://linkedin.com/company/CarbonScope',
           ],
           description:
-            'CarbonScope (formerly known as Suna) is an open source generalist AI worker that helps you accomplish real-world tasks through natural conversation.',
+            'CarbonScope (formerly known as carbonscope) is an open source generalist AI worker that helps you accomplish real-world tasks through natural conversation.',
         }) }}
       />
 
@@ -90,8 +90,8 @@ export default function SunaPage() {
             {
               '@type': 'ListItem',
               position: 2,
-              name: 'Suna is now CarbonScope',
-              item: 'https://www.CarbonScope.com/suna',
+              name: 'carbonscope is now CarbonScope',
+              item: 'https://www.CarbonScope.com/carbonscope',
             },
           ],
         }) }}
@@ -106,7 +106,7 @@ export default function SunaPage() {
               <div className="relative mb-8 sm:mb-12" style={{ width: '80px', height: '80px' }}>
                 <Image
                   src="/CarbonScope-symbol.svg"
-                  alt="Suna"
+                  alt="carbonscope"
                   fill
                   className="object-contain dark:invert"
                   priority
@@ -149,7 +149,7 @@ export default function SunaPage() {
                 <ArrowRight className="ml-2 size-4" />
               </Link>
               <a
-                href="https://github.com/CarbonScope-ai/suna"
+                href="https://github.com/CarbonScope-ai/carbonscope"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-12 items-center justify-center w-full sm:w-auto px-8 text-center rounded-full border border-border bg-background hover:bg-accent/50 transition-all font-medium"
@@ -169,7 +169,7 @@ export default function SunaPage() {
                   What changed?
                 </h2>
                 <div className="space-y-3 text-base md:text-lg text-muted-foreground font-medium">
-                  <p>Our name changed from Suna to CarbonScope</p>
+                  <p>Our name changed from carbonscope to CarbonScope</p>
                   <p>Our domain is now CarbonScope.com</p>
                 </div>
               </div>
@@ -197,7 +197,7 @@ export default function SunaPage() {
                   Where to find us?
                 </h2>
                 <p className="text-base md:text-lg text-muted-foreground font-medium">
-                  Our GitHub repository remains at github.com/CarbonScope-ai/suna
+                  Our GitHub repository remains at github.com/CarbonScope-ai/carbonscope
                 </p>
               </div>
             </div>
@@ -209,7 +209,7 @@ export default function SunaPage() {
               <div className="relative w-full h-full" style={{ isolation: 'isolate' }}>
                 <Image
                   src="/wordmark.svg"
-                  alt="Suna"
+                  alt="carbonscope"
                   fill
                   className="object-contain dark:invert opacity-10"
                   priority
@@ -241,10 +241,10 @@ export default function SunaPage() {
           {/* SEO Footer Text */}
           <div className="relative z-10 text-center max-w-2xl mx-auto pb-20 pt-12 border-t border-border/50">
             <p className="text-sm text-muted-foreground/60 leading-relaxed font-medium">
-              Looking for Suna? You've found us. CarbonScope is the evolution of Suna — the same open
+              Looking for carbonscope? You've found us. CarbonScope is the evolution of carbonscope — the same open
               source AI assistant and generalist AI worker, now with a name that better represents
-              our vision. For users searching for "Suna AI", "Suna assistant", "Suna.so", "where is
-              Suna", or "CarbonScope Suna" — this is the official continuation of the Suna project under
+              our vision. For users searching for "carbonscope AI", "carbonscope assistant", "carbonscope.so", "where is
+              carbonscope", or "CarbonScope carbonscope" — this is the official continuation of the carbonscope project under
               the CarbonScope brand.
             </p>
           </div>

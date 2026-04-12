@@ -1,5 +1,5 @@
 export const COMMON_TAGS = {
-  Project: "suna",
+  Project: "carbonscope",
   ManagedBy: "pulumi",
   "map-migrated": "migDTKWJGT6A7",
 } as const;

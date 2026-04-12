@@ -16,7 +16,7 @@ export class ClusterAutoscaler extends pulumi.ComponentResource {
     provider: k8s.Provider,
     opts?: pulumi.ComponentResourceOptions
   ) {
-    super("suna:k8s:ClusterAutoscaler", name, {}, opts);
+    super("carbonscope:k8s:ClusterAutoscaler", name, {}, opts);
 
     this.chart = new k8s.helm.v3.Release(`${name}-helm`, {
       chart: "cluster-autoscaler",

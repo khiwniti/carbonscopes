@@ -198,7 +198,7 @@ sequenceDiagram
 
 **Usage**:
 ```python
-from suna.backend.lca import initialize_brightway, DeterministicConfig
+from carbonscope.backend.lca import initialize_brightway, DeterministicConfig
 
 # Apply deterministic settings
 DeterministicConfig.apply()
@@ -211,7 +211,7 @@ project = initialize_brightway()
 
 **First Run**:
 ```python
-from suna.backend.lca import initialize_brightway
+from carbonscope.backend.lca import initialize_brightway
 
 project = initialize_brightway()
 # Creates: backend/lca/data/brightway2/thailand-construction.db
@@ -367,7 +367,7 @@ db = bd.Database("TGO-Thailand-2026")
 
 **Endpoint Registration**:
 ```python
-from suna.backend.core.carbon.api import router as carbon_router
+from carbonscope.backend.core.carbon.api import router as carbon_router
 app.include_router(carbon_router, prefix="/api/carbon")
 ```
 
@@ -457,7 +457,7 @@ pytest backend/lca/tests/ -v
 pytest backend/lca/tests/test_brightway_setup.py::TestBrightway2Imports -v
 
 # With coverage
-pytest backend/lca/tests/ --cov=suna.backend.lca --cov-report=html
+pytest backend/lca/tests/ --cov=carbonscope.backend.lca --cov-report=html
 ```
 
 ## Future Enhancements

@@ -16,7 +16,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/suna-backend
+  IMAGE_NAME: ${{ github.repository }}/carbonscope-backend
 
 jobs:
   # ===========================================================================
@@ -125,7 +125,7 @@ jobs:
             set -e
             echo "🚀 Deploying to DEV environment..."
 
-            cd /home/ubuntu/suna/backend
+            cd /home/ubuntu/carbonscope/backend
             git fetch origin main
             git reset --hard origin/main
 
@@ -161,7 +161,7 @@ jobs:
             set -e
             echo "🚀 Deploying to STAGING environment..."
 
-            cd /home/ubuntu/suna/backend
+            cd /home/ubuntu/carbonscope/backend
             git fetch origin staging
             git reset --hard origin/staging
 
@@ -197,7 +197,7 @@ jobs:
             set -e
             echo "🚀 Deploying to PRODUCTION Lightsail..."
 
-            cd /home/ubuntu/suna/backend
+            cd /home/ubuntu/carbonscope/backend
             git fetch origin PRODUCTION
             git reset --hard origin/PRODUCTION
 
@@ -229,29 +229,29 @@ jobs:
           echo "🚀 Deploying to ECS cluster..."
 
           aws ecs update-service \
-            --cluster suna-ecs \
-            --service suna-ecs-api-svc \
+            --cluster carbonscope-ecs \
+            --service carbonscope-ecs-api-svc \
             --force-new-deployment \
             --region us-west-2
 
           echo "⏳ Waiting for deployment to stabilize..."
 
           aws ecs wait services-stable \
-            --cluster suna-ecs \
-            --services suna-ecs-api-svc \
+            --cluster carbonscope-ecs \
+            --services carbonscope-ecs-api-svc \
             --region us-west-2 || {
               echo "⚠️ Timeout - checking status..."
               aws ecs describe-services \
-                --cluster suna-ecs \
-                --services suna-ecs-api-svc \
+                --cluster carbonscope-ecs \
+                --services carbonscope-ecs-api-svc \
                 --region us-west-2 \
                 --query 'services[0].{Status:status,Desired:desiredCount,Running:runningCount}'
             }
 
           echo "✅ ECS deployment complete!"
           aws ecs describe-services \
-            --cluster suna-ecs \
-            --services suna-ecs-api-svc \
+            --cluster carbonscope-ecs \
+            --services carbonscope-ecs-api-svc \
             --region us-west-2 \
             --query 'services[0].{Status:status,Desired:desiredCount,Running:runningCount}' \
             --output table
@@ -270,17 +270,17 @@ jobs:
           aws-region: us-west-2
 
       - name: Update kubeconfig
-        run: aws eks update-kubeconfig --name suna-eks --region us-west-2
+        run: aws eks update-kubeconfig --name carbonscope-eks --region us-west-2
 
       - name: Sync secrets
         run: |
           echo "Syncing secrets from AWS Secrets Manager..."
           SECRET_JSON=$(aws secretsmanager get-secret-value \
-            --secret-id suna-env-prod \
+            --secret-id carbonscope-env-prod \
             --query SecretString \
             --output text)
 
-          kubectl create secret generic suna-env -n suna \
+          kubectl create secret generic carbonscope-env -n carbonscope \
             --from-env-file=<(echo "$SECRET_JSON" | python3 -c "
           import json, sys
           data = json.load(sys.stdin)
@@ -294,21 +294,21 @@ jobs:
           IMAGE="${REGISTRY}/${IMAGE_NAME}:${{ github.sha }}"
           echo "🚀 Deploying $IMAGE to EKS..."
 
-          kubectl set image deployment/suna-api -n suna \
-            suna-api=$IMAGE
+          kubectl set image deployment/carbonscope-api -n carbonscope \
+            carbonscope-api=$IMAGE
 
           echo "⏳ Waiting for rollout to complete..."
-          kubectl rollout status deployment/suna-api -n suna \
+          kubectl rollout status deployment/carbonscope-api -n carbonscope \
             --timeout=600s
         env:
           REGISTRY: ghcr.io
-          IMAGE_NAME: ${{ github.repository }}/suna-backend
+          IMAGE_NAME: ${{ github.repository }}/carbonscope-backend
 
       - name: Verify deployment
         run: |
           echo "✅ EKS deployment complete!"
-          kubectl get pods -n suna
+          kubectl get pods -n carbonscope
           echo "Current image:"
-          kubectl get deployment suna-api -n suna \
+          kubectl get deployment carbonscope-api -n carbonscope \
             -o jsonpath='{.spec.template.spec.containers[0].image}'
           echo ""

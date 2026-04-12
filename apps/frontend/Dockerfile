@@ -9,12 +9,12 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
 # Copy pre-built standalone output (paths from project root context)
-COPY --chown=nextjs:nodejs suna-init/apps/frontend/.next/standalone /app
-COPY --chown=nextjs:nodejs suna-init/apps/frontend/.next/static /app/suna-init/apps/frontend/.next/static
-COPY --chown=nextjs:nodejs suna-init/apps/frontend/public /app/suna-init/apps/frontend/public
+COPY --chown=nextjs:nodejs carbonscope-init/apps/frontend/.next/standalone /app
+COPY --chown=nextjs:nodejs carbonscope-init/apps/frontend/.next/static /app/carbonscope-init/apps/frontend/.next/static
+COPY --chown=nextjs:nodejs carbonscope-init/apps/frontend/public /app/carbonscope-init/apps/frontend/public
 
 # Set working directory to where server.js is located (monorepo structure)
-WORKDIR /app/suna-init/apps/frontend
+WORKDIR /app/carbonscope-init/apps/frontend
 
 USER nextjs
 

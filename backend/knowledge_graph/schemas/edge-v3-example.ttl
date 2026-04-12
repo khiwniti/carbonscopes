@@ -41,7 +41,7 @@ ex:GreenCondoBKK_CarbonAssessment
     edge:carbonSavingsPercentage "33.8"^^xsd:decimal ; # 33.8% reduction ✓ PASS
     edge:carbonIntensity "158.5"^^xsd:decimal ;        # 158.5 kgCO2e/m²
     edge:complianceStatus "PASS" ;
-    edge:assessedBy <http://example.com/consultants/suna-team> ;
+    edge:assessedBy <http://example.com/consultants/carbonscope-team> ;
     edge:assessmentNotes "Assessment includes A1-A3 lifecycle stages only. Core structural materials: concrete, steel, masonry, and glass. Excludes finishes, MEP equipment, and landscaping. Full BOQ with 500+ materials would increase totals proportionally." ;
     edge:hasCarbonBaseline ex:GreenCondoBKK_Baseline .
 

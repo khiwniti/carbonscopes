@@ -831,10 +831,10 @@
     "loadingTools": "Chargement des outils...",
     "noToolsAvailable": "Aucun outil disponible",
     "toolsWillAppear": "Les outils apparaîtront ici une fois disponibles",
-    "sunaToolsManaged": "Les outils de Suna sont gérés de manière centralisée et ne peuvent pas être modifiés.",
+    "carbonscopeToolsManaged": "Les outils de carbonscope sont gérés de manière centralisée et ne peuvent pas être modifiés.",
     "toolsNotEditable": "Ces outils ne peuvent pas être modifiés.",
     "cannotEditTools": "Modification impossible",
-    "sunaToolsManagedAlert": "Les outils de Suna sont gérés de manière centralisée.",
+    "carbonscopeToolsManagedAlert": "Les outils de carbonscope sont gérés de manière centralisée.",
     "savingChanges": "Enregistrement...",
     "saveChanges": "Enregistrer les modifications"
   },

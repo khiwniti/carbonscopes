@@ -246,7 +246,7 @@ class AgentLogger:
             return
 
         try:
-            from suna.backend.db.models.agent_trace import AgentTrace
+            from carbonscope.backend.db.models.agent_trace import AgentTrace
 
             duration_ms = int((end_time - start_time).total_seconds() * 1000)
 

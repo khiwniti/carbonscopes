@@ -8,13 +8,13 @@
 
 ```python
 # Step 1: Import
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 # Step 2: Initialize (once at startup)
 initialize_brightway(validate=True)
 
 # Step 3: Use normally - determinism is automatic!
-from suna.backend.core.carbon.brightway.calculator import CarbonCalculator
+from carbonscope.backend.core.carbon.brightway.calculator import CarbonCalculator
 calculator = CarbonCalculator()
 result = calculator.calculate_material_carbon("concrete-c30", Decimal("1000"), "kg")
 ```
@@ -42,7 +42,7 @@ result = calculator.calculate_material_carbon("concrete-c30", Decimal("1000"), "
 ## Testing Pattern
 
 ```python
-from suna.backend.lca.brightway_config import reset_brightway
+from carbonscope.backend.lca.brightway_config import reset_brightway
 
 def test_my_calculation(self):
     reset_brightway()  # Fresh state

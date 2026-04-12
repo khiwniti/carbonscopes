@@ -229,7 +229,7 @@ class SetupWizard:
         # Print banner
         self.console.print_banner()
         self.console.print(
-            "This wizard will guide you through setting up CarbonScope Suna, "
+            "This wizard will guide you through setting up CarbonScope carbonscope, "
             "an open-source generalist AI Worker.\n"
         )
 
@@ -594,15 +594,15 @@ class SetupWizard:
 
     def _show_final_instructions(self) -> None:
         """Show final instructions to the user."""
-        self.console.print("\n✨ CarbonScope Suna Setup Complete! ✨\n")
+        self.console.print("\n✨ CarbonScope carbonscope Setup Complete! ✨\n")
 
-        self.console.info("CarbonScope Suna is configured with your API keys and ready to use.")
+        self.console.info("CarbonScope carbonscope is configured with your API keys and ready to use.")
         self.console.info("Delete the .setup_progress file to reset the setup.")
 
         compose_cmd_str = format_compose_cmd(self.compose_cmd)
 
         if self.config.setup_method == SetupMethod.DOCKER:
-            self.console.info("Your CarbonScope Suna instance is ready to use!")
+            self.console.info("Your CarbonScope carbonscope instance is ready to use!")
             self.console.print("\nUseful Docker commands:")
             self.console.print(f"  {compose_cmd_str} up -d     - Start all services")
             self.console.print(f"  {compose_cmd_str} down       - Stop all services")
@@ -615,7 +615,7 @@ class SetupWizard:
                 self.console.print("  Supabase Dashboard: https://supabase.com/dashboard")
                 self.console.print(f"  Project URL: {self.config.supabase.SUPABASE_URL}")
         else:
-            self.console.info("To start CarbonScope Suna, run these commands in separate terminals:")
+            self.console.info("To start CarbonScope carbonscope, run these commands in separate terminals:")
             self.console.print(f"\n1. Start Redis (in project root):")
             self.console.print(f"   {compose_cmd_str} up redis -d")
             self.console.print(f"\n2. Start Backend (in a new terminal):")
@@ -624,4 +624,4 @@ class SetupWizard:
             self.console.print(f"   cd apps/frontend && pnpm run dev")
             self.console.print(f"\nTip: Use 'python start.py' for automatic start/stop")
 
-        self.console.print("\nOnce all services are running, access CarbonScope Suna at: http://localhost:3000")
+        self.console.print("\nOnce all services are running, access CarbonScope carbonscope at: http://localhost:3000")

@@ -1,6 +1,6 @@
-# Suna Infrastructure
+# carbonscope Infrastructure
 
-Pulumi Infrastructure-as-Code for Suna
+Pulumi Infrastructure-as-Code for carbonscope
 
 ## Architecture
 
@@ -22,7 +22,7 @@ Pulumi Infrastructure-as-Code for Suna
                               ▼                                 ▼
 ┌─────────────────────────────────────────┐    ┌───────────────────────────────────┐
 │         LIGHTSAIL (Prod)                │    │           ECS (Prod)              │
-│   Cloudflared → localhost:8000          │    │   Cluster: suna-ecs               │
+│   Cloudflared → localhost:8000          │    │   Cluster: carbonscope-ecs               │
 │                                         │    │   Fargate + Fargate Spot          │
 └─────────────────────────────────────────┘    │   Auto-scaling (CPU/Memory)       │
                                                │   ALB → Target Group → Tasks      │
@@ -199,5 +199,5 @@ pulumi stack output
 pulumi destroy
 
 # Import existing resource
-pulumi import aws:ecs/cluster:Cluster suna-ecs arn:aws:ecs:...
+pulumi import aws:ecs/cluster:Cluster carbonscope-ecs arn:aws:ecs:...
 ```

@@ -233,7 +233,7 @@ uv pip install -r lca/requirements.txt
 python3 -c "import bw2data; print(f'Installed: {bw2data.__version__}')"
 
 # Initialize project
-python3 -c "from suna.backend.lca import initialize_brightway; print(initialize_brightway())"
+python3 -c "from carbonscope.backend.lca import initialize_brightway; print(initialize_brightway())"
 ```
 
 ### For Developers
@@ -243,7 +243,7 @@ python3 -c "from suna.backend.lca import initialize_brightway; print(initialize_
 pytest backend/lca/tests/test_brightway_setup.py -v
 
 # Run with coverage
-pytest backend/lca/tests/ --cov=suna.backend.lca --cov-report=html
+pytest backend/lca/tests/ --cov=carbonscope.backend.lca --cov-report=html
 
 # Run specific test class
 pytest backend/lca/tests/test_brightway_setup.py::TestBrightway2Imports -v
@@ -432,7 +432,7 @@ pytest backend/lca/tests/test_brightway_setup.py::TestBrightway2Imports -v
 pytest backend/lca/tests/test_brightway_setup.py::TestBrightway2Configuration -v
 
 # With coverage report
-pytest backend/lca/tests/ --cov=suna.backend.lca --cov-report=html
+pytest backend/lca/tests/ --cov=carbonscope.backend.lca --cov-report=html
 ```
 
 ### Expected Results

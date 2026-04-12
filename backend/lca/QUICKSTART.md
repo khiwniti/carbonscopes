@@ -12,7 +12,7 @@ uv pip install -r lca/requirements.txt
 ### 2. Initialize Project
 
 ```python
-from suna.backend.lca import initialize_brightway
+from carbonscope.backend.lca import initialize_brightway
 
 project = initialize_brightway()
 print(f"✓ Project initialized: {project}")
@@ -88,7 +88,7 @@ print(f"Embodied carbon: {lca.score} kg CO2e")
 ### Test Determinism
 
 ```python
-from suna.backend.lca import DeterministicConfig
+from carbonscope.backend.lca import DeterministicConfig
 import bw2data as bd
 import bw2calc as bc
 
@@ -114,7 +114,7 @@ print(f"All identical: {len(set(results)) == 1}")
 ### Deterministic Settings
 
 ```python
-from suna.backend.lca import DeterministicConfig
+from carbonscope.backend.lca import DeterministicConfig
 
 print(f"Precision: {DeterministicConfig.DECIMAL_PRECISION}")  # 28
 print(f"Random seed: {DeterministicConfig.RANDOM_SEED}")  # 42
@@ -124,7 +124,7 @@ print(f"Static LCA: {DeterministicConfig.USE_STATIC_LCA}")  # True
 ### Project Settings
 
 ```python
-from suna.backend.lca import ProjectConfig
+from carbonscope.backend.lca import ProjectConfig
 
 print(f"Project: {ProjectConfig.PROJECT_NAME}")  # thailand-construction
 print(f"Database: {ProjectConfig.DATABASE_NAME}")  # TGO-Thailand-2026
@@ -134,7 +134,7 @@ print(f"Stages: {ProjectConfig.DEFAULT_STAGES}")  # ['A1', 'A2', 'A3']
 ### Data Paths
 
 ```python
-from suna.backend.lca import PathConfig
+from carbonscope.backend.lca import PathConfig
 
 print(f"Base: {PathConfig.BASE_DIR}")
 print(f"Data: {PathConfig.DATA_DIR}")
@@ -158,7 +158,7 @@ uv pip install brightway2 bw2data bw2calc bw2io
 ```python
 # Error: ValueError: Project 'thailand-construction' does not exist
 # Fix:
-from suna.backend.lca import initialize_brightway
+from carbonscope.backend.lca import initialize_brightway
 initialize_brightway()
 ```
 
@@ -175,7 +175,7 @@ bd.databases.clean()
 
 ```python
 # Fix: Apply config before calculations
-from suna.backend.lca import DeterministicConfig
+from carbonscope.backend.lca import DeterministicConfig
 DeterministicConfig.apply()
 ```
 
@@ -243,7 +243,7 @@ pytest backend/lca/tests/test_brightway_setup.py::TestBrightway2BasicCalculation
 ### Test with Coverage
 
 ```bash
-pytest backend/lca/tests/ --cov=suna.backend.lca
+pytest backend/lca/tests/ --cov=carbonscope.backend.lca
 ```
 
 ---
@@ -323,7 +323,7 @@ import bw2data as bd
 bd.projects.delete_project("thailand-construction", delete_dir=True)
 
 # Reinitialize
-from suna.backend.lca import initialize_brightway
+from carbonscope.backend.lca import initialize_brightway
 initialize_brightway()
 ```
 
@@ -351,7 +351,7 @@ Load in Python:
 from dotenv import load_dotenv
 load_dotenv()
 
-from suna.backend.lca import GraphDBConfig
+from carbonscope.backend.lca import GraphDBConfig
 print(GraphDBConfig.ENDPOINT)
 ```
 
@@ -382,7 +382,7 @@ print(GraphDBConfig.ENDPOINT)
 - **Architecture**: `ARCHITECTURE.md`
 - **Installation**: `INSTALL.md`
 - **Brightway2 Docs**: https://docs.brightway.dev/
-- **Project Repo**: https://github.com/cbim-ai/suna
+- **Project Repo**: https://github.com/cbim-ai/carbonscope
 
 ---
 

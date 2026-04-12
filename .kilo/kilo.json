@@ -1,4 +1,4 @@
-op{
+{
   "$schema": "https://app.kilo.ai/config.json",
   "mcp": {
     "filesystem": {
@@ -36,6 +36,115 @@ op{
         "BROWSERBASE_API_KEY": "bb_live_GnfQbv8BkqhWcOyXA79Z2D2iIxY",
         "BROWSERBASE_PROJECT_ID": "3eaf8b16-304a-4bd4-8901-977574ce6ec2"
       }
+    },
+    "codegen": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "--from",
+        "git+https://github.com/codegen-sh/codegen-sdk.git#egg=codegen-mcp-server&subdirectory=codegen-examples/examples/codegen-mcp-server",
+        "codegen-mcp-server"
+      ]
+    },
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "environment": {
+        "DEFAULT_MINIMUM_TOKENS": "{{DEFAULT_MINIMUM_TOKENS}}"
+      }
+    },
+    "e2b": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@e2b/mcp-server"
+      ],
+      "environment": {
+        "E2B_API_KEY": "e2b_8ed07b118fa8782daa5739d31399f749bec74427"
+      }
+    },
+    "exa": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "exa-mcp-server"
+      ],
+      "environment": {
+        "EXA_API_KEY": "6ca9e0a5-66f5-4abd-a22c-9d746b4f8c82"
+      }
+    },
+    "firebase": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "firebase-tools@14.15.2",
+        "experimental:mcp"
+      ]
+    },
+    "time": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-server-time"
+      ]
+    },
+    "fireproof": {
+      "type": "local",
+      "command": [
+        "node",
+        "{{FIREPROOF_PATH}}/build/index.js"
+      ]
+    },
+    "genkit": {
+      "type": "local",
+      "command": [
+        "npm",
+        "install",
+        "@genkit-ai/mcp"
+      ]
+    },
+    "tavily": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "tavily-mcp@0.2.3"
+      ],
+      "environment": {
+        "TAVILY_API_KEY": "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"
+      }
+    },
+    "git": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-server-git",
+        "--repository",
+        "/workspaces/carbonscopes"
+      ]
+    },
+    "google-maps-platform-code-assist": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@googlemaps/code-assist-mcp@0.2.0"
+      ]
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@0.0.38"
+      ]
     }
   },
   "agent": {
@@ -90,6 +199,39 @@ op{
           "*": "deny"
         },
         "mcp": "deny"
+      }
+    },
+    "claude-code-router": {
+      "mode": "primary",
+      "description": "Claude Code Router for NVIDIA API",
+      "prompt": "You are a specialized router agent that directs requests to Claude models via NVIDIA's API endpoints. You understand how to optimize prompts for Claude models and can route different types of tasks to appropriate Claude variants (Haiku, Sonnet, Opus) based on complexity and requirements.\n\n\nFocus on efficient routing, cost optimization, and ensuring the right model is selected for each task. Always consider the capabilities and limitations of each Claude variant when making routing decisions.\n",
+      "permission": {
+        "read": "allow",
+        "bash": "allow",
+        "edit": "allow",
+        "mcp": "allow"
+      }
+    },
+    "hermes": {
+      "mode": "primary",
+      "description": "Hermes Model Agent via NVIDIA API",
+      "prompt": "You are a specialized agent that utilizes the Hermes model via NVIDIA's API endpoints. Hermes is known for its strong reasoning capabilities and excellent performance on complex tasks requiring deep understanding and analysis.\n\n\nFocus on leveraging Hermes' strengths in reasoning, problem-solving, and detailed analysis. Always consider the model's capabilities when approaching tasks and provide clear, well-reasoned responses.\n",
+      "permission": {
+        "read": "allow",
+        "bash": "allow",
+        "edit": "allow",
+        "mcp": "allow"
+      }
+    },
+    "pi": {
+      "mode": "primary",
+      "description": "PI Model Agent via NVIDIA API",
+      "prompt": "You are a specialized agent that utilizes the PI model via NVIDIA's API endpoints. PI is designed for specific use cases and offers unique capabilities for certain types of tasks.\n\n\nFocus on understanding PI's specific strengths and optimal use cases. Always consider the model's characteristics when approaching tasks and provide responses that leverage its unique capabilities.\n",
+      "permission": {
+        "read": "allow",
+        "bash": "allow",
+        "edit": "allow",
+        "mcp": "allow"
       }
     }
   }

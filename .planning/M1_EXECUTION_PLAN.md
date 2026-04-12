@@ -23,13 +23,13 @@ Fix all production errors blocking users and establish monitoring to prevent fut
 az login
 
 # Find resource group
-az webapp list --query "[?name=='suna-backend-app'].{name:name, rg:resourceGroup}" -o table
+az webapp list --query "[?name=='carbonscope-backend-app'].{name:name, rg:resourceGroup}" -o table
 
 # Tail live logs
-az webapp log tail --name suna-backend-app --resource-group <rg-from-above>
+az webapp log tail --name carbonscope-backend-app --resource-group <rg-from-above>
 
 # Download logs for analysis
-az webapp log download --name suna-backend-app --resource-group <rg-from-above> --log-file backend-logs.zip
+az webapp log download --name carbonscope-backend-app --resource-group <rg-from-above> --log-file backend-logs.zip
 
 # Extract and search for errors
 unzip backend-logs.zip
@@ -89,11 +89,11 @@ curl -X GET "http://localhost:8000/v1/agents?limit=50" \
 
 # Deploy to Azure
 az webapp deployment source sync \
-  --name suna-backend-app \
+  --name carbonscope-backend-app \
   --resource-group <rg-name>
 
 # Verify production
-curl "https://suna-backend-app.azurewebsites.net/v1/agents?limit=50" \
+curl "https://carbonscope-backend-app.azurewebsites.net/v1/agents?limit=50" \
   -H "Authorization: Bearer <prod-token>"
 ```
 
@@ -118,7 +118,7 @@ curl "https://suna-backend-app.azurewebsites.net/v1/agents?limit=50" \
 ```
 
 **Option B - Complete Fix (30 min):**
-1. Verify correct repo: `https://github.com/CarbonScope-ai/suna` exists?
+1. Verify correct repo: `https://github.com/CarbonScope-ai/carbonscope` exists?
 2. Update all references if repo path changed
 3. OR remove GitHub stars feature entirely
 
@@ -208,7 +208,7 @@ export default function Error({ error }: { error: Error }) {
 ### Deploy Backend
 ```bash
 az webapp deployment source sync \
-  --name suna-backend-app \
+  --name carbonscope-backend-app \
   --resource-group <rg-name>
 ```
 
@@ -251,7 +251,7 @@ vercel --prod
 
 ### Check backend logs
 ```bash
-az webapp log tail --name suna-backend-app --resource-group <rg>
+az webapp log tail --name carbonscope-backend-app --resource-group <rg>
 ```
 
 ### Test backend locally
@@ -261,7 +261,7 @@ cd apps/backend && uv run uvicorn main:app --reload
 
 ### Deploy backend
 ```bash
-az webapp deployment source sync --name suna-backend-app --resource-group <rg>
+az webapp deployment source sync --name carbonscope-backend-app --resource-group <rg>
 ```
 
 ### Deploy frontend
@@ -271,7 +271,7 @@ cd apps/frontend && vercel --prod
 
 ### Check production
 ```bash
-curl https://suna-backend-app.azurewebsites.net/v1/health
+curl https://carbonscope-backend-app.azurewebsites.net/v1/health
 curl https://carbonscope.ensimu.space
 ```
 
@@ -284,7 +284,7 @@ If deployment fails:
 ```bash
 # Backend rollback
 az webapp deployment slot swap \
-  --name suna-backend-app \
+  --name carbonscope-backend-app \
   --resource-group <rg> \
   --slot staging
 

@@ -80,7 +80,7 @@ railway up
 ### Step 1: Deploy Frontend to Azure Static Web App
 
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/apps/frontend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/apps/frontend
 
 # Get deployment token
 DEPLOYMENT_TOKEN=$(az staticwebapp secrets list \
@@ -133,7 +133,7 @@ swa deploy \
 ### Step 2: Deploy Backend to Railway
 
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/backend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/backend
 
 # Install Railway CLI
 npm install -g @railway/cli

@@ -200,14 +200,17 @@ class ModelFactory:
     @staticmethod
     def create_basic_model(main_llm: str, custom_model: Optional[str] = None) -> Model:
         # Default models per provider
-        default_models = {
-            "bedrock": BedrockConfig.get_haiku_arn(),
-            "anthropic": "anthropic/claude-haiku-4-5-20251001",
-            "grok": "openrouter/x-ai/grok-4.1-fast",
-            "openai": "openrouter/openai/gpt-4o-mini",
-            "minimax": "openrouter/minimax/minimax-m2.1",
-            "kimi": "openrouter/moonshotai/kimi-k2.5",
-        }
+    default_models = {
+        "bedrock": BedrockConfig.get_haiku_arn(),
+        "anthropic": "anthropic/claude-haiku-4-5-20251001",
+        "grok": "openrouter/x-ai/grok-4.1-fast",
+        "openai": "openrouter/openai/gpt-4o-mini",
+        "minimax": "openrouter/minimax/minimax-m2.1",
+        "kimi": "openrouter/moonshotai/kimi-k2.5",
+        "nvidia": "openrouter/nvidia/llama-3.1-nemotron-70b-instruct",
+        "pi": "openrouter/mistral/pi-3",
+        "hermes": "openrouter/nousresearch/hermes-3-llama-3.1-70b",
+    }
 
         if main_llm == "kimi":
             return Model(

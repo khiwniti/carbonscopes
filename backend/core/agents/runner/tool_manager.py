@@ -76,8 +76,8 @@ class ToolManager:
         if self.agent_config and 'agentpress_tools' in self.agent_config:
             raw_tools = self.agent_config.get('agentpress_tools', {})
             if isinstance(raw_tools, dict):
-                # For default Suna agent with no explicit config, only use tier restrictions
-                if not (self.agent_config.get('is_suna_default', False) and not raw_tools):
+                # For default carbonscope agent with no explicit config, only use tier restrictions
+                if not (self.agent_config.get('is_carbonscope_default', False) and not raw_tools):
                     for tool_name, tool_config in raw_tools.items():
                         if isinstance(tool_config, bool) and not tool_config:
                             disabled.add(tool_name)

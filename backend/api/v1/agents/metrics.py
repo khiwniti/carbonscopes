@@ -53,7 +53,7 @@ async def get_agent_metrics(
         GET /api/v1/agents/metrics?time_range=last_24h
     """
     try:
-        from suna.backend.db.models.agent_trace import AgentTrace
+        from carbonscope.backend.db.models.agent_trace import AgentTrace
 
         # Parse time range
         time_map = {
@@ -201,7 +201,7 @@ async def get_agent_specific_metrics(
         GET /api/v1/agents/metrics/agent/carbon_calculator
     """
     try:
-        from suna.backend.db.models.agent_trace import AgentTrace
+        from carbonscope.backend.db.models.agent_trace import AgentTrace
 
         time_map = {
             "last_1h": 1,

@@ -168,7 +168,7 @@ class TemplateNotFoundError(Exception):
 class TemplateAccessDeniedError(Exception):
     pass
 
-class SunaDefaultAgentTemplateError(Exception):
+class carbonscopeDefaultAgentTemplateError(Exception):
     pass
 
 class TemplateService:
@@ -192,8 +192,8 @@ class TemplateService:
         if agent['account_id'] != creator_id:
             raise TemplateAccessDeniedError("You can only create templates from your own agents")
         
-        if self._is_suna_default_agent(agent):
-            raise SunaDefaultAgentTemplateError("Cannot create template from Suna default agent")
+        if self._is_carbonscope_default_agent(agent):
+            raise carbonscopeDefaultAgentTemplateError("Cannot create template from carbonscope default agent")
         
         version_config = await self._get_agent_version_config(agent)
         if not version_config:
@@ -608,9 +608,9 @@ class TemplateService:
         
         return sanitized
     
-    def _is_suna_default_agent(self, agent: Dict[str, Any]) -> bool:
+    def _is_carbonscope_default_agent(self, agent: Dict[str, Any]) -> bool:
         metadata = agent.get('metadata', {})
-        return metadata.get('is_suna_default', False)
+        return metadata.get('is_carbonscope_default', False)
     
     async def _save_template(self, template: AgentTemplate) -> None:
         client = await self._db.client

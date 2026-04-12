@@ -73,7 +73,7 @@ if ! command -v swa &> /dev/null; then
 fi
 
 # Navigate to project root (monorepo)
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 
 print_info "Deploying to Azure Static Web Apps..."
 print_info "Azure will build the project in the cloud (16GB RAM available)"

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-CarbonScope Suna Service Manager
+CarbonScope carbonscope Service Manager
 
-Starts and stops Suna services based on the setup method configured
+Starts and stops carbonscope services based on the setup method configured
 during setup (Docker or Manual).
 
 Usage:
@@ -42,10 +42,10 @@ class Colors:
 
 
 def print_banner():
-    """Print the CarbonScope Suna banner."""
+    """Print the CarbonScope carbonscope banner."""
     print(f"\n{Colors.BLUE}{Colors.BOLD}")
     print("  ╔═══════════════════════════════════════╗")
-    print("  ║         CarbonScope Suna Manager           ║")
+    print("  ║         CarbonScope carbonscope Manager           ║")
     print("  ╚═══════════════════════════════════════╝")
     print(f"{Colors.ENDC}")
 
@@ -172,7 +172,7 @@ def check_native_process_running(pattern: str, cwd_contains: str = None) -> bool
 
 
 def check_frontend_running() -> bool:
-    """Check if the Suna frontend is running (not other Next.js apps like Cursor)."""
+    """Check if the carbonscope frontend is running (not other Next.js apps like Cursor)."""
     root_dir = str(Path.cwd())
 
     # Check if port 3000 is being used by a process in our directory
@@ -215,7 +215,7 @@ def check_frontend_running() -> bool:
 
 
 def check_backend_running() -> bool:
-    """Check if the Suna backend is running."""
+    """Check if the carbonscope backend is running."""
     root_dir = str(Path.cwd())
 
     if IS_WINDOWS:
@@ -379,7 +379,7 @@ def start_manual_services(compose_cmd: list) -> int:
         print(f"  {Colors.DIM}Logs: tail -f frontend.log{Colors.ENDC}")
 
     print(f"\n{Colors.GREEN}{Colors.BOLD}All services started!{Colors.ENDC}")
-    print(f"{Colors.CYAN}Access Suna at: http://localhost:3000{Colors.ENDC}\n")
+    print(f"{Colors.CYAN}Access carbonscope at: http://localhost:3000{Colors.ENDC}\n")
 
     return 0
 
@@ -413,7 +413,7 @@ def start_docker_services(compose_cmd: list) -> int:
 
     if result.returncode == 0:
         print(f"\n{Colors.GREEN}{Colors.BOLD}All services started!{Colors.ENDC}")
-        print(f"{Colors.CYAN}Access Suna at: http://localhost:3000{Colors.ENDC}\n")
+        print(f"{Colors.CYAN}Access carbonscope at: http://localhost:3000{Colors.ENDC}\n")
     else:
         print(f"{Colors.RED}Failed to start services.{Colors.ENDC}")
 
@@ -437,8 +437,8 @@ def show_help():
     """Show help message."""
     print(__doc__)
     print("Commands:")
-    print("  start     Start all Suna services")
-    print("  stop      Stop all Suna services")
+    print("  start     Start all carbonscope services")
+    print("  stop      Stop all carbonscope services")
     print("  status    Show current service status")
     print("  restart   Restart all services")
     print("")

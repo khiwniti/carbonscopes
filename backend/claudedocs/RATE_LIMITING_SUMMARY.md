@@ -86,7 +86,7 @@ Retry-After: 900
 
 ```bash
 # Test auth endpoint rate limiting
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/backend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/backend
 ./test_auth_rate_limit.sh
 
 # Expected output:

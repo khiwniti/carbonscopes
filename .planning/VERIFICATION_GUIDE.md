@@ -8,7 +8,7 @@
 ## ✅ Backend Test (Automated)
 
 ```bash
-curl "https://suna-backend-app.azurewebsites.net/v1/agents?limit=5"
+curl "https://carbonscope-backend-app.azurewebsites.net/v1/agents?limit=5"
 ```
 
 **Expected Result**:
@@ -82,7 +82,7 @@ DATABASE_URL="postgresql://...@pooler.supabase.com:6543/postgres?sslmode=require
 ### Quick Debug
 ```bash
 # Check backend logs
-az webapp log tail --name suna-backend-app --resource-group suna-bim-rg
+az webapp log tail --name carbonscope-backend-app --resource-group carbonscope-bim-rg
 
 # Look for recent errors
 grep -i "error\|500" logs.txt

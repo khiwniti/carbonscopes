@@ -14,7 +14,7 @@ export class LightsailInstance extends pulumi.ComponentResource {
     config: LightsailConfig,
     opts?: pulumi.ComponentResourceOptions
   ) {
-    super("suna:lightsail:Instance", name, {}, opts);
+    super("carbonscope:lightsail:Instance", name, {}, opts);
 
     this.instance = new aws.lightsail.Instance(`${name}-instance`, {
       name: config.name,

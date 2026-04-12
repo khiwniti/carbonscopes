@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { handleApiError } from '@/lib/error-handler';
@@ -15,6 +15,15 @@ import {
   CustomWorkerLimitError,
   ModelAccessDeniedError
 } from '@/lib/api/errors';
+
+/** Devtools call `useQueryClient` and must not run during RSC/SSR — that caused GET / 500. */
+function ClientOnlyReactQueryDevtools() {
+  // Check if we're in a browser environment (window is defined)
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  return <ReactQueryDevtools initialIsOpen={false} />;
+}
 
 export function ReactQueryProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -69,7 +78,7 @@ export function ReactQueryProvider({ children }: { children: React.ReactNode }) 
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {isLocalMode() && <ReactQueryDevtools initialIsOpen={false} />}
+      {isLocalMode() && <ClientOnlyReactQueryDevtools />}
     </QueryClientProvider>
   );
 }

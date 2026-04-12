@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useLeadingDebouncedCallback } from '@/hooks/utils';
 import { useOptimisticAgentStart, AgentLimitInfo } from '@/hooks/threads';
 import { useAgentSelection } from '@/stores/agent-selection-store';
-import { useSunaModePersistence } from '@/stores/suna-modes-store';
+import { usecarbonscopeModePersistence } from '@/stores/suna-modes-store';
 import { useAgents } from '@/hooks/agents/use-agents';
 import { useAuth } from '@/components/AuthProvider';
 import type { ChatInputHandles } from '@/components/thread/chat-input/chat-input';
@@ -47,9 +47,9 @@ export interface UseAgentStartInputReturn {
   agents: any[];
   isLoadingAgents: boolean;
   selectedAgent: any | null;
-  isSunaAgent: boolean;
+  iscarbonscopeAgent: boolean;
   
-  // Suna modes
+  // carbonscope modes
   selectedMode: any;
   selectedCharts: any;
   selectedOutputFormat: any;
@@ -118,7 +118,7 @@ export function useAgentStartInput(options: UseAgentStartInputOptions = {}): Use
     initializeFromAgents,
   } = useAgentSelection();
   
-  // Suna modes persistence
+  // carbonscope modes persistence
   const {
     selectedMode,
     selectedCharts,
@@ -136,7 +136,7 @@ export function useAgentStartInput(options: UseAgentStartInputOptions = {}): Use
     setSelectedImageStyle,
     setSelectedCanvasAction,
     setSelectedVideoStyle,
-  } = useSunaModePersistence();
+  } = usecarbonscopeModePersistence();
   
   // Callback to reset loading states when a background error occurs
   const handleBackgroundError = useCallback(() => {
@@ -167,18 +167,18 @@ export function useAgentStartInput(options: UseAgentStartInputOptions = {}): Use
   });
   
   const agents = Array.isArray(agentsResponse?.agents) ? agentsResponse.agents : [];
-  const sunaAgent = agents.find(agent => agent.metadata?.is_suna_default === true);
+  const carbonscopeAgent = agents.find(agent => agent.metadata?.is_carbonscope_default === true);
   const selectedAgent = selectedAgentId
     ? agents.find(agent => agent.agent_id === selectedAgentId)
     : null;
   
-  // Determine if Suna agent is selected (for modes panel)
-  // For unauthenticated users, always show as Suna agent (for landing page modes panel)
-  const isSunaAgent = !user 
-    ? true // Unauthenticated users always see Suna modes
+  // Determine if carbonscope agent is selected (for modes panel)
+  // For unauthenticated users, always show as carbonscope agent (for landing page modes panel)
+  const iscarbonscopeAgent = !user 
+    ? true // Unauthenticated users always see carbonscope modes
     : isLoadingAgents 
       ? true // Show CarbonScope modes while loading
-      : (selectedAgent?.metadata?.is_suna_default || (!selectedAgentId && sunaAgent !== undefined) || false);
+      : (selectedAgent?.metadata?.is_carbonscope_default || (!selectedAgentId && carbonscopeAgent !== undefined) || false);
   
   // Initialize agent selection when agents are loaded
   useEffect(() => {
@@ -329,9 +329,9 @@ export function useAgentStartInput(options: UseAgentStartInputOptions = {}): Use
     agents,
     isLoadingAgents,
     selectedAgent,
-    isSunaAgent,
+    iscarbonscopeAgent,
     
-    // Suna modes
+    // carbonscope modes
     selectedMode,
     selectedCharts,
     selectedOutputFormat,

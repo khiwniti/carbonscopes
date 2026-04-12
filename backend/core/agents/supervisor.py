@@ -203,7 +203,7 @@ def create_supervisor_graph(
         ... })
 
         >>> # With checkpointing (stateful)
-        >>> from suna.backend.core.agents.checkpointer import get_checkpointer
+        >>> from carbonscope.backend.core.agents.checkpointer import get_checkpointer
         >>> checkpointer = get_checkpointer()
         >>> graph = create_supervisor_graph(checkpointer)
         >>> result = graph.invoke(

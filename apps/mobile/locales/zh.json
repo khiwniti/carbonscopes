@@ -817,10 +817,10 @@
     "loadingTools": "加载工具中...",
     "noToolsAvailable": "暂无可用工具",
     "toolsWillAppear": "工具可用时将显示在这里",
-    "sunaToolsManaged": "Suna的工具由中央管理，无法编辑。",
+    "carbonscopeToolsManaged": "carbonscope的工具由中央管理，无法编辑。",
     "toolsNotEditable": "这些工具无法编辑。",
     "cannotEditTools": "无法编辑",
-    "sunaToolsManagedAlert": "Suna的工具由中央管理。",
+    "carbonscopeToolsManagedAlert": "carbonscope的工具由中央管理。",
     "savingChanges": "保存中...",
     "saveChanges": "保存更改"
   },

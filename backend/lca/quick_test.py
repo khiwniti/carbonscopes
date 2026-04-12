@@ -4,11 +4,11 @@ Quick Test Script for LCA Calculator.
 This script performs a quick validation of the calculator without requiring
 a live GraphDB connection. It tests core functionality using mocked data.
 
-Run with: python suna/backend/lca/quick_test.py
+Run with: python carbonscope/backend/lca/quick_test.py
 """
 
 from decimal import Decimal
-from suna.backend.lca import UnitConverter, CarbonCalculationError
+from carbonscope.backend.lca import UnitConverter, CarbonCalculationError
 
 def test_unit_converter():
     """Test unit converter functionality."""
@@ -52,7 +52,7 @@ def test_calculator_logic():
     print("="*80)
 
     # Test EDGE certification levels
-    from suna.backend.lca.carbon_calculator import CarbonCalculator
+    from carbonscope.backend.lca.carbon_calculator import CarbonCalculator
     from unittest.mock import Mock
 
     mock_client = Mock()
@@ -120,9 +120,9 @@ def main():
         print("="*80 + "\n")
 
         print("Next Steps:")
-        print("1. Run full test suite: pytest suna/backend/lca/tests/test_carbon_calculator.py -v")
-        print("2. Test with GraphDB: python suna/backend/lca/example_usage.py")
-        print("3. Review documentation: suna/backend/lca/README_CALCULATOR.md")
+        print("1. Run full test suite: pytest carbonscope/backend/lca/tests/test_carbon_calculator.py -v")
+        print("2. Test with GraphDB: python carbonscope/backend/lca/example_usage.py")
+        print("3. Review documentation: carbonscope/backend/lca/README_CALCULATOR.md")
 
         return 0
 

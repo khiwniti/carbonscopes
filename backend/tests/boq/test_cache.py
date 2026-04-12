@@ -253,7 +253,7 @@ def test_cache_performance_benchmark():
 def test_graceful_degradation():
     """Test that cache manager handles Redis failure gracefully."""
     # Create cache manager with no Redis connection
-    with patch('suna.backend.boq.cache.get_redis_client') as mock_get_client:
+    with patch('carbonscope.backend.boq.cache.get_redis_client') as mock_get_client:
         mock_get_client.side_effect = Exception("Redis unavailable")
 
         manager = BOQCacheManager()

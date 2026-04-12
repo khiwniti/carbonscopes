@@ -1,4 +1,4 @@
-# CSRF Protection Analysis for Suna BIM Agent Backend
+# CSRF Protection Analysis for carbonscope BIM Agent Backend
 
 **Date:** 2026-04-02  
 **Task:** #111 - Add CSRF Protection  

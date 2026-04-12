@@ -59,7 +59,7 @@ class MaterialAnalystAgent(Agent):
         """Lazy-load material matcher to avoid import issues."""
         if self._material_matcher is None and self.graphdb_client is not None:
             try:
-                from suna.backend.boq.material_matching import match_boq_materials
+                from carbonscope.backend.boq.material_matching import match_boq_materials
                 self._material_matcher = match_boq_materials
             except ImportError as e:
                 logger.warning(f"Could not import material_matching: {e}")
@@ -224,7 +224,7 @@ class MaterialAnalystAgent(Agent):
 
         try:
             # Import BOQMaterial model
-            from suna.backend.boq.models import BOQMaterial
+            from carbonscope.backend.boq.models import BOQMaterial
 
             # Convert dictionaries to BOQMaterial objects if needed
             materials = []

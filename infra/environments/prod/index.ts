@@ -2,7 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 
 import { COMMON_TAGS } from "../../modules/constants";
 import {
-  SunaEksCluster,
+  carbonscopeEksCluster,
   ApiWorkload,
   ClusterAutoscaler,
   EksIamRoles,
@@ -24,7 +24,7 @@ const networkConfig = {
 };
 
 const serviceConfig = {
-  name: config.get("serviceName") || "suna-api",
+  name: config.get("serviceName") || "carbonscope-api",
   containerImage: config.require("containerImage"),
   containerPort: config.getNumber("containerPort") || 8000,
   healthCheckPath: config.get("healthCheckPath") || "/v1/health-docker",
@@ -59,16 +59,16 @@ const secretsManagerArn = config.requireSecret("secretsManagerArn");
 const cloudflareTunnelId = config.requireSecret("cloudflareTunnelId");
 
 
-const iamRoles = new EksIamRoles("suna-eks-iam", {
+const iamRoles = new EksIamRoles("carbonscope-eks-iam", {
   serviceName: serviceConfig.name,
   secretsArn: secretsManagerArn,
   tags: COMMON_TAGS,
 });
 
-const eksClusterName = "suna-eks";
-const namespace = "suna";
+const eksClusterName = "carbonscope-eks";
+const namespace = "carbonscope";
 
-const eksCluster = new SunaEksCluster("suna-eks", {
+const eksCluster = new carbonscopeEksCluster("carbonscope-eks", {
   name: eksClusterName,
   environment,
   version: eksConfig.version,
@@ -79,7 +79,7 @@ const eksCluster = new SunaEksCluster("suna-eks", {
   instanceProfile: iamRoles.nodeInstanceProfile,
   tags: COMMON_TAGS,
   apiNodeGroup: {
-    name: "suna-api-nodes",
+    name: "carbonscope-api-nodes",
     instanceTypes: [eksConfig.apiNodeInstanceType],
     capacityType: "ON_DEMAND",
     scalingConfig: {
@@ -96,7 +96,7 @@ const eksCluster = new SunaEksCluster("suna-eks", {
   },
 });
 
-const albControllerRole = new AlbControllerIamRole("suna-alb-controller", {
+const albControllerRole = new AlbControllerIamRole("carbonscope-alb-controller", {
   clusterName: eksClusterName,
   oidcProviderArn: eksCluster.oidcProviderArn,
   oidcProviderUrl: eksCluster.oidcProviderUrl,
@@ -105,7 +105,7 @@ const albControllerRole = new AlbControllerIamRole("suna-alb-controller", {
   tags: COMMON_TAGS,
 });
 
-const clusterAutoscalerRole = new ClusterAutoscalerIamRole("suna-cas", {
+const clusterAutoscalerRole = new ClusterAutoscalerIamRole("carbonscope-cas", {
   clusterName: eksClusterName,
   oidcProviderArn: eksCluster.oidcProviderArn,
   oidcProviderUrl: eksCluster.oidcProviderUrl,
@@ -114,7 +114,7 @@ const clusterAutoscalerRole = new ClusterAutoscalerIamRole("suna-cas", {
   tags: COMMON_TAGS,
 });
 
-const clusterAutoscaler = new ClusterAutoscaler("suna-cas", {
+const clusterAutoscaler = new ClusterAutoscaler("carbonscope-cas", {
   clusterName: eksClusterName,
   namespace: "kube-system",
   serviceAccountName: "cluster-autoscaler",
@@ -122,7 +122,7 @@ const clusterAutoscaler = new ClusterAutoscaler("suna-cas", {
   region,
 }, eksCluster.k8sProvider);
 
-const apiWorkload = new ApiWorkload("suna-api", {
+const apiWorkload = new ApiWorkload("carbonscope-api", {
   name: serviceConfig.name,
   namespace,
   image: serviceConfig.containerImage,
@@ -131,7 +131,7 @@ const apiWorkload = new ApiWorkload("suna-api", {
   cpu: { request: podConfig.cpuRequest, limit: podConfig.cpuLimit },
   memory: { request: podConfig.memoryRequest, limit: podConfig.memoryLimit },
   healthCheckPath: serviceConfig.healthCheckPath,
-  envSecretName: "suna-env",
+  envSecretName: "carbonscope-env",
   secretsArn: secretsManagerArn,
   workersPerPod: podConfig.workersPerPod,
   hpa: {
@@ -150,7 +150,7 @@ const apiWorkload = new ApiWorkload("suna-api", {
   tags: COMMON_TAGS,
 }, eksCluster.k8sProvider);
 
-const monitoring = new EksMonitoring("suna-api-monitoring", {
+const monitoring = new EksMonitoring("carbonscope-api-monitoring", {
   clusterName: eksClusterName,
   deploymentName: serviceConfig.name,
   namespace,

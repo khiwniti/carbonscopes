@@ -316,7 +316,7 @@ export default function AboutPage() {
 
             {/* CarbonScope logo */}
             <div className="text-center mt-6">
-              <Image src="/CarbonScope-symbol.svg" alt="Suna" width={16} height={13} className="inline-block opacity-20 dark:invert" />
+              <Image src="/CarbonScope-symbol.svg" alt="carbonscope" width={16} height={13} className="inline-block opacity-20 dark:invert" />
             </div>
           </div>
 
@@ -351,7 +351,7 @@ export default function AboutPage() {
 
               {/* CarbonScope logo */}
               <div className="text-center mt-4">
-                <Image src="/CarbonScope-symbol.svg" alt="Suna" width={16} height={13} className="inline-block opacity-20 dark:invert" />
+                <Image src="/CarbonScope-symbol.svg" alt="carbonscope" width={16} height={13} className="inline-block opacity-20 dark:invert" />
               </div>
             </div>
 
@@ -380,7 +380,7 @@ export default function AboutPage() {
 
               {/* CarbonScope logo */}
               <div className="text-center mt-4">
-                <Image src="/CarbonScope-symbol.svg" alt="Suna" width={16} height={13} className="inline-block opacity-20 dark:invert" />
+                <Image src="/CarbonScope-symbol.svg" alt="carbonscope" width={16} height={13} className="inline-block opacity-20 dark:invert" />
               </div>
             </div>
           </div>

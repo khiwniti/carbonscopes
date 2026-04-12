@@ -32,7 +32,7 @@ WHERE name IN (
 -- Option 3: Mark templates that have specific metadata indicating they're official
 UPDATE agent_templates
 SET is_CarbonScope_team = true
-WHERE metadata->>'is_suna_default' = 'true'
+WHERE metadata->>'is_carbonscope_default' = 'true'
    OR metadata->>'is_official' = 'true';
 
 -- Log the update

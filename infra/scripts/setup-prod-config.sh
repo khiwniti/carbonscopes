@@ -7,7 +7,7 @@ ENV_FILE="$PROD_DIR/.env"
 
 cd "$PROD_DIR"
 
-echo "=== Suna Production Infrastructure Setup (EKS) ==="
+echo "=== carbonscope Production Infrastructure Setup (EKS) ==="
 echo ""
 
 if [ ! -f "$ENV_FILE" ]; then

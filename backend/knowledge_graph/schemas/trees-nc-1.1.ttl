@@ -62,7 +62,7 @@
     dcterms:title "ออนโทโลยีมาตรฐานอาคารเขียว TREES NC 1.1"@th ;
     dcterms:description "RDF schema for TREES (Thai Rating of Energy and Environmental Sustainability) NC 1.1 certification for new construction. Focuses on Materials & Resources (MR) criteria including green-labeled materials and reused materials. Integrates with TGO material database for Thai construction projects."@en ;
     dcterms:description "โครงร่างข้อมูล RDF สำหรับมาตรฐาน TREES (ระบบการประเมินอาคารเขียวของประเทศไทย) NC 1.1 สำหรับอาคารใหม่ เน้นหมวดวัสดุและทรัพยากร (MR) รวมถึงวัสดุที่มีฉลากสิ่งแวดล้อมและวัสดุนำกลับมาใช้ใหม่ ผสานกับฐานข้อมูลวัสดุ TGO สำหรับโครงการก่อสร้างในประเทศไทย"@th ;
-    dcterms:creator "SUNA BIM Platform" ;
+    dcterms:creator "carbonscope BIM Platform" ;
     dcterms:created "2026-03-23"^^xsd:date ;
     dcterms:modified "2026-03-23"^^xsd:date ;
     owl:versionInfo "1.1" ;

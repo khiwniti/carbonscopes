@@ -23,7 +23,7 @@ All critical and important issues identified in the code review have been addres
 **Status**: FIXED
 - **Location**: Line 130 in `test_versioning.py`
 - **Issue**: `@patch('version_manager.datetime')` would fail because module path was incorrect
-- **Fix**: Changed to `@patch('suna.backend.core.knowledge_graph.versioning.version_manager.datetime')`
+- **Fix**: Changed to `@patch('carbonscope.backend.core.knowledge_graph.versioning.version_manager.datetime')`
 - **Additional fixes**:
   - Removed unnecessary `sys.path` manipulation
   - Updated imports to use full module paths

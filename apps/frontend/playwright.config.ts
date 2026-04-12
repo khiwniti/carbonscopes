@@ -14,10 +14,11 @@ export default defineConfig({
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
-  webServer: {
-    command: 'pnpm dev --port 3002',
-    url: 'http://localhost:3001',
-    reuseExistingServer: true,
-    timeout: 120_000,
-  },
+  // webServer disabled – tests run against manually started dev server
+  // webServer: {
+  //   command: 'pnpm dev --port 3002',
+  //   url: 'http://localhost:3001',
+  //   reuseExistingServer: true,
+  //   timeout: 120_000,
+  // },
 });

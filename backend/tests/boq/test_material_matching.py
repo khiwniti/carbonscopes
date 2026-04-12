@@ -182,8 +182,8 @@ class TestBOQMaterialMatch:
 class TestMatchBOQMaterials:
     """Test match_boq_materials function."""
 
-    @patch('suna.backend.lca.material_matcher.MaterialMatcher')
-    @patch('suna.backend.boq.material_matching._ensure_matcher_imported')
+    @patch('carbonscope.backend.lca.material_matcher.MaterialMatcher')
+    @patch('carbonscope.backend.boq.material_matching._ensure_matcher_imported')
     def test_match_materials_success(self, mock_ensure_import, mock_matcher_class, sample_boq_materials, mock_graphdb_client):
         """Test successful material matching."""
         # Setup mock matcher
@@ -247,8 +247,8 @@ class TestMatchBOQMaterials:
         assert steel_match.classification == "auto_match"
         assert steel_match.confidence == 0.92
 
-    @patch('suna.backend.lca.material_matcher.MaterialMatcher')
-    @patch('suna.backend.boq.material_matching._ensure_matcher_imported')
+    @patch('carbonscope.backend.lca.material_matcher.MaterialMatcher')
+    @patch('carbonscope.backend.boq.material_matching._ensure_matcher_imported')
     def test_match_materials_no_results(self, mock_ensure_import, mock_matcher_class, mock_graphdb_client):
         """Test matching when no results found."""
         mock_matcher = Mock()
@@ -278,8 +278,8 @@ class TestMatchBOQMaterials:
         assert matches[0].confidence == 0.0
         assert matches[0].classification == "rejected"
 
-    @patch('suna.backend.lca.material_matcher.MaterialMatcher')
-    @patch('suna.backend.boq.material_matching._ensure_matcher_imported')
+    @patch('carbonscope.backend.lca.material_matcher.MaterialMatcher')
+    @patch('carbonscope.backend.boq.material_matching._ensure_matcher_imported')
     def test_match_materials_with_alternatives(self, mock_ensure_import, mock_matcher_class, sample_boq_materials, mock_graphdb_client):
         """Test that alternatives are captured."""
         mock_matcher = Mock()

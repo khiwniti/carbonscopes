@@ -9,16 +9,16 @@ Tests cover:
 - EDGE certification level determination
 - Error handling
 
-Run with: pytest suna/backend/lca/tests/test_carbon_calculator.py -v
+Run with: pytest carbonscope/backend/lca/tests/test_carbon_calculator.py -v
 """
 
 import pytest
 from decimal import Decimal
 from unittest.mock import Mock, MagicMock, patch
 
-from suna.backend.lca.carbon_calculator import CarbonCalculator, CarbonCalculationError
-from suna.backend.lca.unit_converter import UnitConverter, UnitConversionError
-from suna.backend.lca.material_matcher import MaterialMatcher, MaterialMatchError
+from carbonscope.backend.lca.carbon_calculator import CarbonCalculator, CarbonCalculationError
+from carbonscope.backend.lca.unit_converter import UnitConverter, UnitConversionError
+from carbonscope.backend.lca.material_matcher import MaterialMatcher, MaterialMatchError
 
 
 class TestUnitConverter:
@@ -110,7 +110,7 @@ class TestMaterialMatcher:
         self.mock_client = Mock()
         self.matcher = MaterialMatcher(self.mock_client, min_confidence=0.6)
 
-    @patch('suna.backend.lca.material_matcher.search_materials')
+    @patch('carbonscope.backend.lca.material_matcher.search_materials')
     def test_exact_match(self, mock_search):
         """Test exact material name matching."""
         mock_search.return_value = [
@@ -130,7 +130,7 @@ class TestMaterialMatcher:
         assert results[0]['material_id'] == 'http://tgo.or.th/materials/concrete-c30'
         assert results[0]['confidence'] == 1.0  # Exact match
 
-    @patch('suna.backend.lca.material_matcher.search_materials')
+    @patch('carbonscope.backend.lca.material_matcher.search_materials')
     def test_fuzzy_match(self, mock_search):
         """Test fuzzy material name matching."""
         mock_search.return_value = [
@@ -149,7 +149,7 @@ class TestMaterialMatcher:
         assert len(results) > 0
         assert results[0]['confidence'] > 0.6  # Should match with good confidence
 
-    @patch('suna.backend.lca.material_matcher.search_materials')
+    @patch('carbonscope.backend.lca.material_matcher.search_materials')
     def test_no_match_below_confidence(self, mock_search):
         """Test that low confidence matches are filtered out."""
         mock_search.return_value = [
@@ -168,7 +168,7 @@ class TestMaterialMatcher:
         # Should filter out low confidence matches
         assert all(r['confidence'] >= 0.6 for r in results)
 
-    @patch('suna.backend.lca.material_matcher.search_materials')
+    @patch('carbonscope.backend.lca.material_matcher.search_materials')
     def test_match_material_best_match(self, mock_search):
         """Test getting best match only."""
         mock_search.return_value = [
@@ -212,7 +212,7 @@ class TestMaterialMatcher:
 
     def test_cache_functionality(self):
         """Test that results are cached."""
-        with patch('suna.backend.lca.material_matcher.search_materials') as mock_search:
+        with patch('carbonscope.backend.lca.material_matcher.search_materials') as mock_search:
             mock_search.return_value = [
                 {
                     'material_id': 'http://tgo.or.th/materials/test',
@@ -238,7 +238,7 @@ class TestMaterialMatcher:
 
     def test_clear_cache(self):
         """Test cache clearing."""
-        with patch('suna.backend.lca.material_matcher.search_materials') as mock_search:
+        with patch('carbonscope.backend.lca.material_matcher.search_materials') as mock_search:
             mock_search.return_value = []
 
             self.matcher.find_material("Test", language="en")
@@ -256,7 +256,7 @@ class TestCarbonCalculator:
         self.mock_client = Mock()
         self.calculator = CarbonCalculator(self.mock_client, min_match_confidence=0.7)
 
-    @patch('suna.backend.lca.carbon_calculator.get_emission_factor')
+    @patch('carbonscope.backend.lca.carbon_calculator.get_emission_factor')
     def test_calculate_material_carbon_simple(self, mock_get_ef):
         """Test simple material carbon calculation."""
         mock_get_ef.return_value = {
@@ -277,7 +277,7 @@ class TestCarbonCalculator:
         # 100 m³ × 445.6 kgCO2e/m³ = 44560 kgCO2e
         assert carbon == Decimal('44560')
 
-    @patch('suna.backend.lca.carbon_calculator.get_emission_factor')
+    @patch('carbonscope.backend.lca.carbon_calculator.get_emission_factor')
     def test_calculate_material_carbon_with_unit_conversion(self, mock_get_ef):
         """Test material carbon calculation with unit conversion."""
         mock_get_ef.return_value = {
@@ -384,7 +384,7 @@ class TestCarbonCalculator:
         assert self.calculator._extract_base_unit("kgCO2e/ton") == "ton"
         assert self.calculator._extract_base_unit("kgCO2e/m²") == "m²"
 
-    @patch('suna.backend.lca.carbon_calculator.get_emission_factor')
+    @patch('carbonscope.backend.lca.carbon_calculator.get_emission_factor')
     def test_calculate_project_carbon(self, mock_get_ef):
         """Test full project carbon calculation."""
         # Mock get_emission_factor to return appropriate values
@@ -460,7 +460,7 @@ class TestIntegration:
         pytest.skip("Integration test - requires running GraphDB instance")
 
         # This would be an actual integration test
-        # from suna.backend.core.knowledge_graph import GraphDBClient
+        # from carbonscope.backend.core.knowledge_graph import GraphDBClient
         # client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
         # calculator = CarbonCalculator(client)
         #

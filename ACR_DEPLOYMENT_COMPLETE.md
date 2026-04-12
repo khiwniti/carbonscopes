@@ -243,7 +243,7 @@ The frontend is a monorepo package with workspace dependencies. To deploy via Co
 
 ```bash
 # Build from root (monorepo context)
-cd /path/to/suna-init
+cd /path/to/carbonscope-init
 docker build -f apps/frontend/Dockerfile -t carbonbimbc6740962ecd.azurecr.io/carbonscope-frontend:latest .
 
 # Deploy to Container Apps

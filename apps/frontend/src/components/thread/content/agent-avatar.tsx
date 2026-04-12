@@ -23,7 +23,7 @@ interface AgentAvatarProps {
   iconColor?: string;
   backgroundColor?: string;
   agentName?: string;
-  isSunaDefault?: boolean;
+  iscarbonscopeDefault?: boolean;
 
   // Common props
   size?: number;
@@ -41,7 +41,7 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
   iconColor: propIconColor,
   backgroundColor: propBackgroundColor,
   agentName: propAgentName,
-  isSunaDefault: propIsSunaDefault,
+  iscarbonscopeDefault: propIscarbonscopeDefault,
 
   // Common props
   size = 16,
@@ -55,7 +55,7 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
   const iconName = propIconName ?? agent?.icon_name;
   const iconColor = propIconColor ?? agent?.icon_color ?? '#6B7280';
   const backgroundColor = propBackgroundColor ?? agent?.icon_background ?? '#F3F4F6';
-  const isSuna = propIsSunaDefault ?? agent?.metadata?.is_suna_default;
+  const iscarbonscope = propIscarbonscopeDefault ?? agent?.metadata?.is_carbonscope_default;
 
   // Calculate responsive border radius - proportional to size
   // Use a ratio that prevents full rounding while maintaining nice corners
@@ -72,7 +72,7 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
     .join(' ');
 
   // Show skeleton when no data is available
-  if (!agent && !propIconName && !propIsSunaDefault && agentId) {
+  if (!agent && !propIconName && !propIscarbonscopeDefault && agentId) {
     return (
       <div
         className={cn("bg-muted animate-pulse", filteredClassName)}
@@ -81,7 +81,7 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
     );
   }
 
-  if (isSuna) {
+  if (iscarbonscope) {
     return (
       <div
         className={cn(
@@ -92,7 +92,7 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
       >
         <img
           src="/CarbonScope-symbol.svg"
-          alt="Suna"
+          alt="carbonscope"
           className="flex-shrink-0 invert dark:invert-0"
           style={{ width: `${size * 0.5}px`, height: `${size * 0.5}px` }}
         />

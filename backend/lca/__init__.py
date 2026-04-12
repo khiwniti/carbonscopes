@@ -1,4 +1,4 @@
-"""LCA (Life Cycle Assessment) Module for SUNA BIM Agent.
+"""LCA (Life Cycle Assessment) Module for carbonscope BIM Agent.
 
 This module provides embodied carbon calculations for construction projects
 with Thailand-specific building materials data from TGO.
@@ -11,8 +11,8 @@ Key Components:
 - tests: Comprehensive test suite
 
 Usage:
-    from suna.backend.lca import CarbonCalculator
-    from suna.backend.core.knowledge_graph import GraphDBClient
+    from carbonscope.backend.lca import CarbonCalculator
+    from carbonscope.backend.core.knowledge_graph import GraphDBClient
 
     # Initialize GraphDB client
     client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")

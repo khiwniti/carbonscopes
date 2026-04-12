@@ -2,7 +2,7 @@
 
 **Date:** March 29, 2026
 **Analyzed By:** Claude Code
-**Session History:** `/teamspace/studios/this_studio/.pi/agent/sessions/--teamspace-studios-this_studio-comprehensive-suna-bim-agent-suna-init--/`
+**Session History:** `/teamspace/studios/this_studio/.pi/agent/sessions/--teamspace-studios-this_studio-comprehensive-carbonscope-bim-agent-carbonscope-init--/`
 
 ---
 
@@ -138,7 +138,7 @@ NEXT_PUBLIC_BACKEND_URL=https://carbonscope-backend.wittybay-b8ab90d4.eastus.azu
 
 **Usage:**
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 ./deploy-frontend.sh
 ```
 
@@ -161,7 +161,7 @@ cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
 
 ```bash
 # Run the automated deployment script
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 ./deploy-frontend.sh
 
 # Expected time: 2-3 minutes
@@ -297,10 +297,10 @@ If you deployed frontend to Container Apps instead:
 
 | Document | Purpose | Location |
 |----------|---------|----------|
-| **ACR_DEPLOYMENT_COMPLETE.md** | Backend deployment details | `/suna-init/` |
-| **FRONTEND_DEPLOYMENT_FIX.md** | Complete fix guide | `/suna-init/` |
-| **deploy-frontend.sh** | Automated deployment script | `/suna-init/` |
-| **DEPLOYMENT_STATUS_REPORT.md** | This document | `/suna-init/` |
+| **ACR_DEPLOYMENT_COMPLETE.md** | Backend deployment details | `/carbonscope-init/` |
+| **FRONTEND_DEPLOYMENT_FIX.md** | Complete fix guide | `/carbonscope-init/` |
+| **deploy-frontend.sh** | Automated deployment script | `/carbonscope-init/` |
+| **DEPLOYMENT_STATUS_REPORT.md** | This document | `/carbonscope-init/` |
 
 ---
 

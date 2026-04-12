@@ -123,6 +123,7 @@ export const useAuth = () => {
         user: null,
         isLoading: true,
         signOut: async () => {},
+        signInAnonymously: async () => {},
       };
     }
     throw new Error('useAuth must be used within an AuthProvider');

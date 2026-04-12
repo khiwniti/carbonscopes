@@ -256,7 +256,7 @@ psql $DATABASE_URL < migrations/*.sql
 ### 1. Export Current Data
 
 ```bash
-cd /path/to/suna-init
+cd /path/to/carbonscope-init
 
 # Dump schema
 pg_dump -h 127.0.0.1 -p 54321 -U postgres --schema-only > schema.sql
@@ -313,7 +313,7 @@ cd apps/frontend
 
 ```bash
 # Stop local Supabase
-cd /path/to/suna-init
+cd /path/to/carbonscope-init
 supabase stop
 
 # Optional: Remove Docker volumes

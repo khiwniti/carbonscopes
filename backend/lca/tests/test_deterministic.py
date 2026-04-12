@@ -26,7 +26,7 @@ class TestRandomSeedConfiguration:
 
     def test_random_seed_is_fixed(self):
         """Test that Python random seed is fixed."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
         import random
 
         # Apply config
@@ -44,7 +44,7 @@ class TestRandomSeedConfiguration:
 
     def test_numpy_seed_is_fixed(self):
         """Test that NumPy random seed is fixed."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         try:
             import numpy as np
@@ -67,7 +67,7 @@ class TestRandomSeedConfiguration:
 
     def test_decimal_precision_configured(self):
         """Test that decimal precision is set correctly."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         DeterministicConfig.apply()
 
@@ -76,14 +76,14 @@ class TestRandomSeedConfiguration:
 
     def test_monte_carlo_disabled(self):
         """Test that Monte Carlo sampling is disabled."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         assert DeterministicConfig.MONTE_CARLO_ITERATIONS == 0
         assert DeterministicConfig.USE_STATIC_LCA is True
 
     def test_config_validation(self):
         """Test that configuration validation works."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         DeterministicConfig.apply()
         assert DeterministicConfig.validate_determinism() is True
@@ -98,7 +98,7 @@ class TestMultipleRunDeterminism:
         try:
             import bw2data as bd
             import bw2calc as bc
-            from suna.backend.lca.brightway_config import initialize_brightway, reset_brightway
+            from carbonscope.backend.lca.brightway_config import initialize_brightway, reset_brightway
 
             # Initialize with validation
             initialize_brightway(validate=True)
@@ -170,7 +170,7 @@ class TestMultipleRunDeterminism:
 
     def test_ten_consecutive_runs_identical(self):
         """Test that same calculation produces identical results in 10 runs."""
-        from suna.backend.lca.brightway_config import ValidationConfig
+        from carbonscope.backend.lca.brightway_config import ValidationConfig
 
         # Get test material
         concrete = self.bd.get_activity((self.db_name, "test-concrete"))
@@ -253,7 +253,7 @@ class TestMultipleRunDeterminism:
 
     def test_decimal_precision_calculations(self):
         """Test that Decimal type maintains precision."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         # Ensure Decimal precision is applied
         DeterministicConfig.apply()
@@ -282,7 +282,7 @@ class TestCacheIndependence:
         try:
             import bw2data as bd
             import bw2calc as bc
-            from suna.backend.lca.brightway_config import initialize_brightway
+            from carbonscope.backend.lca.brightway_config import initialize_brightway
 
             initialize_brightway(validate=True)
 
@@ -323,7 +323,7 @@ class TestCacheIndependence:
 
     def test_same_result_with_cache_cleared(self):
         """Test that clearing cache doesn't change results."""
-        from suna.backend.lca.brightway_config import reset_brightway
+        from carbonscope.backend.lca.brightway_config import reset_brightway
 
         material = self.bd.get_activity((self.db_name, "material-1"))
         functional_unit = {material: 1000}
@@ -353,7 +353,7 @@ class TestInputOrderIndependence:
         try:
             import bw2data as bd
             import bw2calc as bc
-            from suna.backend.lca.brightway_config import initialize_brightway
+            from carbonscope.backend.lca.brightway_config import initialize_brightway
 
             initialize_brightway(validate=True)
 
@@ -410,7 +410,7 @@ class TestInputOrderIndependence:
 
     def test_different_input_order_same_result(self):
         """Test that different input order produces same result."""
-        from suna.backend.lca.brightway_config import reset_brightway
+        from carbonscope.backend.lca.brightway_config import reset_brightway
 
         # Get materials
         mat_a = self.bd.get_activity((self.db_name, "mat-a"))
@@ -452,7 +452,7 @@ class TestConfigurationValidation:
 
     def test_initialization_with_validation(self):
         """Test that initialization validates configuration."""
-        from suna.backend.lca.brightway_config import initialize_brightway
+        from carbonscope.backend.lca.brightway_config import initialize_brightway
 
         # Should not raise an error
         project = initialize_brightway(validate=True)
@@ -460,14 +460,14 @@ class TestConfigurationValidation:
 
     def test_reset_function_exists(self):
         """Test that reset function is available."""
-        from suna.backend.lca.brightway_config import reset_brightway
+        from carbonscope.backend.lca.brightway_config import reset_brightway
 
         # Should not raise an error
         reset_brightway()
 
     def test_validation_detects_misconfiguration(self):
         """Test that validation can detect problems."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
         import random
 
         # Apply correct config first

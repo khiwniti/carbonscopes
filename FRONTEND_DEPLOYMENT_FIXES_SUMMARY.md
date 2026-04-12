@@ -1,6 +1,6 @@
 # Frontend Deployment Fixes - Executive Summary
 
-**Deployed Application:** https://suna-frontend-app.azurewebsites.net  
+**Deployed Application:** https://carbonscope-frontend-app.azurewebsites.net  
 **Investigation Date:** 2026-04-08  
 **Status:** ✅ **ALL CRITICAL ERRORS FIXED**
 
@@ -15,13 +15,13 @@
 **Root Cause:**
 - NextAuth was configured to redirect to wrong domain
 - Users attempting to login would be redirected to `https://carbonscope.ensimu.space`
-- Application deployed at `https://suna-frontend-app.azurewebsites.net`
+- Application deployed at `https://carbonscope-frontend-app.azurewebsites.net`
 
 **Impact:** Users couldn't complete authentication flow
 
 **✅ Fix Applied:**
 ```
-NEXTAUTH_URL=https://suna-frontend-app.azurewebsites.net
+NEXTAUTH_URL=https://carbonscope-frontend-app.azurewebsites.net
 ```
 
 ---
@@ -39,8 +39,8 @@ NEXTAUTH_URL=https://suna-frontend-app.azurewebsites.net
 
 **✅ Fix Applied:**
 ```
-NEXT_PUBLIC_APP_URL=https://suna-frontend-app.azurewebsites.net
-NEXT_PUBLIC_URL=https://suna-frontend-app.azurewebsites.net
+NEXT_PUBLIC_APP_URL=https://carbonscope-frontend-app.azurewebsites.net
+NEXT_PUBLIC_URL=https://carbonscope-frontend-app.azurewebsites.net
 ```
 
 ---

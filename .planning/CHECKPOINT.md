@@ -30,7 +30,7 @@
 
 2. **Azure Backend Access**
    - Logged in: `khiw.n@bks.net`
-   - Backend: `suna-backend-app` in `suna-bim-rg`
+   - Backend: `carbonscope-backend-app` in `carbonscope-bim-rg`
 
 3. **Logs Downloaded & Extracted**
    - Location: `LogFiles/` directory

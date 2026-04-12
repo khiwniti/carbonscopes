@@ -303,7 +303,7 @@
     "scheduledTriggerDescription": "Pianifica un trigger da eseguire a un orario specifico",
     "eventBasedTrigger": "Trigger basato su eventi",
     "eventBasedTriggerDescription": "Crea un trigger da eseguire quando si verifica un evento",
-    "noChatsFound": "Nessuna chat trovata",
+    "noChatsFound": "Nescarbonscope chat trovata",
     "search": "Cerca",
     "searchPlaceholder": "Cerca...",
     "searchResults": "Risultati di ricerca",
@@ -740,7 +740,7 @@
     "sending": "Invio in corso...",
     "magicLinkSent": "Ti abbiamo inviato un magic link a",
     "magicLinkDescription": "Clicca sul link nella tua email per accedere. Il link scadrà tra 1 ora.",
-    "magicLinkExplanation": "Ti invieremo un link sicuro per accedere. Nessuna password necessaria.",
+    "magicLinkExplanation": "Ti invieremo un link sicuro per accedere. Nescarbonscope password necessaria.",
     "magicLinkExpired": "Questo link è scaduto",
     "magicLinkExpiredDescription": "Il magic link su cui hai cliccato è scaduto. I magic link scadono dopo 1 ora per motivi di sicurezza.",
     "resendMagicLink": "Invia di nuovo il magic link",
@@ -749,7 +749,7 @@
     "openProvider": "Apri {provider}",
     "didntReceiveEmail": "Non hai ricevuto l'email?",
     "resend": "Reinvia",
-    "alreadySignedIn": "Sei già connesso. Nessuna azione richiesta.",
+    "alreadySignedIn": "Sei già connesso. Nescarbonscope azione richiesta.",
     "goToDashboard": "Vai alla Dashboard",
     "signInToContinue": "Accedi per continuare",
     "signInOrCreateAccountToTalk": "Accedi o crea un account per parlare con CarbonScope",
@@ -943,7 +943,7 @@
     "disableAll": "Disabilita Tutte",
     "saveChanges": "Salva modifiche"
   },
-  "suna": {
+  "carbonscope": {
     "samplePrompts": "Prompt di esempio",
     "examplePrompts": "Prompt di esempio",
     "chooseStyle": "Scegli uno stile",

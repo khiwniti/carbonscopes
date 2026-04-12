@@ -666,7 +666,7 @@ const SlideContent = ({ slide }: { slide: Slide }) => {
           >
             <Image
               src="/Logomark.svg"
-              alt="Suna"
+              alt="carbonscope"
               width={140}
               height={40}
               className="dark:invert h-10 w-auto"
@@ -742,7 +742,7 @@ const SlideContent = ({ slide }: { slide: Slide }) => {
           >
             <Image
               src="/CarbonScope-symbol.svg"
-              alt="Suna"
+              alt="carbonscope"
               width={80}
               height={80}
               className="dark:invert w-full h-full"
@@ -1123,7 +1123,7 @@ export default function Agents101Page() {
       <div className="fixed top-8 left-8 z-50">
         <Image
           src="/Logomark.svg"
-          alt="Suna"
+          alt="carbonscope"
           width={72}
           height={72}
           className="dark:invert"

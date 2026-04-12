@@ -817,10 +817,10 @@
     "loadingTools": "Tools werden geladen...",
     "noToolsAvailable": "Keine Tools verfügbar",
     "toolsWillAppear": "Tools werden hier angezeigt, sobald sie verfügbar sind",
-    "sunaToolsManaged": "Sunas Tools werden zentral verwaltet und können nicht bearbeitet werden.",
+    "carbonscopeToolsManaged": "carbonscopes Tools werden zentral verwaltet und können nicht bearbeitet werden.",
     "toolsNotEditable": "Diese Tools können nicht bearbeitet werden.",
     "cannotEditTools": "Bearbeitung nicht möglich",
-    "sunaToolsManagedAlert": "Sunas Tools werden zentral verwaltet.",
+    "carbonscopeToolsManagedAlert": "carbonscopes Tools werden zentral verwaltet.",
     "savingChanges": "Speichern...",
     "saveChanges": "Änderungen speichern"
   },

@@ -259,8 +259,8 @@ TOTAL                                     408    109    73%
 ### Example 1: Simple Material Calculation
 
 ```python
-from suna.backend.lca import CarbonCalculator
-from suna.backend.core.knowledge_graph import GraphDBClient
+from carbonscope.backend.lca import CarbonCalculator
+from carbonscope.backend.core.knowledge_graph import GraphDBClient
 
 # Initialize
 client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
@@ -330,7 +330,7 @@ print(f"Total: {result['total_carbon_tonco2e']} tCO2e")
 ### EDGE V3 Schema Integration
 
 ✅ Follows EDGE V3 ontology structure
-✅ Compatible with `/suna/knowledge_graph/ontologies/edge-v3.ttl`
+✅ Compatible with `/carbonscope/knowledge_graph/ontologies/edge-v3.ttl`
 ✅ Implements certification criteria from `/docs/certification-criteria-mapping.md`
 ✅ Supports baseline comparison methodology
 
@@ -343,7 +343,7 @@ The calculator is designed to work standalone with GraphDB, but can be integrate
 calculator = CarbonCalculator(graphdb_client)
 
 # Future: Hybrid mode (GraphDB + Brightway2)
-from suna.backend.lca import initialize_brightway
+from carbonscope.backend.lca import initialize_brightway
 brightway_project = initialize_brightway()
 calculator = CarbonCalculator(graphdb_client, brightway_project=brightway_project)
 ```

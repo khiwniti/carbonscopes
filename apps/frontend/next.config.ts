@@ -16,7 +16,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://suna-backend-app.azurewebsites.net https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://eu.i.posthog.com https://eu.posthog.com https://cloud.langfuse.com http://local-backend http://localhost:*",
+      "connect-src 'self' https://carbonscope-backend-app.azurewebsites.net https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://eu.i.posthog.com https://eu.posthog.com https://cloud.langfuse.com http://local-backend http://localhost:*",
       "frame-src 'self' https://www.youtube.com https://demo.arcade.software",
       "object-src 'none'",
       "base-uri 'self'",
@@ -32,6 +32,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
+  productionBrowserSourceMaps: false,
+
+  experimental: {
+    reactCompiler: false,
+  },
   allowedDevOrigins: [
     'https://3000-01kjj6zms0r5qvm5pxcmq9dx3t.cloudspaces.litng.ai',
     'https://*.cloudspaces.litng.ai',
@@ -53,16 +58,24 @@ const nextConfig: NextConfig = {
     ],
   },
   webpack: (config, { isServer }) => {
+    // Monorepo paths for shared code only. Do not alias `react` / `react-dom` on the
+    // server bundle: Next 15 RSC relies on the `react-server` entry; forcing the
+    // root `react` package into server chunks can yield a null dispatcher and
+    // `Cannot read properties of null (reading 'useState')` at runtime.
     config.resolve.alias = {
       ...config.resolve.alias,
       '@agentpress/shared': path.resolve(__dirname, '../../packages/shared'),
+      'lodash-es': path.resolve(__dirname, '../../node_modules/lodash-es'),
     };
+    if (!isServer) {
+      config.resolve.alias.react = path.resolve(__dirname, '../../node_modules/react');
+      config.resolve.alias['react-dom'] = path.resolve(
+        __dirname,
+        '../../node_modules/react-dom',
+      );
+    }
     if (isServer) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        react: path.resolve(__dirname, '../../node_modules/react'),
-        'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
-      };
+      config.externals = [...(config.externals || []), 'mermaid'];
     }
     return config;
   },

@@ -1,6 +1,6 @@
 services:
   api:
-    image: ghcr.io/carbonscope-ai/suna/suna-backend:latest
+    image: ghcr.io/carbonscope-ai/carbonscope/carbonscope-backend:latest
     platform: linux/amd64
     build:
       context: .
@@ -44,7 +44,7 @@ services:
   # Worker service removed - agent runs now execute directly in API process
   # Memory/categorization tasks also run directly as async background tasks
   # worker:
-  #   image: ghcr.io/carbonscope-ai/suna/suna-backend:latest
+  #   image: ghcr.io/carbonscope-ai/carbonscope/carbonscope-backend:latest
   #   platform: linux/amd64
   #   build:
   #     context: .
@@ -105,7 +105,7 @@ services:
   graphdb:
     image: ontotext/graphdb:10.7.0
     platform: linux/amd64
-    container_name: suna-graphdb
+    container_name: carbonscope-graphdb
     ports:
       - "127.0.0.1:7200:7200"
     volumes:

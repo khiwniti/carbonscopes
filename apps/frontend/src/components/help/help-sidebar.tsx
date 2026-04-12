@@ -41,7 +41,7 @@ const helpData = {
       items: [
         {
           title: "GitHub Repository",
-          url: "https://github.com/CarbonScope-ai/suna",
+          url: "https://github.com/CarbonScope-ai/carbonscope",
           external: true,
         },
         {

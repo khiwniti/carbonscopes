@@ -206,7 +206,7 @@ E2E test suite complete (71 screenshots)
 
 ### For VM Deployment:
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init
 
 # Option 1: Use existing VM
 ./deploy-to-vm.sh

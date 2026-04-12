@@ -77,8 +77,8 @@ WHERE {
 ### Automated Check Script
 
 ```python
-from suna.backend.core.knowledge_graph.versioning import VersionManager
-from suna.backend.core.knowledge_graph.graphdb_client import GraphDBClient
+from carbonscope.backend.core.knowledge_graph.versioning import VersionManager
+from carbonscope.backend.core.knowledge_graph.graphdb_client import GraphDBClient
 
 # Initialize
 client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
@@ -97,7 +97,7 @@ if stale_factors:
 Add to crontab or systemd timer:
 ```bash
 # Run monthly staleness check
-0 9 1 * * /path/to/venv/bin/python -c "from suna.backend.core.knowledge_graph.versioning import run_staleness_check; run_staleness_check()"
+0 9 1 * * /path/to/venv/bin/python -c "from carbonscope.backend.core.knowledge_graph.versioning import run_staleness_check; run_staleness_check()"
 ```
 
 ## Migration Workflow
@@ -165,8 +165,8 @@ g.serialize("tgo_2026_03.ttl", format="turtle")
 ### Step 3: Compare with Previous Version
 
 ```python
-from suna.backend.core.knowledge_graph.versioning import VersionManager
-from suna.backend.core.knowledge_graph.graphdb_client import GraphDBClient
+from carbonscope.backend.core.knowledge_graph.versioning import VersionManager
+from carbonscope.backend.core.knowledge_graph.graphdb_client import GraphDBClient
 
 client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
 vm = VersionManager(client)
@@ -226,8 +226,8 @@ if issues['results']['bindings']:
 ### Step 5: Load New Version
 
 ```python
-from suna.backend.core.knowledge_graph.graphdb_client import GraphDBClient
-from suna.backend.core.knowledge_graph.versioning import VersionManager
+from carbonscope.backend.core.knowledge_graph.graphdb_client import GraphDBClient
+from carbonscope.backend.core.knowledge_graph.versioning import VersionManager
 from rdflib import Graph
 
 # Initialize clients
@@ -291,7 +291,7 @@ Impact on your projects:
 - New projects automatically use the latest data
 - You can compare versions in the Version History tab
 
-Questions? Contact support@sunabim.com
+Questions? Contact support@carbonscopebim.com
 
 Best regards,
 BKS cBIM AI Team
@@ -536,6 +536,6 @@ def test_version_migration():
 ## Contact
 
 For questions about TGO data versioning:
-- Technical: devops@sunabim.com
-- Data Quality: data-team@sunabim.com
+- Technical: devops@carbonscopebim.com
+- Data Quality: data-team@carbonscopebim.com
 - TGO Contact: info@tgo.or.th

@@ -810,10 +810,10 @@
     "loadingTools": "ツールを読み込み中...",
     "noToolsAvailable": "利用可能なツールがありません",
     "toolsWillAppear": "ツールが利用可能になるとここに表示されます",
-    "sunaToolsManaged": "Sunaのツールは一元管理されており、編集できません。",
+    "carbonscopeToolsManaged": "carbonscopeのツールは一元管理されており、編集できません。",
     "toolsNotEditable": "これらのツールは編集できません。",
     "cannotEditTools": "編集不可",
-    "sunaToolsManagedAlert": "Sunaのツールは一元管理されています。",
+    "carbonscopeToolsManagedAlert": "carbonscopeのツールは一元管理されています。",
     "savingChanges": "保存中...",
     "saveChanges": "変更を保存"
   },

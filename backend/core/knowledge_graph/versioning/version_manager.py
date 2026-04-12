@@ -19,8 +19,8 @@ Key Features:
     - Version metadata management
 
 Usage:
-    >>> from suna.backend.core.knowledge_graph.versioning import VersionManager
-    >>> from suna.backend.core.knowledge_graph.graphdb_client import GraphDBClient
+    >>> from carbonscope.backend.core.knowledge_graph.versioning import VersionManager
+    >>> from carbonscope.backend.core.knowledge_graph.graphdb_client import GraphDBClient
     >>>
     >>> client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
     >>> vm = VersionManager(client)

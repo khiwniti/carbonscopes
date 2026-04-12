@@ -19,7 +19,7 @@ import structlog
 logger = structlog.get_logger(__name__)
 
 # Cache directory for downloaded datasets - use home directory to avoid conflicts
-CACHE_DIR = Path.home() / ".cache" / "suna_evals" / "datasets"
+CACHE_DIR = Path.home() / ".cache" / "carbonscope_evals" / "datasets"
 
 def _cleanup_conflicting_folder():
     """Remove any 'datasets' folder in evals/ that might conflict with imports."""

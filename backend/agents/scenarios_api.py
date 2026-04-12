@@ -95,8 +95,8 @@ async def get_scenario_engine():
     TODO: Replace with actual checkpointer and carbon calculator.
     """
     # TODO: Initialize with actual dependencies
-    # from suna.backend.core.agents.checkpointer import get_checkpointer
-    # from suna.backend.core.agents.carbon_calculator import CarbonCalculatorAgent
+    # from carbonscope.backend.core.agents.checkpointer import get_checkpointer
+    # from carbonscope.backend.core.agents.carbon_calculator import CarbonCalculatorAgent
     #
     # checkpointer = get_checkpointer()
     # calculator = CarbonCalculatorAgent(...)

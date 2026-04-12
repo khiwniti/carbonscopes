@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
 // Add route segment config for caching
-export const runtime = 'edge'; // Use edge runtime for better performance
+export const runtime = 'nodejs';
 export const revalidate = 3600; // Cache for 1 hour
 
-export async function GET(request) {
+export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const title = searchParams.get('title');
 
@@ -37,7 +37,7 @@ export async function GET(request) {
 
     const blob = await response.blob();
     const arrayBuffer = await blob.arrayBuffer();
-    const image = Buffer.from(arrayBuffer);
+    const image = new Uint8Array(arrayBuffer);
 
     return new NextResponse(image, {
       status: 200,

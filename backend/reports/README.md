@@ -474,6 +474,6 @@ Copyright © 2026 CarbonBIM. All rights reserved.
 ## Support
 
 For questions or issues:
-- GitHub Issues: https://github.com/cbim-ai/suna/issues
+- GitHub Issues: https://github.com/cbim-ai/carbonscope/issues
 - Documentation: https://docs.carbonbim.com
 - Email: support@bks-cbim.com

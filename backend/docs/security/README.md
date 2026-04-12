@@ -1,6 +1,6 @@
 # Security Documentation
 
-This directory contains security analysis and documentation for the Suna BIM Agent backend.
+This directory contains security analysis and documentation for the carbonscope BIM Agent backend.
 
 ## Documents
 

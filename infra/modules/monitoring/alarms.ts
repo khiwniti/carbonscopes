@@ -13,7 +13,7 @@ export class EksMonitoring extends pulumi.ComponentResource {
   public readonly dashboard: aws.cloudwatch.Dashboard;
 
   constructor(name: string, config: MonitoringConfig, opts?: pulumi.ComponentResourceOptions) {
-    super("suna:monitoring:EksMonitoring", name, {}, opts);
+    super("carbonscope:monitoring:EksMonitoring", name, {}, opts);
 
     this.alertTopic = new aws.sns.Topic(`${name}-alerts`, {
       name: `${config.deploymentName}-alerts`,

@@ -14,12 +14,12 @@ Main Components:
 - audit_trail: Calculation audit trail models (coming in Plan 02-03)
 
 Example Usage:
-    >>> from suna.backend.boq import parse_boq
+    >>> from carbonscope.backend.boq import parse_boq
     >>> result = parse_boq("/path/to/boq.xlsx")
     >>> print(f"Parsed {len(result.materials)} materials")
     >>> print(f"Success rate: {result.metadata['success_rate']}%")
 
-    >>> from suna.backend.boq import get_cache_manager
+    >>> from carbonscope.backend.boq import get_cache_manager
     >>> cache = get_cache_manager()
     >>> stats = cache.get_cache_stats()
     >>> print(f"Cache hit rate: {stats['hit_rate']}%")

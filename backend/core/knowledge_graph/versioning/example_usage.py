@@ -19,7 +19,7 @@ from rdflib import Graph, Namespace, Literal, URIRef
 from rdflib.namespace import RDF, RDFS, XSD
 
 # Add parent directory to path for imports
-sys.path.insert(0, '/teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna/backend')
+sys.path.insert(0, '/teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope/backend')
 
 from core.knowledge_graph.graphdb_client import GraphDBClient, GraphDBError
 from core.knowledge_graph.versioning import VersionManager, VersionManagerError

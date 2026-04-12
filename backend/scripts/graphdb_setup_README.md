@@ -262,7 +262,7 @@ curl -X DELETE http://localhost:7200/rest/repositories/carbonbim-thailand
 ## Troubleshooting
 
 ### Repository Not Found
-- Ensure GraphDB is running: `docker ps | grep suna-graphdb`
+- Ensure GraphDB is running: `docker ps | grep carbonscope-graphdb`
 - Verify repository exists: `curl http://localhost:7200/rest/repositories`
 - Re-run setup script: `python scripts/setup_graphdb_repository.py`
 
@@ -274,7 +274,7 @@ curl -X DELETE http://localhost:7200/rest/repositories/carbonbim-thailand
 ### Connection Refused
 - GraphDB may not be fully started yet
 - Wait 30-60 seconds after `docker compose up -d graphdb`
-- Check logs: `docker logs suna-graphdb`
+- Check logs: `docker logs carbonscope-graphdb`
 
 ### Out of Memory
 - Increase Java heap size in docker-compose.yml

@@ -13,7 +13,7 @@ Thai construction Bill of Quantities (BOQ/วสท.) Excel parser.
 ## Usage
 
 ```python
-from suna.backend.boq import parse_boq
+from carbonscope.backend.boq import parse_boq
 
 # Parse Thai BOQ Excel file
 result = parse_boq("/path/to/boq.xlsx")

@@ -444,9 +444,9 @@ Use `getLifecycleColor(stage)` for programmatic color access.
 
 ## Resources
 
-- **Design Tokens:** `suna-init/apps/frontend/src/lib/design-tokens.ts`
-- **Theme CSS:** `suna-init/apps/frontend/src/styles/theme.css`
-- **Logo Component:** `suna-init/apps/frontend/src/components/brand/carbonscope-logo.tsx`
+- **Design Tokens:** `carbonscope-init/apps/frontend/src/lib/design-tokens.ts`
+- **Theme CSS:** `carbonscope-init/apps/frontend/src/styles/theme.css`
+- **Logo Component:** `carbonscope-init/apps/frontend/src/components/brand/carbonscope-logo.tsx`
 - **EN 15978 Standard:** [ISO 15978:2011](https://www.iso.org/standard/38916.html)
 
 ---

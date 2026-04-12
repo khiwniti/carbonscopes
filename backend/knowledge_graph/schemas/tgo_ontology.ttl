@@ -47,7 +47,7 @@
     dcterms:title "ออนโทโลยีค่าการปล่อยก๊าซเรือนกระจกของวัสดุก่อสร้าง TGO"@th ;
     dcterms:description "RDF schema for Thai construction material carbon emission factors from Thailand Greenhouse Gas Management Organization (TGO)"@en ;
     dcterms:description "โครงร่างข้อมูล RDF สำหรับค่าการปล่อยคาร์บอนของวัสดุก่อสร้างไทยจากองค์การบริหารจัดการก๊าซเรือนกระจก (อบก.)"@th ;
-    dcterms:creator "SUNA BIM Platform" ;
+    dcterms:creator "carbonscope BIM Platform" ;
     dcterms:created "2026-03-22"^^xsd:date ;
     dcterms:modified "2026-03-22"^^xsd:date ;
     owl:versionInfo "1.0.0" ;

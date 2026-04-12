@@ -167,7 +167,7 @@ app.add_exception_handler(RateLimitExceeded, rate_limit_exceeded_handler)
 
 **Test Script 1**: `/auth/send-otp` endpoint
 ```bash
-cd /teamspace/studios/this_studio/comprehensive-suna-bim-agent/suna-init/backend
+cd /teamspace/studios/this_studio/comprehensive-carbonscope-bim-agent/carbonscope-init/backend
 ./test_auth_rate_limit.sh
 ```
 

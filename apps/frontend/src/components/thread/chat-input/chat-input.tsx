@@ -32,7 +32,7 @@ import { ToolCallInput } from './floating-tool-preview';
 import { ChatSnack } from './chat-snack';
 import { Brain, Zap, Database, ArrowDown, ArrowUp, Wrench, Clock, Send } from 'lucide-react';
 import { useMessageQueueStore } from '@/stores/message-queue-store';
-import { useSunaModesStore } from '@/stores/suna-modes-store';
+import { usecarbonscopeModePersistence } from '@/stores/carbonescope-modes-store';
 import { useComposioToolkitIcon } from '@/hooks/composio/use-composio';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ContextUsageIndicator } from '../ContextUsageIndicator';
@@ -413,18 +413,18 @@ function ModeButton({
   isModeDismissing,
   onDeselect,
 }: ModeButtonProps) {
-  const t = useTranslations('suna');
+  const t = useTranslations('carbonscope');
   
   // Read ALL mode state directly from Zustand store with individual selectors
   // Each selector returns a primitive/stable reference, so no infinite loop
-  const selectedMode = useSunaModesStore((state) => state.selectedMode);
-  const selectedCharts = useSunaModesStore((state) => state.selectedCharts);
-  const selectedOutputFormat = useSunaModesStore((state) => state.selectedOutputFormat);
-  const selectedTemplate = useSunaModesStore((state) => state.selectedTemplate);
-  const selectedDocsType = useSunaModesStore((state) => state.selectedDocsType);
-  const selectedImageStyle = useSunaModesStore((state) => state.selectedImageStyle);
-  const selectedCanvasAction = useSunaModesStore((state) => state.selectedCanvasAction);
-  const selectedVideoStyle = useSunaModesStore((state) => state.selectedVideoStyle);
+  const selectedMode = usecarbonscopeModesStore((state) => state.selectedMode);
+  const selectedCharts = usecarbonscopeModesStore((state) => state.selectedCharts);
+  const selectedOutputFormat = usecarbonscopeModesStore((state) => state.selectedOutputFormat);
+  const selectedTemplate = usecarbonscopeModesStore((state) => state.selectedTemplate);
+  const selectedDocsType = usecarbonscopeModesStore((state) => state.selectedDocsType);
+  const selectedImageStyle = usecarbonscopeModesStore((state) => state.selectedImageStyle);
+  const selectedCanvasAction = usecarbonscopeModesStore((state) => state.selectedCanvasAction);
+  const selectedVideoStyle = usecarbonscopeModesStore((state) => state.selectedVideoStyle);
   
   // Generate mode-specific display text - computed directly (no useMemo to ensure fresh values)
   const getDisplayText = () => {
@@ -550,20 +550,20 @@ function ModeButton({
 }
 
 // CarbonScope agent modes switcher - isolated from typing state
-interface SunaAgentModeSwitcherProps {
+interface carbonscopeAgentModeSwitcherProps {
   enabled: boolean;
-  isSunaAgent: boolean;
-  sunaAgentModes: 'adaptive' | 'autonomous' | 'chat';
+  iscarbonscopeAgent: boolean;
+  carbonscopeAgentModes: 'adaptive' | 'autonomous' | 'chat';
   onModeChange: (mode: 'adaptive' | 'autonomous' | 'chat') => void;
 }
 
-const SunaAgentModeSwitcher = memo(function SunaAgentModeSwitcher({
+const carbonscopeAgentModeSwitcher = memo(function carbonscopeAgentModeSwitcher({
   enabled,
-  isSunaAgent,
-  sunaAgentModes,
+  iscarbonscopeAgent,
+  carbonscopeAgentModes,
   onModeChange,
-}: SunaAgentModeSwitcherProps) {
-  if (!enabled || !(isStagingMode() || isLocalMode()) || !isSunaAgent) return null;
+}: carbonscopeAgentModeSwitcherProps) {
+  if (!enabled || !(isStagingMode() || isLocalMode()) || !iscarbonscopeAgent) return null;
 
   return (
     <div className="flex items-center gap-1 p-0.5 bg-muted/50 rounded-lg">
@@ -573,7 +573,7 @@ const SunaAgentModeSwitcher = memo(function SunaAgentModeSwitcher({
             onClick={() => onModeChange('adaptive')}
             className={cn(
               "p-1.5 rounded-md transition-all duration-200 cursor-pointer",
-              sunaAgentModes === 'adaptive'
+              carbonscopeAgentModes === 'adaptive'
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/50"
             )}
@@ -595,7 +595,7 @@ const SunaAgentModeSwitcher = memo(function SunaAgentModeSwitcher({
             onClick={() => onModeChange('autonomous')}
             className={cn(
               "p-1.5 rounded-md transition-all duration-200 cursor-pointer",
-              sunaAgentModes === 'autonomous'
+              carbonscopeAgentModes === 'autonomous'
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/50"
             )}
@@ -617,7 +617,7 @@ const SunaAgentModeSwitcher = memo(function SunaAgentModeSwitcher({
             onClick={() => onModeChange('chat')}
             className={cn(
               "p-1.5 rounded-md transition-all duration-200 cursor-pointer",
-              sunaAgentModes === 'chat'
+              carbonscopeAgentModes === 'chat'
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/50"
             )}
@@ -874,13 +874,13 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
     const [mounted, setMounted] = useState(false);
     const [animatedPlaceholder, setAnimatedPlaceholder] = useState('');
     const [isModeDismissing, setIsModeDismissing] = useState(false);    // CarbonScope Agent Modes feature flag
-    const ENABLE_SUNA_AGENT_MODES = false;
-    const [sunaAgentModes, setSunaAgentModes] = useState<'adaptive' | 'autonomous' | 'chat'>('adaptive');
+    const ENABLE_carbonscope_AGENT_MODES = false;
+    const [carbonscopeAgentModes, setcarbonscopeAgentModes] = useState<'adaptive' | 'autonomous' | 'chat'>('adaptive');
 
     // Read mode-specific state directly from Zustand for markdown generation
-    const selectedCharts = useSunaModesStore((state) => state.selectedCharts);
-    const selectedOutputFormat = useSunaModesStore((state) => state.selectedOutputFormat);
-    const selectedTemplate = useSunaModesStore((state) => state.selectedTemplate);
+    const selectedCharts = usecarbonscopeModesStore((state) => state.selectedCharts);
+    const selectedOutputFormat = usecarbonscopeModesStore((state) => state.selectedOutputFormat);
+    const selectedTemplate = usecarbonscopeModesStore((state) => state.selectedTemplate);
 
     // Voice player state for snack visibility
     const voiceState = useVoicePlayerStore((s) => s.state);
@@ -1012,10 +1012,10 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
     // Check if selected agent is CarbonScope based on agent data
     // While loading, default to CarbonScope (assume CarbonScope is the default agent)
     const selectedAgent = agents.find(agent => agent.agent_id === selectedAgentId);
-    const sunaAgent = agents.find(agent => agent.metadata?.is_suna_default === true);
-    const isSunaAgent = isLoadingAgents 
+    const carbonscopeAgent = agents.find(agent => agent.metadata?.is_carbonscope_default === true);
+    const iscarbonscopeAgent = isLoadingAgents 
         ? true // Show CarbonScope modes while loading
-        : (selectedAgent?.metadata?.is_suna_default || (!selectedAgentId && sunaAgent !== undefined) || false);
+        : (selectedAgent?.metadata?.is_carbonscope_default || (!selectedAgentId && carbonscopeAgent !== undefined) || false);
 
     const { initializeFromAgents } = useAgentSelection();
     useImperativeHandle(ref, () => ({
@@ -1407,11 +1407,11 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
         />
 
         <div className="hidden sm:block">
-          <SunaAgentModeSwitcher
-            enabled={ENABLE_SUNA_AGENT_MODES}
-            isSunaAgent={isSunaAgent}
-            sunaAgentModes={sunaAgentModes}
-            onModeChange={setSunaAgentModes}
+          <carbonscopeAgentModeSwitcher
+            enabled={ENABLE_carbonscope_AGENT_MODES}
+            iscarbonscopeAgent={iscarbonscopeAgent}
+            carbonscopeAgentModes={carbonscopeAgentModes}
+            onModeChange={setcarbonscopeAgentModes}
           />
         </div>
 
@@ -1424,7 +1424,7 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
           </div>
         )}
       </div>
-    ), [hideAttachments, loading, disabled, isAgentRunning, isUploading, sandboxId, projectId, messages, isLoggedIn, isFreeTier, quickIntegrations, integrationIcons, handleOpenRegistry, handleOpenPlanModal, threadId, isSunaAgent, sunaAgentModes, onModeDeselect, isModeDismissing, handleModeDeselect]);
+    ), [hideAttachments, loading, disabled, isAgentRunning, isUploading, sandboxId, projectId, messages, isLoggedIn, isFreeTier, quickIntegrations, integrationIcons, handleOpenRegistry, handleOpenPlanModal, threadId, iscarbonscopeAgent, carbonscopeAgentModes, onModeDeselect, isModeDismissing, handleModeDeselect]);
 
     const rightControls = useMemo(() => (
       <div className='flex items-center gap-1.5 sm:gap-2 flex-shrink-0'>

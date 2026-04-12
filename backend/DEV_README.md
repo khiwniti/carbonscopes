@@ -144,6 +144,6 @@ DEV_AUTH_BYPASS=false
 
 ## Related Files
 
-- **Auth implementation**: `suna-init/backend/core/utils/auth_utils.py` (lines 399-424)
-- **Environment config**: `suna-init/backend/.env`
-- **Config loader**: `suna-init/backend/core/utils/config.py`
+- **Auth implementation**: `carbonscope-init/backend/core/utils/auth_utils.py` (lines 399-424)
+- **Environment config**: `carbonscope-init/backend/.env`
+- **Config loader**: `carbonscope-init/backend/core/utils/config.py`

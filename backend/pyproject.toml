@@ -125,7 +125,7 @@ dependencies = [
 
 [project.urls]
 homepage = "https://www.CarbonScope.com"
-repository = "https://github.com/CarbonScope-ai/suna"
+repository = "https://github.com/CarbonScope-ai/carbonscope"
 
 [tool.setuptools]
 packages = [

@@ -10,7 +10,7 @@ Pulumi.*.yaml
 .env
 *.env
 !*.env.example
-suna.env
+carbonscope.env
 
 # SSH keys
 *.pem

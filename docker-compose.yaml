@@ -40,7 +40,7 @@ services:
       retries: 3
 
   backend:
-    image: ghcr.io/suna-ai/suna-backend:latest
+    image: ghcr.io/carbonscope-ai/carbonscope-backend:latest
     platform: linux/amd64
     build:
       context: ./backend
