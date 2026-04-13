@@ -568,10 +568,14 @@ api_router.include_router(chat_router)  # Chat / computer-use entry point
 )
 # Existing health check under /v1/healthz
 
-# Expose root health check for Docker/CF healthchecks
+# Expose root health check for Docker/CF healthchecks.
+# This is intentionally lightweight so Cloudflare Container health probes
+# succeed quickly even while the rest of the app is still initialising.
 @app.get("/healthz", summary="Root Health Check", tags=["system"])
 async def root_healthz():
-    return await health_check_z()
+    if _is_shutting_down:
+        raise HTTPException(status_code=503, detail="shutting_down")
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 async def health_check_z():

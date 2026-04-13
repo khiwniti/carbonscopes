@@ -11,7 +11,10 @@
     "test:prod-readiness": "playwright test -c playwright.prod.config.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "dev:turbo": "next dev --turbopack"
+    "dev:turbo": "next dev --turbopack",
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "pages:dev": "npx @cloudflare/next-on-pages && npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
+    "pages:deploy": "npx @cloudflare/next-on-pages && npx wrangler pages deploy .vercel/output/static --project-name=carbonscope-frontend"
   },
   "dependencies": {
     "@agentpress/shared": "file:../../packages/shared",
@@ -250,6 +253,7 @@
     "shiki": "^3.12.0",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.2.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@cloudflare/next-on-pages": "^1.13.0"
   }
 }
