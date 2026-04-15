@@ -32,7 +32,7 @@ import { ToolCallInput } from './floating-tool-preview';
 import { ChatSnack } from './chat-snack';
 import { Brain, Zap, Database, ArrowDown, ArrowUp, Wrench, Clock, Send } from 'lucide-react';
 import { useMessageQueueStore } from '@/stores/message-queue-store';
-import { usecarbonscopeModePersistence } from '@/stores/carbonescope-modes-store';
+import { useCarbonScopeModesStore } from '@/stores/carbonscope-modes-store';
 import { useComposioToolkitIcon } from '@/hooks/composio/use-composio';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ContextUsageIndicator } from '../ContextUsageIndicator';
@@ -417,14 +417,14 @@ function ModeButton({
   
   // Read ALL mode state directly from Zustand store with individual selectors
   // Each selector returns a primitive/stable reference, so no infinite loop
-  const selectedMode = usecarbonscopeModesStore((state) => state.selectedMode);
-  const selectedCharts = usecarbonscopeModesStore((state) => state.selectedCharts);
-  const selectedOutputFormat = usecarbonscopeModesStore((state) => state.selectedOutputFormat);
-  const selectedTemplate = usecarbonscopeModesStore((state) => state.selectedTemplate);
-  const selectedDocsType = usecarbonscopeModesStore((state) => state.selectedDocsType);
-  const selectedImageStyle = usecarbonscopeModesStore((state) => state.selectedImageStyle);
-  const selectedCanvasAction = usecarbonscopeModesStore((state) => state.selectedCanvasAction);
-  const selectedVideoStyle = usecarbonscopeModesStore((state) => state.selectedVideoStyle);
+  const selectedMode = useCarbonScopeModesStore((state) => state.selectedMode);
+  const selectedCharts = useCarbonScopeModesStore((state) => state.selectedCharts);
+  const selectedOutputFormat = useCarbonScopeModesStore((state) => state.selectedOutputFormat);
+  const selectedTemplate = useCarbonScopeModesStore((state) => state.selectedTemplate);
+  const selectedDocsType = useCarbonScopeModesStore((state) => state.selectedDocsType);
+  const selectedImageStyle = useCarbonScopeModesStore((state) => state.selectedImageStyle);
+  const selectedCanvasAction = useCarbonScopeModesStore((state) => state.selectedCanvasAction);
+  const selectedVideoStyle = useCarbonScopeModesStore((state) => state.selectedVideoStyle);
   
   // Generate mode-specific display text - computed directly (no useMemo to ensure fresh values)
   const getDisplayText = () => {
@@ -550,20 +550,20 @@ function ModeButton({
 }
 
 // CarbonScope agent modes switcher - isolated from typing state
-interface carbonscopeAgentModeSwitcherProps {
+interface CarbonscopeAgentModeSwitcherProps {
   enabled: boolean;
-  iscarbonscopeAgent: boolean;
+  isCarbonscopeAgent: boolean;
   carbonscopeAgentModes: 'adaptive' | 'autonomous' | 'chat';
   onModeChange: (mode: 'adaptive' | 'autonomous' | 'chat') => void;
 }
 
-const carbonscopeAgentModeSwitcher = memo(function carbonscopeAgentModeSwitcher({
+const CarbonscopeAgentModeSwitcher = memo(function CarbonscopeAgentModeSwitcher({
   enabled,
-  iscarbonscopeAgent,
+  isCarbonscopeAgent,
   carbonscopeAgentModes,
   onModeChange,
-}: carbonscopeAgentModeSwitcherProps) {
-  if (!enabled || !(isStagingMode() || isLocalMode()) || !iscarbonscopeAgent) return null;
+}: CarbonscopeAgentModeSwitcherProps) {
+  if (!enabled || !(isStagingMode() || isLocalMode()) || !isCarbonscopeAgent) return null;
 
   return (
     <div className="flex items-center gap-1 p-0.5 bg-muted/50 rounded-lg">
@@ -874,13 +874,13 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
     const [mounted, setMounted] = useState(false);
     const [animatedPlaceholder, setAnimatedPlaceholder] = useState('');
     const [isModeDismissing, setIsModeDismissing] = useState(false);    // CarbonScope Agent Modes feature flag
-    const ENABLE_carbonscope_AGENT_MODES = false;
-    const [carbonscopeAgentModes, setcarbonscopeAgentModes] = useState<'adaptive' | 'autonomous' | 'chat'>('adaptive');
+    const ENABLE_CARBONSCOPE_AGENT_MODES = false;
+    const [carbonscopeAgentModes, setCarbonscopeAgentModes] = useState<'adaptive' | 'autonomous' | 'chat'>('adaptive');
 
     // Read mode-specific state directly from Zustand for markdown generation
-    const selectedCharts = usecarbonscopeModesStore((state) => state.selectedCharts);
-    const selectedOutputFormat = usecarbonscopeModesStore((state) => state.selectedOutputFormat);
-    const selectedTemplate = usecarbonscopeModesStore((state) => state.selectedTemplate);
+    const selectedCharts = useCarbonScopeModesStore((state) => state.selectedCharts);
+    const selectedOutputFormat = useCarbonScopeModesStore((state) => state.selectedOutputFormat);
+    const selectedTemplate = useCarbonScopeModesStore((state) => state.selectedTemplate);
 
     // Voice player state for snack visibility
     const voiceState = useVoicePlayerStore((s) => s.state);
@@ -1013,7 +1013,7 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
     // While loading, default to CarbonScope (assume CarbonScope is the default agent)
     const selectedAgent = agents.find(agent => agent.agent_id === selectedAgentId);
     const carbonscopeAgent = agents.find(agent => agent.metadata?.is_carbonscope_default === true);
-    const iscarbonscopeAgent = isLoadingAgents 
+    const isCarbonscopeAgent = isLoadingAgents 
         ? true // Show CarbonScope modes while loading
         : (selectedAgent?.metadata?.is_carbonscope_default || (!selectedAgentId && carbonscopeAgent !== undefined) || false);
 
@@ -1407,11 +1407,11 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
         />
 
         <div className="hidden sm:block">
-          <carbonscopeAgentModeSwitcher
-            enabled={ENABLE_carbonscope_AGENT_MODES}
-            iscarbonscopeAgent={iscarbonscopeAgent}
+          <CarbonscopeAgentModeSwitcher
+            enabled={ENABLE_CARBONSCOPE_AGENT_MODES}
+            isCarbonscopeAgent={isCarbonscopeAgent}
             carbonscopeAgentModes={carbonscopeAgentModes}
-            onModeChange={setcarbonscopeAgentModes}
+            onModeChange={setCarbonscopeAgentModes}
           />
         </div>
 
@@ -1424,7 +1424,7 @@ export const ChatInput = memo(forwardRef<ChatInputHandles, ChatInputProps>(
           </div>
         )}
       </div>
-    ), [hideAttachments, loading, disabled, isAgentRunning, isUploading, sandboxId, projectId, messages, isLoggedIn, isFreeTier, quickIntegrations, integrationIcons, handleOpenRegistry, handleOpenPlanModal, threadId, iscarbonscopeAgent, carbonscopeAgentModes, onModeDeselect, isModeDismissing, handleModeDeselect]);
+    ), [hideAttachments, loading, disabled, isAgentRunning, isUploading, sandboxId, projectId, messages, isLoggedIn, isFreeTier, quickIntegrations, integrationIcons, handleOpenRegistry, handleOpenPlanModal, threadId, isCarbonscopeAgent, carbonscopeAgentModes, onModeDeselect, isModeDismissing, handleModeDeselect]);
 
     const rightControls = useMemo(() => (
       <div className='flex items-center gap-1.5 sm:gap-2 flex-shrink-0'>

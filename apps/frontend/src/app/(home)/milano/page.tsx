@@ -10,14 +10,13 @@ import { useAuth } from '@/components/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { useOptimisticAgentStart } from '@/hooks/threads';
 import { useAgentSelection } from '@/stores/agent-selection-store';
-import { usecarbonscopeModePersistence } from '@/stores/suna-modes-store';
+import { useCarbonScopeModePersistence } from '@/stores/carbonscope-modes-store';
 import { useQuery } from '@tanstack/react-query';
 import { agentKeys } from '@/hooks/agents/keys';
 import { getAgents } from '@/hooks/agents/utils';
 
-const carbonscopeModesPanel = lazy(() => 
-  import('@/components/dashboard/suna-modes-panel').then(mod => ({ default: mod.sunaModesPanel }))
-);
+const CarbonScopeModesPanel = lazy(() => 
+  import('@/components/dashboard/carbonscope-modes-panel').then(mod => ({ default: mod.CarbonScopeModesPanel }))
 );
 
 // Mobile users are redirected at the edge by middleware (hyper-fast)
@@ -43,7 +42,7 @@ export default function MilanoPage() {
     setSelectedCharts,
     setSelectedOutputFormat,
     setSelectedTemplate,
-  } = usecarbonscopeModePersistence();
+  } = useCarbonScopeModePersistence();
 
   const { data: agentsResponse } = useQuery({
     queryKey: agentKeys.list({
@@ -164,7 +163,7 @@ export default function MilanoPage() {
               {iscarbonscopeAgent && (
                 <div className="w-full max-w-3xl mx-auto mt-4 px-4 sm:px-0">
                   <Suspense fallback={<div className="h-24 animate-pulse bg-muted/10 rounded-lg" />}>
-                    <carbonscopeModesPanel
+                    <CarbonScopeModesPanel
                       selectedMode={selectedMode}
                       onModeSelect={setSelectedMode}
                       onSelectPrompt={setInputValue}

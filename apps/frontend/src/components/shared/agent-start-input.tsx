@@ -12,8 +12,8 @@ import { ChevronRight } from 'lucide-react';
 import { DynamicGreeting } from '@/components/ui/dynamic-greeting';
 
 // Lazy load heavy components
-const carbonscopeModesPanel = lazy(() => 
-  import('@/components/dashboard/carbonscope-modes-panel').then(mod => ({ default: mod.carbonscopeModesPanel }))
+const CarbonScopeModesPanel = lazy(() => 
+  import('@/components/dashboard/carbonscope-modes-panel').then(mod => ({ default: mod.CarbonScopeModesPanel }))
 );
 const AgentRunLimitBanner = lazy(() => 
   import('@/components/thread/agent-run-limit-banner').then(mod => ({ default: mod.AgentRunLimitBanner }))
@@ -256,7 +256,7 @@ export function AgentStartInput({
       {showModesPanel && (variant === 'hero' || iscarbonscopeAgent) && (
         <div className={modesPanelWrapperClassName || "w-full animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-200 fill-mode-both"}>
           <Suspense fallback={<div className="h-24 bg-muted/10 rounded-lg animate-pulse" />}>
-            <carbonscopeModesPanel
+            <CarbonScopeModesPanel
               selectedMode={selectedMode}
               onModeSelect={setSelectedMode}
               onSelectPrompt={setInputValue}

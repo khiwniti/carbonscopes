@@ -21,8 +21,8 @@ import { ChatInput } from '@/components/thread/chat-input/chat-input';
 import { DynamicGreeting } from '@/components/ui/dynamic-greeting';
 
 // Lazy load heavy components
-const carbonescopeModesPanel = lazy(() => 
-  import('@/components/dashboard/carbonescope-modes-panel').then(mod => ({ default: mod.carbonescopeModesPanel }))
+const CarbonScopeModesPanel = lazy(() => 
+  import('@/components/dashboard/carbonscope-modes-panel').then(mod => ({ default: mod.CarbonScopeModesPanel }))
 );
 const GoogleSignIn = lazy(() => import('@/components/GoogleSignIn'));
 
@@ -262,7 +262,7 @@ export function HeroSection() {
                 width: '100%'
               }}>
                 <Suspense fallback={<div style={{ height: '3rem', background: 'rgba(52, 211, 153, 0.1)', borderRadius: '0.5rem' }} className="animate-pulse" />}>
-<carbonescopeModesPanel
+<CarbonScopeModesPanel
                     selectedMode={selectedMode}
                     onModeSelect={setSelectedMode}
                     onSelectPrompt={setInputValue}

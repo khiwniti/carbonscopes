@@ -28,7 +28,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  outputFileTracingRoot: path.join(__dirname, '../../'),
+  // outputFileTracingRoot: path.join(__dirname, '../../'), // Disabled - causing module resolution issues
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
@@ -65,15 +65,9 @@ const nextConfig: NextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@agentpress/shared': path.resolve(__dirname, '../../packages/shared'),
-      'lodash-es': path.resolve(__dirname, '../../node_modules/lodash-es'),
+      'lodash-es': path.resolve(__dirname, './node_modules/lodash-es'),
     };
-    if (!isServer) {
-      config.resolve.alias.react = path.resolve(__dirname, '../../node_modules/react');
-      config.resolve.alias['react-dom'] = path.resolve(
-        __dirname,
-        '../../node_modules/react-dom',
-      );
-    }
+    // Removed custom react aliases to fix monorepo resolution issues
     if (isServer) {
       config.externals = [...(config.externals || []), 'mermaid'];
     }
