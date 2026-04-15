@@ -139,6 +139,33 @@ jobs:
             echo "✅ DEV deployment complete!"
             docker compose ps
 
+      - name: Health Check
+        run: |
+          echo "🔍 Running health check..."
+          MAX_ATTEMPTS=10
+          ATTEMPT=1
+          API_URL="https://dev-api.CarbonScope.com"
+          
+          while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/health" --max-time 10 --connect-timeout 5 || echo "000")
+            if [ "$HTTP_STATUS" = "200" ]; then
+              echo "✅ Health check passed (HTTP $HTTP_STATUS)"
+              exit 0
+            fi
+            echo "⚠️ Health check attempt $ATTEMPT/$MAX_ATTEMPTS failed (HTTP $HTTP_STATUS)"
+            sleep 15
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+          echo "❌ Health check failed after $MAX_ATTEMPTS attempts"
+          exit 1
+
+      - name: Rollback on Failure
+        if: failure()
+        run: |
+          echo "🔄 Initiating rollback..."
+          echo "To rollback manually: git reset --hard <previous-commit> && git push origin main --force"
+          echo "Or use: docker compose down && docker compose up -d"
+
   # ===========================================================================
   # DEPLOY STAGING: Deploy to STAGING environment (staging branch)
   # ===========================================================================
@@ -175,6 +202,32 @@ jobs:
             echo "✅ STAGING deployment complete!"
             docker compose ps
 
+      - name: Health Check
+        run: |
+          echo "🔍 Running health check..."
+          MAX_ATTEMPTS=10
+          ATTEMPT=1
+          API_URL="https://staging-api.CarbonScope.com"
+          
+          while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/health" --max-time 10 --connect-timeout 5 || echo "000")
+            if [ "$HTTP_STATUS" = "200" ]; then
+              echo "✅ Health check passed (HTTP $HTTP_STATUS)"
+              exit 0
+            fi
+            echo "⚠️ Health check attempt $ATTEMPT/$MAX_ATTEMPTS failed (HTTP $HTTP_STATUS)"
+            sleep 15
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+          echo "❌ Health check failed after $MAX_ATTEMPTS attempts"
+          exit 1
+
+      - name: Rollback on Failure
+        if: failure()
+        run: |
+          echo "🔄 Initiating rollback..."
+          echo "To rollback manually: git reset --hard <previous-commit> && git push origin staging --force"
+
   # ===========================================================================
   # DEPLOY PRODUCTION: Deploy to PRODUCTION (Lightsail + ECS + EKS)
   # ===========================================================================
@@ -210,6 +263,32 @@ jobs:
 
             echo "✅ PRODUCTION Lightsail deployment complete!"
             docker compose ps
+
+      - name: Health Check
+        run: |
+          echo "🔍 Running health check..."
+          MAX_ATTEMPTS=10
+          ATTEMPT=1
+          API_URL="https://api.CarbonScope.com"
+          
+          while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/health" --max-time 10 --connect-timeout 5 || echo "000")
+            if [ "$HTTP_STATUS" = "200" ]; then
+              echo "✅ Health check passed (HTTP $HTTP_STATUS)"
+              exit 0
+            fi
+            echo "⚠️ Health check attempt $ATTEMPT/$MAX_ATTEMPTS failed (HTTP $HTTP_STATUS)"
+            sleep 15
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+          echo "❌ Health check failed after $MAX_ATTEMPTS attempts"
+          exit 1
+
+      - name: Rollback on Failure
+        if: failure()
+        run: |
+          echo "🔄 Initiating rollback..."
+          echo "To rollback manually: git reset --hard <previous-commit> && git push origin PRODUCTION --force"
 
   deploy-production-ecs:
     name: Deploy to PRODUCTION (ECS)
@@ -308,6 +387,33 @@ jobs:
         run: |
           echo "✅ EKS deployment complete!"
           kubectl get pods -n carbonscope
+
+      - name: Health Check
+        run: |
+          echo "🔍 Running health check..."
+          MAX_ATTEMPTS=10
+          ATTEMPT=1
+          API_URL="https://api.CarbonScope.com"
+          
+          while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/health" --max-time 10 --connect-timeout 5 || echo "000")
+            if [ "$HTTP_STATUS" = "200" ]; then
+              echo "✅ Health check passed (HTTP $HTTP_STATUS)"
+              exit 0
+            fi
+            echo "⚠️ Health check attempt $ATTEMPT/$MAX_ATTEMPTS failed (HTTP $HTTP_STATUS)"
+            sleep 15
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+          echo "❌ Health check failed after $MAX_ATTEMPTS attempts"
+          exit 1
+
+      - name: Rollback on Failure
+        if: failure()
+        run: |
+          echo "🔄 Initiating rollback..."
+          kubectl rollout undo deployment/carbonscope-api -n carbonscope || true
+          echo "Rollback initiated. Check deployment status with: kubectl rollout status deployment/carbonscope-api -n carbonscope"
           echo "Current image:"
           kubectl get deployment carbonscope-api -n carbonscope \
             -o jsonpath='{.spec.template.spec.containers[0].image}'
