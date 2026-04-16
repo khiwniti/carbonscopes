@@ -21,9 +21,5 @@
   },
   "resolutions": {
     "chevrotain-allstar>lodash-es": "^4.17.21"
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  }
 }
