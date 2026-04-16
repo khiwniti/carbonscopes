@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,16 @@ interface NotificationCenterProps {
   applicationIdentifier: string;
 }
 
+// Wrapper to handle children prop type issue
+interface NovuProviderWrapperProps extends React.ComponentProps<typeof NovuProvider> {
+  children: ReactNode;
+}
+
+function NovuProviderWrapper(props: NovuProviderWrapperProps) {
+  const { children, ...rest } = props;
+  return <NovuProvider {...rest}>{children}</NovuProvider>;
+}
+
 export function NotificationCenter({ applicationIdentifier }: NotificationCenterProps) {
   const { user } = useAuth();
 
@@ -20,7 +30,7 @@ export function NotificationCenter({ applicationIdentifier }: NotificationCenter
   }
 
   return (
-    <NovuProvider
+    <NovuProviderWrapper
       subscriberId={user.id}
       applicationIdentifier={applicationIdentifier}
       styles={{
@@ -53,7 +63,7 @@ export function NotificationCenter({ applicationIdentifier }: NotificationCenter
           </Button>
         )}
       </PopoverNotificationCenter>
-    </NovuProvider>
+    </NovuProviderWrapper>
   );
 }
 
@@ -66,8 +76,8 @@ export function SimpleNotificationBell() {
   }
 
   return (
-    <NovuProvider subscriberId={user.id} applicationIdentifier={applicationIdentifier}>
+    <NovuProviderWrapper subscriberId={user.id} applicationIdentifier={applicationIdentifier}>
       <NotificationBell />
-    </NovuProvider>
+    </NovuProviderWrapper>
   );
 }

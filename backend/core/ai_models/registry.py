@@ -199,19 +199,15 @@ class ModelFactory:
     
     @staticmethod
     def create_basic_model(main_llm: str, custom_model: Optional[str] = None) -> Model:
-    pass
         # Default models per provider
-    default_models = {
-        "bedrock": BedrockConfig.get_haiku_arn(),
-        "anthropic": "anthropic/claude-haiku-4-5-20251001",
-        "grok": "openrouter/x-ai/grok-4.1-fast",
-        "openai": "openrouter/openai/gpt-4o-mini",
-        "minimax": "openrouter/minimax/minimax-m2.1",
-        "kimi": "openrouter/moonshotai/kimi-k2.5",
-        "nvidia": "openrouter/nvidia/llama-3.1-nemotron-70b-instruct",
-        "pi": "openrouter/mistral/pi-3",
-        "hermes": "openrouter/nousresearch/hermes-3-llama-3.1-70b",
-    }
+        default_models = {
+            "bedrock": BedrockConfig.get_haiku_arn(),
+            "anthropic": "anthropic/claude-haiku-4-5-20251001",
+            "grok": "openrouter/x-ai/grok-4.1-fast",
+            "openai": "openrouter/openai/gpt-4o-mini",
+            "minimax": "openrouter/minimax/minimax-m2.1",
+            "kimi": "openrouter/moonshotai/kimi-k2.5",
+        }
 
         if main_llm == "kimi":
             return Model(
@@ -323,7 +319,7 @@ class ModelFactory:
                 name="CarbonScope Basic (Azure)",
                 litellm_model_id=f"azure_ai/{deployment}",
                 provider=ModelProvider.AZURE,
-                aliases=["CarbonScope-basic", "CarbonScope Basic", "gpt-4o", "gpt-4o-mini", "openai/gpt-4o", "openai/gpt-4o-mini"],
+                aliases=["CarbonScope-basic", "CarbonScope Basic"],
                 context_window=200_000,
                 capabilities=[
                     ModelCapability.CHAT,
@@ -504,7 +500,7 @@ class ModelFactory:
                 name="CarbonScope Advanced Mode (Azure)",
                 litellm_model_id=f"azure_ai/{deployment}",
                 provider=ModelProvider.AZURE,
-                aliases=["CarbonScope-power", "CarbonScope POWER Mode", "CarbonScope Power", "CarbonScope Advanced Mode", "claude-3-5-sonnet", "anthropic/claude-3-5-sonnet"],
+                aliases=["CarbonScope-power", "CarbonScope POWER Mode", "CarbonScope Power", "CarbonScope Advanced Mode"],
                 context_window=200_000,
                 capabilities=[
                     ModelCapability.CHAT,

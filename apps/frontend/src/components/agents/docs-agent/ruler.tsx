@@ -123,7 +123,9 @@ const Marker = ({ position, isLeft, isDragging, onMouseDown, onDoubleClick }: Ma
           onMouseDown={onMouseDown}
           onDoubleClick={onDoubleClick}
         >
-            <FaCaretDown className="absolute left-1/2 top-0 h-full fill-red-500 transform -translate-x-1/2" />
+            <span style={{ position: 'absolute', left: '50%', top: 0, height: '100%', transform: 'translateX(-50%)', color: '#ef4444' }}>
+  <FaCaretDown />
+</span>
             <div
               className="absolute top-4 left-1/2 transform -translate-x-1/2"
               style={{

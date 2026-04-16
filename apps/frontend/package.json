@@ -247,6 +247,7 @@
     "@types/node": "^20",
     "@types/react": "^19.1.17",
     "@types/react-dom": "^19.2.3",
+    "@types/styled-jsx": "^3.4.4",
     "@types/turndown": "^5.0.5",
     "encoding": "^0.1.13",
     "eslint": "^9",

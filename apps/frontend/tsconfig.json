@@ -34,7 +34,8 @@
         "../../packages/shared/src/*"
       ]
     },
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "types": ["styled-jsx"]
   },
   "include": [
     "**/*.ts",
