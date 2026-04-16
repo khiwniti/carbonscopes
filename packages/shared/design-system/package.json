@@ -1,0 +1,33 @@
+{
+  "name": "@carbonscope/design-system",
+  "version": "1.0.0",
+  "description": "CarbonScope Design System - Dark engineering theme for embodied & operational carbon assessment",
+  "main": "./components/index.ts",
+  "types": "./components/index.ts",
+  "exports": {
+    ".": "./components/index.ts",
+    "./tokens": "./tokens.ts",
+    "./global.css": "./global.css"
+  },
+  "files": [
+    "tokens.ts",
+    "global.css",
+    "components"
+  ],
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "design-system",
+    "carbonscope",
+    "carbon-assessment",
+    "en-15978",
+    "sustainability"
+  ],
+  "author": "carbonscope BIM Agent Team",
+  "license": "MIT"
+}

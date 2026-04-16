@@ -1,0 +1,296 @@
+/**
+ * ╔══════════════════════════════════════════════════════════════════════╗
+ * ║  CARBONSCOPE — Global Styles & Animations                           ║
+ * ║  Dark Engineering Base + Emerald Green Accent                       ║
+ * ╚══════════════════════════════════════════════════════════════════════╝
+ */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FONTS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Fonts loaded via next/font in application - no CDN import needed */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GLOBAL RESETS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SCROLLBAR STYLES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cs-bg-base, #0B1120);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cs-border-default, #1E293B);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cs-border-hover, #334155);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   KEYFRAME ANIMATIONS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@keyframes cs-fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cs-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cs-scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cs-slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cs-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes cs-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.2);
+  }
+}
+
+@keyframes cs-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes cs-countUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cs-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes cs-fillUp {
+  from {
+    height: 0%;
+  }
+  to {
+    height: var(--target-h);
+  }
+}
+
+@keyframes cs-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes cs-spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   UTILITY CLASSES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Staggered animations for child elements */
+.cs-stagger > * {
+  animation: cs-fadeUp 0.5s cubic-bezier(0.45, 0, 0.15, 1) both;
+}
+
+.cs-stagger > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.cs-stagger > *:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.cs-stagger > *:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.cs-stagger > *:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.cs-stagger > *:nth-child(5) {
+  animation-delay: 240ms;
+}
+
+.cs-stagger > *:nth-child(6) {
+  animation-delay: 300ms;
+}
+
+/* Fade in animation */
+.cs-animate-fadeIn {
+  animation: cs-fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scale in animation */
+.cs-animate-scaleIn {
+  animation: cs-scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Slide right animation */
+.cs-animate-slideRight {
+  animation: cs-slideRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Pulse animation */
+.cs-animate-pulse {
+  animation: cs-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Glow animation */
+.cs-animate-glow {
+  animation: cs-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Shimmer animation */
+.cs-animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--cs-bg-hover, #1E293B) 25%,
+    var(--cs-bg-elevated, #1A2332) 50%,
+    var(--cs-bg-hover, #1E293B) 75%
+  );
+  background-size: 200% 100%;
+  animation: cs-shimmer 1.5s ease-in-out infinite;
+}
+
+/* Float animation */
+.cs-animate-float {
+  animation: cs-float 3s ease-in-out infinite;
+}
+
+/* Spin animation */
+.cs-animate-spin {
+  animation: cs-spin 2s linear infinite;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME CLASSES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.carbonscope-dark {
+  background: var(--cs-bg-base, #0B1120);
+  color: var(--cs-text-primary, #E2E8F0);
+  font-family: var(--cs-font-body, 'Plus Jakarta Sans', system-ui, sans-serif);
+}
+
+.carbonscope-card {
+  background: var(--cs-bg-card, #162032);
+  border-radius: var(--cs-radius-lg, 14px);
+  border: 1px solid var(--cs-border-default, #1E293B);
+}
+
+.carbonscope-button {
+  background: var(--cs-green-600, #059669);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--cs-radius-md, 10px);
+  font-family: var(--cs-font-body, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carbonscope-button:hover {
+  background: var(--cs-green-700, #047857);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.15);
+}
+
+.carbonscope-input {
+  background: var(--cs-bg-input, #0D1526);
+  border-radius: var(--cs-radius-md, 10px);
+  border: 1.5px solid var(--cs-border-default, #1E293B);
+  color: var(--cs-text-primary, #E2E8F0);
+  font-family: var(--cs-font-body, 'Plus Jakarta Sans', system-ui, sans-serif);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carbonscope-input:focus {
+  border-color: var(--cs-border-active, #059669);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.5);
+  outline: none;
+}
