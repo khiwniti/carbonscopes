@@ -1,7 +1,7 @@
 # Cloudflare Pages configuration for CarbonScopes frontend
 # Deployed via @cloudflare/next-on-pages
 
-name = "carbonscope-frontend"
+name = "carbonscopes-frontend"
 compatibility_date = "2025-04-01"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
