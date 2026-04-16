@@ -1,5 +1,4 @@
 name: Deploy to Cloudflare Pages
-
 on:
   push:
     branches: [main]
@@ -32,10 +31,9 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: carbonscopes-frontend
-          directory: apps/frontend/.next/standalone
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd apps/frontend
+          npx wrangler pages deploy .next/server/app --project-name=carbonscopes-frontend --commit-dirty
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
