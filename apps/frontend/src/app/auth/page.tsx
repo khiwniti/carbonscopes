@@ -761,7 +761,7 @@ function LoginContent() {
                       btn.disabled = false;
                       return;
                     }
-                    router.replace(returnUrl || '/agents');
+                    router.replace(returnUrl || '/dashboard');
                   } catch (err) {
                     console.error('Anonymous sign-in exception:', err);
                     btn.textContent = 'Error - try again';
