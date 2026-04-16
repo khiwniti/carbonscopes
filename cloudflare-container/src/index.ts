@@ -17,7 +17,7 @@ const BACKEND_PATH_PREFIXES = ['/v1/', '/health', '/healthz', '/docs', '/openapi
 
 /** Allowed origins for CORS. Adjust as needed. */
 const ALLOWED_ORIGINS = [
-  'https://carbonscope.ensimu.space',
+  'https://carbonscope.simu.space',
   'https://carbonscope-frontend.pages.dev',
   'http://localhost:3000',
 ];

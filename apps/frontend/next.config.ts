@@ -17,7 +17,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://api.carbonscope.ensimu.space https://carbonscope-backend-app.azurewebsites.net https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://eu.i.posthog.com https://eu.posthog.com https://cloud.langfuse.com https://js.stripe.com http://local-backend http://localhost:*",
+      "connect-src 'self' https://api.carbonscope.simu.space https://carbonscope-backend-app.azurewebsites.net https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://eu.i.posthog.com https://eu.posthog.com https://cloud.langfuse.com https://js.stripe.com http://local-backend http://localhost:*",
       "frame-src 'self' https://www.youtube.com https://demo.arcade.software https://js.stripe.com",
       "object-src 'none'",
       "base-uri 'self'",

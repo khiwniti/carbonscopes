@@ -199,6 +199,7 @@ class ModelFactory:
     
     @staticmethod
     def create_basic_model(main_llm: str, custom_model: Optional[str] = None) -> Model:
+    pass
         # Default models per provider
     default_models = {
         "bedrock": BedrockConfig.get_haiku_arn(),
