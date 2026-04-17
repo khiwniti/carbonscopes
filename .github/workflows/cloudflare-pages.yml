@@ -30,10 +30,82 @@ jobs:
         env:
           NODE_OPTIONS: --max-old-space-size=4096
 
+      - name: Build for Vercel (for static export)
+        run: |
+          cd apps/frontend
+          npx vercel build --prod
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+          VERCEL_CLI: "true"
+
+      - name: Add Cloudflare Pages Worker
+        run: |
+          cd apps/frontend
+          # Create _worker.js for SPA routing
+          cat > .vercel/output/static/_worker.js << 'WORKEREOF'
+/**
+ * Cloudflare Pages Worker for SPA fallback
+ */
+
+const SPA_ROUTES = [
+  '/dashboard', '/auth', '/agents', '/settings', '/projects',
+  '/pricing', '/help', '/about', '/status', '/support',
+  '/checkout', '/account', '/triggers', '/files', '/knowledge',
+  '/legal', '/brand', '/careers', '/berlin', '/milano',
+  '/suna', '/thread', '/tutorials', '/subscription',
+  '/onboarding-demo', '/agents-101', '/credits-explained', '/setting-up',
+];
+
+const SPA_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarbonScope</title>
+<style>
+body { font-family: system-ui, sans-serif; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+.container { text-align: center; padding: 2rem; }
+h1 { background: linear-gradient(90deg, #22c55e, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>CarbonScope</h1>
+<p>Loading...</p>
+</div>
+</body>
+</html>`;
+
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const pathname = url.pathname;
+
+    if (
+      pathname.startsWith('/_next/') ||
+      pathname.includes('.') ||
+      pathname.startsWith('/favicon')
+    ) {
+      return env.ASSETS.fetch(request);
+    }
+
+    const isSpaRoute = SPA_ROUTES.some(route => pathname.startsWith(route) || pathname === route);
+
+    if (isSpaRoute) {
+      return new Response(SPA_HTML, {
+        headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      });
+    }
+
+    return env.ASSETS.fetch(request);
+  }
+};
+WORKEREOF
+
       - name: Deploy to Cloudflare Pages
         run: |
           cd apps/frontend
-          npx wrangler pages deploy .next/server/app --project-name=carbonscopes-frontend --commit-dirty
+          npx wrangler pages deploy .vercel/output/static --project-name=carbonscopes-frontend --commit-dirty
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
