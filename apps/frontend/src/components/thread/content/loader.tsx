@@ -17,7 +17,7 @@ if (typeof document !== 'undefined') {
   if (!document.getElementById(styleId)) {
     const style = document.createElement('style');
     style.id = styleId;
-    style.textContent = \`
+    style.textContent = `
       .bouncy-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: bounce 1s ease-in-out infinite; }
       .bouncy-dot-1 { animation-delay: 0ms; }
       .bouncy-dot-2 { animation-delay: 160ms; }
@@ -27,7 +27,7 @@ if (typeof document !== 'undefined') {
       .thinking-text-enter { opacity: 1; transform: translateY(0); }
       .thinking-text-exit { opacity: 0; transform: translateY(-4px); }
       @keyframes shimmerFlow { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
-    \`;
+    `;
     document.head.appendChild(style);
   }
 }
@@ -59,9 +59,9 @@ export const AgentLoader = () => {
 
       {/* Fun cycling text */}
       <span
-        className={\`text-sm text-muted-foreground whitespace-nowrap thinking-text \${
+        className={`text-sm text-muted-foreground whitespace-nowrap thinking-text ${
           isTransitioning ? 'thinking-text-exit' : 'thinking-text-enter'
-        }\`}
+        }`}
       >
         {thinkingPhrases[phraseIndex]}
       </span>
