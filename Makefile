@@ -1,31 +1,32 @@
 # CarbonScopes Makefile
-.PHONY: help install dev frontend build deploy clean test lint
+.PHONY: help install start dev frontend build deploy clean test lint
 
 help:
 	@echo "CarbonScopes - Available Commands:"
 	@echo "  make install    - Install all dependencies"
-	@echo "  make dev        - Start development servers"
+	@echo "  make start      - Start all development servers"
 	@echo "  make frontend   - Start frontend only (port 3000)"
-	@echo "  make build      - Build for production"
+	@echo "  make build      - Build frontend for production"
 	@echo "  make deploy     - Deploy to Cloudflare Workers"
 	@echo "  make clean      - Clean build artifacts"
 	@echo "  make test       - Run tests"
+	@echo "  make lint       - Lint code"
 
 install:
 	@echo "Installing dependencies..."
 	pnpm install
 
-dev:
+start:
 	@echo "Starting development servers..."
-	pnpm dev
+	pnpm dev:frontend & pnpm dev:mobile &
 
 frontend:
 	@echo "Starting frontend server..."
-	cd apps/frontend && pnpm dev
+	pnpm dev:frontend
 
 build:
-	@echo "Building for production..."
-	pnpm build
+	@echo "Building frontend for production..."
+	pnpm build:frontend
 
 deploy:
 	@echo "Deploying to Cloudflare Workers..."
@@ -41,8 +42,8 @@ clean:
 
 test:
 	@echo "Running tests..."
-	pnpm test
+	cd apps/frontend && pnpm test
 
 lint:
 	@echo "Linting code..."
-	pnpm lint
+	cd apps/frontend && pnpm lint
