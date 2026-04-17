@@ -5,7 +5,7 @@ help:
 	@echo "CarbonScopes - Available Commands:"
 	@echo "  make install    - Install all dependencies"
 	@echo "  make start      - Start all development servers"
-	@echo "  make frontend   - Start frontend only (port 3000)"
+	@echo "  make frontend   - Start frontend only (port 3000, public)"
 	@echo "  make build      - Build frontend for production"
 	@echo "  make deploy     - Deploy to Cloudflare Workers"
 	@echo "  make clean      - Clean build artifacts"
@@ -18,11 +18,11 @@ install:
 
 start:
 	@echo "Starting development servers..."
-	pnpm dev:frontend & pnpm dev:mobile &
+	pnpm dev:frontend
 
 frontend:
-	@echo "Starting frontend server..."
-	pnpm dev:frontend
+	@echo "Starting frontend server on 0.0.0.0:3000..."
+	cd apps/frontend && npx next dev -p 3000 -H 0.0.0.0
 
 build:
 	@echo "Building frontend for production..."
