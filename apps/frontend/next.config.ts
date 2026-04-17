@@ -28,7 +28,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  // Note: 'standalone' output is for Docker/container deployments
+  // For Cloudflare Pages, remove this line or use @cloudflare/next-on-pages
+  // output: 'standalone',
   // outputFileTracingRoot: path.join(__dirname, '../../'), // Disabled - causing module resolution issues
   reactStrictMode: false,
   poweredByHeader: false,
