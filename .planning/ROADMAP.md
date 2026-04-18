@@ -6,7 +6,7 @@ Bring the existing CarbonScopes brownfield codebase from its current state to pr
 
 ## Phases
 
-- [ ] **Phase 1: Critical Fixes & Security** — Resolve blocking issues preventing safe development
+- [x] **Phase 1: Critical Fixes & Security** — Resolve blocking issues preventing safe development
 - [ ] **Phase 2: CI/CD & Build Hardening** — Establish quality gates and clean deployment
 - [ ] **Phase 3: Core Pipeline Validation** — Verify carbon calculation pipeline end-to-end
 - [ ] **Phase 4: Auth & Session Stabilization** — Ensure consistent auth across frontend/backend
@@ -28,9 +28,9 @@ Bring the existing CarbonScopes brownfield codebase from its current state to pr
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Resolve merge conflicts and remove repo debris (FIX-01, FIX-02, ARCH-02)
-- [ ] 01-02: Security audit — env files, secrets, CSP hardening (FIX-03, SEC-01, SEC-03)
-- [ ] 01-03: Clean up dead code and verify OAuth auth flows (FIX-04, AUTH-01, AUTH-02)
+- [x] 01-01: Resolve merge conflicts and remove repo debris (FIX-01, FIX-02, ARCH-02)
+- [x] 01-02: Security audit — env files, secrets, CSP hardening (FIX-03, SEC-01, SEC-03)
+- [x] 01-03: Clean up dead code and verify OAuth auth flows (FIX-04, AUTH-01, AUTH-02)
 
 ### Phase 2: CI/CD & Build Hardening
 **Goal**: Establish automated quality gates so broken code cannot reach production. Clean deployment configuration.
