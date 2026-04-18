@@ -280,6 +280,7 @@ webapp_logs.zip
 fibonacci.py
 fibonacci_memo.py
 2026-*-this-session-is-being-continued-*.txt
+pi-session-*.html
 
 # Playwright test results
 apps/frontend/test-results/
