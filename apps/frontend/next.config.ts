@@ -17,7 +17,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://api.carbonscope.simu.space https://carbonscope-backend-app.azurewebsites.net https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://eu.i.posthog.com https://eu.posthog.com https://cloud.langfuse.com https://js.stripe.com http://local-backend http://localhost:*",
+      "connect-src 'self' https://vplbjxijbrgwskgxiukd.supabase.co wss://*.supabase.co https://*.supabase.co https://integrate.api.nvidia.com https://carbonscope.simu.space https://*.workers.dev https://www.googletagmanager.com https://eu.i.posthog.com https://eu.posthog.com https://cloud.langfuse.com https://js.stripe.com http://localhost:*",
       "frame-src 'self' https://www.youtube.com https://demo.arcade.software https://js.stripe.com",
       "object-src 'none'",
       "base-uri 'self'",
@@ -88,12 +88,9 @@ const nextConfig: NextConfig = {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
   async rewrites() {
-    return [
-      {
-        source: '/api/v1/:path*',
-        destination: 'http://localhost:8000/v1/:path*',
-      },
-    ];
+    // In production, API calls go directly to backend Worker
+    // For local development, use the environment variable NEXT_PUBLIC_API_URL
+    return [];
   },
 };
 
