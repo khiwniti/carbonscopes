@@ -1,4 +1,4 @@
-# ARIA Labels Audit — suna-init Frontend
+# ARIA Labels Audit — carbonscope-init Frontend
 
 **Date**: 2026-04-02
 **Status**: In Progress

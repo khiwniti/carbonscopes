@@ -880,9 +880,18 @@ async def get_active_agent_runs(user_id: str = Depends(verify_and_get_user_id_fr
     try:
         active_runs = await repo_get_active_runs(user_id)
         return {"active_runs": active_runs}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error fetching active runs: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to fetch active runs: {str(e)}")
+        from core.services.db import _is_db_unavailable
+        if _is_db_unavailable(e):
+            raise HTTPException(
+                status_code=503,
+                detail="Database temporarily unavailable. Please try again shortly.",
+                headers={"Retry-After": "10"},
+            )
+        raise HTTPException(status_code=500, detail="Failed to fetch active runs.")
 
 
 @router.get("/thread/{thread_id}/agent-runs", summary="List Thread Agent Runs", operation_id="list_thread_agent_runs")

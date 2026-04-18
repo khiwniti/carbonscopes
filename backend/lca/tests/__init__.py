@@ -7,7 +7,7 @@ This package contains tests for:
 - LCA calculation accuracy
 
 Run tests with:
-    pytest suna/backend/lca/tests/ -v
+    pytest carbonscope/backend/lca/tests/ -v
 """
 
 __version__ = "1.0.0"

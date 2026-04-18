@@ -342,6 +342,7 @@ class Configuration:
     
     # Search and other API keys (all optional tools)
     TAVILY_API_KEY: Optional[str] = None
+    EXA_API_KEY: Optional[str] = None
     RAPID_API_KEY: Optional[str] = None
     SERPER_API_KEY: Optional[str] = None
     CLOUDFLARE_API_TOKEN: Optional[str] = None
@@ -389,8 +390,8 @@ class Configuration:
     STRIPE_PRODUCT_ID_STAGING: Optional[str] = 'prod_SCgIj3G7yPOAWY'
     
     # Sandbox configuration
-    SANDBOX_IMAGE_NAME = "CarbonScope/suna:0.1.3.30"
-    SANDBOX_SNAPSHOT_NAME = "CarbonScope/suna:0.1.3.30"
+    SANDBOX_IMAGE_NAME = "CarbonScope/carbonscope:0.1.3.30"
+    SANDBOX_SNAPSHOT_NAME = "CarbonScope/carbonscope:0.1.3.30"
     SANDBOX_ENTRYPOINT = "/usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisord.conf"
     
     # Debug configuration

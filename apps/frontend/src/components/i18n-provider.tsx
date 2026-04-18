@@ -89,10 +89,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       if (!translations || typeof translations !== 'object') {
         throw new Error(`Invalid translations object for locale ${targetLocale}`);
       }
-      if (!translations.common || !translations.suna) {
+      if (!translations.common || !translations.carbonscope) {
         logger.warn(`Missing sections in ${targetLocale}:`, {
           hasCommon: !!translations.common,
-          hasSuna: !!translations.suna,
+          hascarbonscope: !!translations.carbonscope,
           keys: Object.keys(translations).slice(0, 10)
         });
       }

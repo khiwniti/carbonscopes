@@ -10,7 +10,7 @@ from datetime import datetime
 from unittest.mock import Mock, patch
 
 # Import from local module
-from suna.backend.core.knowledge_graph.versioning.version_manager import VersionManager
+from carbonscope.backend.core.knowledge_graph.versioning.version_manager import VersionManager
 
 
 class TestVersionManager(unittest.TestCase):
@@ -120,7 +120,7 @@ class TestVersionManager(unittest.TestCase):
 
         self.assertEqual(custom_vm.staleness_threshold_months, 12)
 
-    @patch('suna.backend.core.knowledge_graph.versioning.version_manager.datetime')
+    @patch('carbonscope.backend.core.knowledge_graph.versioning.version_manager.datetime')
     def test_find_stale_factors_mock(self, mock_datetime):
         """Test finding stale factors with mocked GraphDB."""
         # Mock datetime

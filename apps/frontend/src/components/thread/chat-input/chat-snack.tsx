@@ -1,3 +1,10 @@
+/**
+ * TODO: BILLING DISABLED - The 'upgrade' notification branch (lines ~74-76, ~269-321)
+ * is dead code. It checks isFreeTier and renders UpgradePreview, but the
+ * onOpenUpgrade callback is a no-op (openPricingModal does nothing).
+ * Remove the upgrade branch when billing is confirmed permanently disabled,
+ * or re-enable when billing is turned back on.
+ */
 'use client';
 
 import React from 'react';

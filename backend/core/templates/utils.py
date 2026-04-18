@@ -103,9 +103,9 @@ def extract_custom_type_from_name(name: str) -> Optional[str]:
     return None
 
 
-def is_suna_default_agent(agent_data: Dict[str, Any]) -> bool:
+def is_carbonscope_default_agent(agent_data: Dict[str, Any]) -> bool:
     metadata = agent_data.get('metadata', {})
-    return metadata.get('is_suna_default', False)
+    return metadata.get('is_carbonscope_default', False)
 
 
 def format_template_for_response(template: AgentTemplate) -> Dict[str, Any]:

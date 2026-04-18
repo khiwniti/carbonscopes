@@ -1,3 +1,16 @@
+# =============================================================================
+# CarbonScopes Backend Sandbox - Dockerfile
+# =============================================================================
+# Usage:  docker build -f backend/core/sandbox/docker/Dockerfile . (from monorepo root)
+#
+# Purpose: Provides an isolated sandbox environment for running user-submitted
+# code with Python, Node.js, Playwright (headless browser), VNC access, and
+# various document/text processing tools. Used by the agent sandbox system.
+#
+# Exposes: 7788 (sandbox), 6080 (noVNC), 5901 (VNC), 8000/8004/8080 (apps),
+#          5173/4173 (dev servers)
+# =============================================================================
+
 FROM python:3.11-slim-bookworm
 
 # Install system dependencies

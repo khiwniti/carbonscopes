@@ -85,7 +85,7 @@ export function ReasoningSection({
         {/* Full CarbonScope logo (logomark with text) - pulses when reasoning is active */}
         <img
           src="/CarbonScope-logomark-white.svg"
-          alt="Suna"
+          alt="carbonscope"
           className={cn(
             "flex-shrink-0 dark:invert-0 invert",
             shouldShimmer && "animate-pulse"

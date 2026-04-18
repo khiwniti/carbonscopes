@@ -59,9 +59,9 @@ class DeterministicValidator:
         """Validate that all required packages are installed."""
         self.log("Checking package imports...")
 
-        # Check suna.backend.lca.brightway_config
+        # Check carbonscope.backend.lca.brightway_config
         try:
-            from suna.backend.lca.brightway_config import (
+            from carbonscope.backend.lca.brightway_config import (
                 DeterministicConfig,
                 initialize_brightway,
                 reset_brightway,
@@ -120,7 +120,7 @@ class DeterministicValidator:
         """Validate configuration constants."""
         self.log("Checking configuration values...")
 
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         # Check random seed
         if DeterministicConfig.RANDOM_SEED == 42:
@@ -188,7 +188,7 @@ class DeterministicValidator:
         """Validate that seeds are properly applied."""
         self.log("Testing random seed application...")
 
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
         import random
         import numpy as np
 
@@ -259,7 +259,7 @@ class DeterministicValidator:
         self.log("Testing Brightway2 initialization...")
 
         try:
-            from suna.backend.lca.brightway_config import initialize_brightway
+            from carbonscope.backend.lca.brightway_config import initialize_brightway
 
             # Initialize (with validation)
             project_name = initialize_brightway(validate=True)
@@ -293,7 +293,7 @@ class DeterministicValidator:
         try:
             import bw2data as bd
             import bw2calc as bc
-            from suna.backend.lca.brightway_config import reset_brightway
+            from carbonscope.backend.lca.brightway_config import reset_brightway
 
             # Create test project
             test_project = "test-validation-determinism"

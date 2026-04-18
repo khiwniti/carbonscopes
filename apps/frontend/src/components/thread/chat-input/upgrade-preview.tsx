@@ -1,3 +1,8 @@
+/**
+ * TODO: BILLING DISABLED - This component renders upgrade UI but the
+ * onOpenUpgrade callback is a no-op (openPricingModal does nothing).
+ * Effectively dead code. Remove or re-enable when billing is turned back on.
+ */
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles } from 'lucide-react';

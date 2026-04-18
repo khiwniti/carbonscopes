@@ -22,13 +22,13 @@ export function InstructionsScreen({ agentId }: InstructionsScreenProps) {
         }
     }, [agent?.system_prompt]);
 
-    const isSunaAgent = agent?.metadata?.is_suna_default || false;
+    const iscarbonscopeAgent = agent?.metadata?.is_carbonscope_default || false;
     const restrictions = agent?.metadata?.restrictions || {};
-    const isEditable = (restrictions.system_prompt_editable !== false) && !isSunaAgent;
+    const isEditable = (restrictions.system_prompt_editable !== false) && !iscarbonscopeAgent;
 
     const handleSave = async (value: string) => {
         if (!isEditable) {
-            if (isSunaAgent) {
+            if (iscarbonscopeAgent) {
                 toast.error("System prompt cannot be edited", {
                     description: "CarbonScope's system prompt is managed centrally.",
                 });

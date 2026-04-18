@@ -38,9 +38,10 @@ const CreditsDisplay = lazy(() =>
 const ModeIndicator = lazy(() => 
   import('@/components/thread/mode-indicator').then(mod => ({ default: mod.ModeIndicator }))
 );
-const SunaModesPanel = lazy(() => 
-  import('@/components/dashboard/suna-modes-panel').then(mod => ({ default: mod.SunaModesPanel }))
+const CarbonScopeModesPanel = lazy(() => 
+  import('@/components/dashboard/carbonscope-modes-panel').then(mod => ({ default: mod.CarbonScopeModesPanel }))
 );
+
 
 export function DashboardContent() {
   const t = useTranslations('dashboard');
@@ -358,7 +359,7 @@ export function DashboardContent() {
                   {/* Modes Panel - always render regardless of agent API state */}
                   <div className="mt-6 sm:mt-8 w-full animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-150 fill-mode-both">
                     <Suspense fallback={<div className="h-12 bg-muted/10 rounded-lg animate-pulse" />}>
-                      <SunaModesPanel
+<CarbonScopeModesPanel
                         selectedMode={selectedMode}
                         onModeSelect={setSelectedMode}
                         onSelectPrompt={setInputValue}

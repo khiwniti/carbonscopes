@@ -68,13 +68,13 @@ USE_DECIMAL = True            # Exact arithmetic
 
 ```python
 # Step 1: Import
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 # Step 2: Initialize (once at startup)
 initialize_brightway(validate=True)
 
 # Step 3: Use normally - determinism is automatic!
-from suna.backend.core.carbon.brightway.calculator import CarbonCalculator
+from carbonscope.backend.core.carbon.brightway.calculator import CarbonCalculator
 from decimal import Decimal
 
 calculator = CarbonCalculator()
@@ -232,7 +232,7 @@ backend/lca/
 ### 1. Application Startup
 ```python
 # main.py or __init__.py
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 initialize_brightway(validate=True)
 ```
@@ -240,7 +240,7 @@ initialize_brightway(validate=True)
 ### 2. Carbon Calculator
 ```python
 # Already integrated - no changes needed
-from suna.backend.core.carbon.brightway.calculator import CarbonCalculator
+from carbonscope.backend.core.carbon.brightway.calculator import CarbonCalculator
 
 calculator = CarbonCalculator()  # Uses global deterministic config
 ```

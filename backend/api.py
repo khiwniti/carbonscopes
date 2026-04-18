@@ -32,12 +32,15 @@ from core.agents.agent_setup import router as agent_setup_router
 from core.threads.api import router as threads_router
 from core.categorization.api import router as categorization_router
 from core.endpoints import router as endpoints_router
+from api_health import router as health_router
 
 from core.sandbox import api as sandbox_api
+
 # BILLING DISABLED
-# from core.billing.api import router as billing_router
+from core.billing.api import router as billing_router
 from core.setup import router as setup_router, webhook_router
 from core.admin.admin_api import router as admin_router
+
 # BILLING DISABLED
 # from core.admin.billing_admin_api import router as billing_admin_router
 from core.admin.feedback_admin_api import router as feedback_admin_router
@@ -58,6 +61,11 @@ from auth import api as auth_api
 from core.utils.auth_utils import verify_and_get_user_id_from_jwt
 from core.middleware.rate_limit import limiter, rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
+from core.mcp_module import api as mcp_api
+from core.credentials import api as credentials_api
+from core.templates import api as template_api
+from core.templates import presentations_api
+from core.composio_integration import api as composio_api
 
 
 if sys.platform == "win32":
@@ -118,10 +126,10 @@ async def lifespan(app: FastAPI):
 
         warm_up_tools_cache()
 
-        # Pre-load static Suna config for fast path in API requests
-        from core.cache.runtime_cache import load_static_suna_config
+        # Pre-load static carbonscope config for fast path in API requests
+        from core.cache.runtime_cache import load_static_carbonscope_config
 
-        load_static_suna_config()
+        load_static_carbonscope_config()
 
         sandbox_api.initialize(db)
 
@@ -198,6 +206,7 @@ async def lifespan(app: FastAPI):
         # Initialize agent system checkpointer
         try:
             from core.agents.checkpointer import initialize_checkpointer
+
             initialize_checkpointer()
             logger.info("[STARTUP] Agent system checkpointer initialized")
         except Exception as e:
@@ -285,6 +294,7 @@ async def lifespan(app: FastAPI):
         # Shutdown agent system checkpointer
         try:
             from core.agents.checkpointer import close_checkpointer
+
             close_checkpointer()
             logger.info("[SHUTDOWN] Agent system checkpointer closed")
         except Exception as e:
@@ -425,6 +435,10 @@ if config.ENV_MODE == EnvMode.LOCAL:
     allowed_origins.append("http://127.0.0.1:3001")
     allowed_origins.append("http://localhost:3003")
     allowed_origins.append("http://127.0.0.1:3003")
+    # GitHub Codespaces forwarded ports
+    allowed_origins.append(
+        "https://refactored-robot-97jrj5576766h7rvg-3000.app.github.dev"
+    )
 
 # Allow cloudspaces for Lightning Studios (regex pattern for all subdomains)
 allow_origin_regex = r"https://([a-z0-9-]+\.)?CarbonScope\.com$|https://[a-z0-9-]+-CarbonScopeai\.vercel\.app$|https://[0-9a-z-]+\.cloudspaces\.litng\.ai$"
@@ -465,9 +479,10 @@ api_router.include_router(agent_setup_router)
 api_router.include_router(threads_router)
 api_router.include_router(categorization_router)
 api_router.include_router(endpoints_router)
+api_router.include_router(health_router)
 api_router.include_router(sandbox_api.router)
 # BILLING DISABLED
-# api_router.include_router(billing_router)
+api_router.include_router(billing_router)
 api_router.include_router(setup_router)
 api_router.include_router(webhook_router)  # Webhooks at /api/webhooks/*
 api_router.include_router(api_keys_api.router)
@@ -482,10 +497,7 @@ api_router.include_router(system_status_admin_router)
 api_router.include_router(sandbox_pool_admin_router)
 api_router.include_router(system_status_router)
 
-from core.mcp_module import api as mcp_api
-from core.credentials import api as credentials_api
-from core.templates import api as template_api
-from core.templates import presentations_api
+# NOTE: mcp_api, credentials_api, template_api, presentations_api imported at top of file
 
 if config.ACTIVATE_MCPS_TRIG:
     api_router.include_router(mcp_api.router)
@@ -512,7 +524,7 @@ from core.notifications import presence_api
 
 api_router.include_router(presence_api.router)
 
-from core.composio_integration import api as composio_api
+# NOTE: composio_api imported at top of file
 
 if config.ACTIVATE_MCPS_TRIG:
     api_router.include_router(composio_api.router)
@@ -548,11 +560,27 @@ api_router.include_router(stateless_admin_router)
 # Auth OTP endpoint for expired magic links
 api_router.include_router(auth_api.router)
 
+from core.chat.api import router as chat_router
+
+api_router.include_router(chat_router)  # Chat / computer-use entry point
+
 
 @api_router.get(
-    "/health", summary="Health Check", operation_id="health_check", tags=["system"]
+    "/healthz", summary="Health Check", operation_id="health_check_z", tags=["system"]
 )
-async def health_check():
+# Existing health check under /v1/healthz
+
+# Expose root health check for Docker/CF healthchecks.
+# This is intentionally lightweight so Cloudflare Container health probes
+# succeed quickly even while the rest of the app is still initialising.
+@app.get("/healthz", summary="Root Health Check", tags=["system"])
+async def root_healthz():
+    if _is_shutting_down:
+        raise HTTPException(status_code=503, detail="shutting_down")
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
+
+
+async def health_check_z():
     logger.debug("Health check endpoint called")
 
     # During shutdown, return unhealthy status

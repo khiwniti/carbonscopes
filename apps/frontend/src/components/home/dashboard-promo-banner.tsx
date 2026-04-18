@@ -1,3 +1,9 @@
+/**
+ * TODO: BILLING DISABLED - The upgrade button (handleUpgrade) calls
+ * openPricingModal() which is a no-op. The promo banner still renders
+ * but clicking "Upgrade" does nothing. Remove or re-enable when billing
+ * is turned back on.
+ */
 'use client';
 
 import { useState, useEffect } from 'react';

@@ -1,7 +1,7 @@
 """Basic Brightway2 Setup Tests.
 
 This module tests the installation and configuration of Brightway2 for the
-SUNA BIM Agent LCA integration.
+carbonscope BIM Agent LCA integration.
 
 Tests cover:
 - Brightway2 imports
@@ -62,7 +62,7 @@ class TestBrightway2Configuration:
 
     def test_import_config(self):
         """Test that brightway_config can be imported."""
-        from suna.backend.lca.brightway_config import (
+        from carbonscope.backend.lca.brightway_config import (
             DeterministicConfig,
             ProjectConfig,
             PathConfig,
@@ -76,7 +76,7 @@ class TestBrightway2Configuration:
 
     def test_deterministic_config_values(self):
         """Test deterministic configuration constants."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         assert DeterministicConfig.DECIMAL_PRECISION == 28
         assert DeterministicConfig.RANDOM_SEED == 42
@@ -86,7 +86,7 @@ class TestBrightway2Configuration:
 
     def test_project_config_values(self):
         """Test project configuration constants."""
-        from suna.backend.lca.brightway_config import ProjectConfig
+        from carbonscope.backend.lca.brightway_config import ProjectConfig
 
         assert ProjectConfig.PROJECT_NAME == "thailand-construction"
         assert ProjectConfig.DATABASE_NAME == "TGO-Thailand-2026"
@@ -94,7 +94,7 @@ class TestBrightway2Configuration:
 
     def test_path_config_directories(self):
         """Test that path configuration creates necessary directories."""
-        from suna.backend.lca.brightway_config import PathConfig
+        from carbonscope.backend.lca.brightway_config import PathConfig
 
         # Ensure directories are created
         PathConfig.ensure_directories()
@@ -106,7 +106,7 @@ class TestBrightway2Configuration:
 
     def test_apply_deterministic_config(self):
         """Test that deterministic config can be applied."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         # Apply config
         DeterministicConfig.apply()
@@ -145,7 +145,7 @@ class TestBrightway2ProjectManagement:
 
     def test_initialize_project(self):
         """Test project initialization function."""
-        from suna.backend.lca.brightway_config import initialize_brightway
+        from carbonscope.backend.lca.brightway_config import initialize_brightway
 
         # Initialize project
         project_name = initialize_brightway()
@@ -403,7 +403,7 @@ class TestBrightway2BasicCalculations:
 
     def test_deterministic_calculation(self):
         """Test that calculations are deterministic (same input -> same output)."""
-        from suna.backend.lca.brightway_config import DeterministicConfig
+        from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
         # Apply deterministic config
         DeterministicConfig.apply()
@@ -442,11 +442,11 @@ class TestBrightway2BasicCalculations:
 
 
 class TestBrightway2Integration:
-    """Test integration with SUNA configuration."""
+    """Test integration with carbonscope configuration."""
 
     def test_config_integration(self):
         """Test that config module integrates correctly."""
-        from suna.backend.lca.brightway_config import (
+        from carbonscope.backend.lca.brightway_config import (
             initialize_brightway,
             DeterministicConfig,
             ProjectConfig,
@@ -462,7 +462,7 @@ class TestBrightway2Integration:
 
     def test_graphdb_config_exists(self):
         """Test that GraphDB configuration is available."""
-        from suna.backend.lca.brightway_config import GraphDBConfig
+        from carbonscope.backend.lca.brightway_config import GraphDBConfig
 
         assert GraphDBConfig.ENDPOINT is not None
         assert GraphDBConfig.REPOSITORY is not None
@@ -470,7 +470,7 @@ class TestBrightway2Integration:
 
     def test_validation_config_exists(self):
         """Test that validation configuration is available."""
-        from suna.backend.lca.brightway_config import ValidationConfig
+        from carbonscope.backend.lca.brightway_config import ValidationConfig
 
         assert ValidationConfig.TARGET_ERROR_PERCENT == Decimal("2.0")
         assert ValidationConfig.DETERMINISM_RUNS == 10

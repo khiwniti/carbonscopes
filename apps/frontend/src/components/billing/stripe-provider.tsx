@@ -1,3 +1,9 @@
+/**
+ * TODO: BILLING DISABLED - This entire file is dead code.
+ * It loads Stripe via NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY which is empty
+ * in production. Only imported by InlineCheckout.tsx (also dead code).
+ * Remove or re-enable when billing is turned back on.
+ */
 'use client';
 
 import { loadStripe, Stripe } from '@stripe/stripe-js';

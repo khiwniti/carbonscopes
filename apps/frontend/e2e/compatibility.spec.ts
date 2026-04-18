@@ -69,7 +69,7 @@ test.describe('Protected routes behaviour', () => {
     await page.goto(`${FRONTEND}/dashboard`, NAV_OPTS);
     const url = page.url();
     const body = await page.locator('body').textContent({ timeout: 5000 }).catch(() => '');
-    // suna-init uses client-side Supabase auth (no server-side middleware redirect)
+    // carbonscope-init uses client-side Supabase auth (no server-side middleware redirect)
     // Acceptable: redirect, show login UI, show loading, or not show auth'd content
     const isRedirected = url.includes('/auth') || url.includes('/sign-in');
     const showsAuth    = body.includes('Sign in') || body.includes('sign in') || body.includes('Login');

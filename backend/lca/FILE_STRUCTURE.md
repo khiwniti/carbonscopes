@@ -151,7 +151,7 @@ Total size: ~105.4 KB
 
 **Usage**:
 ```python
-from suna.backend.lca import initialize_brightway
+from carbonscope.backend.lca import initialize_brightway
 
 project = initialize_brightway()
 ```
@@ -208,7 +208,7 @@ python3 backend/lca/verify_installation.py
 
 **Usage**:
 ```python
-from suna.backend.lca import initialize_brightway, ProjectConfig
+from carbonscope.backend.lca import initialize_brightway, ProjectConfig
 ```
 
 ---
@@ -310,9 +310,9 @@ data/brightway2/
 ```
 User Code
     ↓
-suna.backend.lca.__init__.py
+carbonscope.backend.lca.__init__.py
     ↓
-suna.backend.lca.brightway_config.py
+carbonscope.backend.lca.brightway_config.py
     ↓
 Brightway2 (bw2data, bw2calc, bw2io)
     ↓
@@ -362,7 +362,7 @@ pytest lca/tests/test_brightway_setup.py -v
 ### 2. Initialize Project (Python)
 
 ```python
-from suna.backend.lca import initialize_brightway, DeterministicConfig
+from carbonscope.backend.lca import initialize_brightway, DeterministicConfig
 
 # Apply deterministic settings
 DeterministicConfig.apply()
@@ -375,7 +375,7 @@ print(f"Project initialized: {project}")
 ### 3. Check Configuration
 
 ```python
-from suna.backend.lca import ProjectConfig, PathConfig
+from carbonscope.backend.lca import ProjectConfig, PathConfig
 
 print(f"Project: {ProjectConfig.PROJECT_NAME}")
 print(f"Database: {ProjectConfig.DATABASE_NAME}")
@@ -392,7 +392,7 @@ pytest backend/lca/tests/ -v
 pytest backend/lca/tests/test_brightway_setup.py::TestBrightway2Imports -v
 
 # With coverage
-pytest backend/lca/tests/ --cov=suna.backend.lca
+pytest backend/lca/tests/ --cov=carbonscope.backend.lca
 ```
 
 ---

@@ -21,8 +21,8 @@ import { ChatInput } from '@/components/thread/chat-input/chat-input';
 import { DynamicGreeting } from '@/components/ui/dynamic-greeting';
 
 // Lazy load heavy components
-const SunaModesPanel = lazy(() => 
-  import('@/components/dashboard/suna-modes-panel').then(mod => ({ default: mod.SunaModesPanel }))
+const CarbonScopeModesPanel = lazy(() => 
+  import('@/components/dashboard/carbonscope-modes-panel').then(mod => ({ default: mod.CarbonScopeModesPanel }))
 );
 const GoogleSignIn = lazy(() => import('@/components/GoogleSignIn'));
 
@@ -35,7 +35,8 @@ export function HeroSection() {
   const tAuth = useTranslations('auth');
   const isMobile = useIsMobile();
   const router = useRouter();
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, signInAnonymously } = useAuth();
+  const [isAnonymousLoading, setIsAnonymousLoading] = useState(false);
   
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   
@@ -60,6 +61,19 @@ export function HeroSection() {
       // Auth state change will re-trigger submission via autoSubmit
     } catch {
       setAuthDialogOpen(true);
+    }
+  };
+
+  const handleContinueAsGuest = async () => {
+    setIsAnonymousLoading(true);
+    setAuthDialogOpen(false);
+    try {
+      await signInAnonymously();
+      // Auth state change triggers the useEffect above → router.push('/dashboard')
+    } catch {
+      setAuthDialogOpen(true);
+    } finally {
+      setIsAnonymousLoading(false);
     }
   };
 
@@ -248,7 +262,7 @@ export function HeroSection() {
                 width: '100%'
               }}>
                 <Suspense fallback={<div style={{ height: '3rem', background: 'rgba(52, 211, 153, 0.1)', borderRadius: '0.5rem' }} className="animate-pulse" />}>
-                  <SunaModesPanel
+<CarbonScopeModesPanel
                     selectedMode={selectedMode}
                     onModeSelect={setSelectedMode}
                     onSelectPrompt={setInputValue}
@@ -361,6 +375,30 @@ export function HeroSection() {
               {tAuth('createNewAccount')}
             </Link>
           </div>
+
+          <div className="relative my-2">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-3 bg-background text-muted-foreground font-medium">
+                {tAuth('or')}
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            disabled={isAnonymousLoading}
+            onClick={handleContinueAsGuest}
+            className="flex h-12 items-center justify-center w-full text-center rounded-full border border-border/50 bg-transparent hover:bg-accent/30 transition-all font-medium text-muted-foreground hover:text-foreground text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isAnonymousLoading ? (
+              <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+            ) : (
+              tAuth('continueAsGuest')
+            )}
+          </button>
 
           <div className="mt-8 text-center text-[13px] text-muted-foreground leading-relaxed">
             {tAuth('byContinuingYouAgreeSimple')}{' '}

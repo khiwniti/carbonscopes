@@ -309,7 +309,7 @@ class ToolExecutor:
 
         except Exception as e:
             output, success, error = None, False, str(e)
-            logger.warning(f"[ToolExecutor] Tool {name} failed with exception: {e}")
+            logger.error(f"[ToolExecutor] Tool '{name}' raised an exception: {e}", exc_info=True)
 
         return output, success, error
 

@@ -2,19 +2,24 @@
   "name": "agentpress",
   "private": true,
   "scripts": {
-    "dev:frontend": "pnpm --filter CarbonScope dev",
-    "dev:mobile": "pnpm --filter CarbonScope dev",
-    "build:frontend": "pnpm --filter CarbonScope build"
+    "dev:frontend": "pnpm --filter carbonscope-frontend dev",
+    "dev:mobile": "pnpm --filter carbonscope-mobile dev",
+    "build:frontend": "pnpm --filter carbonscope-frontend build"
   },
   "dependencies": {
-    "@babel/types": "^7.28.6"
+    "@babel/types": "^7.28.6",
+    "@tanstack/react-query": "^5.97.0",
+    "@tanstack/react-query-devtools": "^5.75.2",
+    "@tanstack/react-table": "8.21.3"
   },
   "overrides": {
     "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.1.7"
+    "@types/react-dom": "^19.1.7",
+    "lodash-es": "^4.17.21",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "resolutions": {
+    "chevrotain-allstar>lodash-es": "^4.17.21"
+  }
 }

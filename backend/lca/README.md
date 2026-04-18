@@ -107,7 +107,7 @@ Expected output: `4.0.0` or higher
 ### Step 4: Initialize Project
 
 ```python
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 # Initialize Brightway2 with deterministic configuration
 project_name = initialize_brightway()
@@ -128,7 +128,7 @@ This will:
 All settings are centralized in `brightway_config.py`:
 
 ```python
-from suna.backend.lca.brightway_config import (
+from carbonscope.backend.lca.brightway_config import (
     DeterministicConfig,
     ProjectConfig,
     PathConfig,
@@ -236,7 +236,7 @@ backend/lca/
 ### 1. Initialize Project
 
 ```python
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 
 # First-time setup
 project = initialize_brightway()
@@ -310,7 +310,7 @@ print(f"Embodied carbon: {lca.score} kg CO2e")
 ### 5. Test Determinism
 
 ```python
-from suna.backend.lca.brightway_config import DeterministicConfig
+from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
 # Run same calculation 10 times
 results = []
@@ -428,7 +428,7 @@ db.write(activities)
 
 ```python
 from fastapi import APIRouter
-from suna.backend.lca.brightway_config import ProjectConfig
+from carbonscope.backend.lca.brightway_config import ProjectConfig
 import bw2data as bd
 
 router = APIRouter()
@@ -529,8 +529,8 @@ All tests should pass with:
 ### Quick Start
 
 ```python
-from suna.backend.lca.brightway_config import initialize_brightway
-from suna.backend.core.carbon.brightway.calculator import CarbonCalculator
+from carbonscope.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.core.carbon.brightway.calculator import CarbonCalculator
 from decimal import Decimal
 
 # Initialize once at startup
@@ -607,7 +607,7 @@ pip install brightway2
 
 **Solution**:
 ```python
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 initialize_brightway()  # Creates project if missing
 ```
 
@@ -618,11 +618,11 @@ initialize_brightway()  # Creates project if missing
 **Solution**:
 ```python
 # Apply deterministic config before any calculations
-from suna.backend.lca.brightway_config import DeterministicConfig
+from carbonscope.backend.lca.brightway_config import DeterministicConfig
 DeterministicConfig.apply()
 
 # Or reinitialize project
-from suna.backend.lca.brightway_config import initialize_brightway
+from carbonscope.backend.lca.brightway_config import initialize_brightway
 initialize_brightway()
 ```
 
@@ -654,7 +654,7 @@ bd.databases.clean()
 
 # Remove lock file if still present
 import os
-from suna.backend.lca.brightway_config import PathConfig
+from carbonscope.backend.lca.brightway_config import PathConfig
 lock_file = PathConfig.BRIGHTWAY_DIR / "thailand-construction.db-journal"
 if lock_file.exists():
     lock_file.unlink()
@@ -667,7 +667,7 @@ if lock_file.exists():
 **Solution**:
 ```python
 # Enable caching (future feature)
-from suna.backend.lca.brightway_config import PerformanceConfig
+from carbonscope.backend.lca.brightway_config import PerformanceConfig
 print(f"Cache TTL: {PerformanceConfig.CACHE_TTL}s")
 
 # Profile calculations
@@ -685,7 +685,7 @@ cProfile.run("lca.lci(); lca.lcia()")
 ```python
 # Ensure Decimal type is used
 from decimal import Decimal
-from suna.backend.lca.brightway_config import DeterministicConfig
+from carbonscope.backend.lca.brightway_config import DeterministicConfig
 
 # Check precision setting
 print(f"Decimal precision: {DeterministicConfig.DECIMAL_PRECISION}")
@@ -722,7 +722,7 @@ quantity = Decimal("1000.0")  # Not float(1000.0)
 
 ### Contact & Support
 
-- **Project Repository**: https://github.com/cbim-ai/suna
+- **Project Repository**: https://github.com/cbim-ai/carbonscope
 - **Brightway2 Forum**: https://brightway.groups.io/
 - **Issue Tracker**: GitHub Issues
 

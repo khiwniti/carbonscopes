@@ -4,7 +4,7 @@
 export { useMediaQuery } from './use-media-query';
 export { useIsMobile } from './use-mobile';
 export { useGitHubStars } from './use-github-stars';
-export { useSunaModePersistence } from './use-suna-modes-persistence';
+export { useCarbonScopeModePersistence } from './use-carbonscope-mode-persistence';
 export { useLeadingDebouncedCallback } from './use-leading-debounced-callback';
 
 // Re-export error handling utilities directly from error-handler

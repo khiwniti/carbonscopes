@@ -318,27 +318,25 @@ class ExecutionEngine:
             return new_messages, new_tokens, True
             
         except Exception as e:
-            logger.error(f"[ExecutionEngine] Summarization failed: {e}")
-            
+            logger.error(f"[ExecutionEngine] Summarization failed: {e}", exc_info=True)
+
             await stream_summarizing(self._state.stream_key, status="failed")
-            
-            latest_user_msg = None
-            for msg in reversed(messages):
-                if msg.get('role') == 'user':
-                    latest_user_msg = msg
-                    break
-            
-            if latest_user_msg:
-                new_tokens = await self.fast_token_count(
-                    [system_prompt, latest_user_msg],
-                    self._state.model_name,
-                    tools=tools,
-                    tool_choice=tool_choice,
-                )
-                logger.warning(f"[ExecutionEngine] Fallback: keeping only latest user message ({new_tokens} tokens)")
-                return [latest_user_msg], new_tokens, True
-            
-            return messages, tokens, False
+
+            # Emergency fallback: keep the last N messages so we don't lose all context.
+            # Prefer keeping the last 10 messages (system + recent turns) rather than just 1.
+            FALLBACK_KEEP = 10
+            recent_messages = messages[-FALLBACK_KEEP:] if len(messages) > FALLBACK_KEEP else messages
+            new_tokens = await self.fast_token_count(
+                [system_prompt] + recent_messages,
+                self._state.model_name,
+                tools=tools,
+                tool_choice=tool_choice,
+            )
+            logger.warning(
+                f"[ExecutionEngine] Compression fallback: kept last {len(recent_messages)} of "
+                f"{len(messages)} messages ({new_tokens} tokens)"
+            )
+            return recent_messages, new_tokens, True
 
     @staticmethod
     def _safe_truncate_content(content: str, max_length: int) -> str:

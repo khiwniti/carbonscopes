@@ -753,6 +753,8 @@
     "orContinueWithEmail": "或使用邮箱继续",
     "signInWithEmail": "使用邮箱登录",
     "createNewAccount": "创建新账户",
+    "continueAsGuest": "以访客身份继续",
+    "or": "或",
     "byContinuingYouAgreeSimple": "继续即表示您同意我们的",
     "phoneVerification": {
       "title": "验证您的手机号码",
@@ -938,7 +940,7 @@
     "disableAll": "全部禁用",
     "saveChanges": "保存更改"
   },
-  "suna": {
+  "carbonscope": {
     "samplePrompts": "示例提示",
     "examplePrompts": "示例提示",
     "chooseStyle": "选择风格",

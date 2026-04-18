@@ -1,5 +1,9 @@
 /**
- * BILLING DISABLED - Pricing modal will never open
+ * TODO: BILLING DISABLED - This entire store is dead code.
+ * openPricingModal() is a no-op. The billing feature is disabled
+ * (NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is empty). All 20+ consumers
+ * of this store call a function that does nothing.
+ * Remove or re-enable when billing is turned back on.
  */
 import { create } from 'zustand';
 import { logger } from '@/lib/logger';

@@ -34,7 +34,7 @@
         "../../packages/shared/src/*"
       ]
     },
-    "strictNullChecks": false
+ "strictNullChecks": false
   },
   "include": [
     "**/*.ts",

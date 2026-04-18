@@ -59,6 +59,26 @@ TIERS: Dict[str, Tier] = {
             'retrieval_limit': 0
         },
     ),
+    'anonymous': Tier(
+        name='anonymous',
+        price_ids=[],
+        monthly_credits=Decimal('0.00'),
+        display_name='Guest',
+        can_purchase_credits=False,
+        models=['haiku'],
+        project_limit=6,
+        thread_limit=3,
+        concurrent_runs=1,
+        custom_workers_limit=0,
+        scheduled_triggers_limit=0,
+        app_triggers_limit=0,
+        memory_config={
+            'enabled': False,
+            'max_memories': 0,
+            'retrieval_limit': 0
+        },
+        monthly_refill_enabled=False,
+    ),
     'free': Tier(
         name='free',
         price_ids=[config.STRIPE_FREE_TIER_ID],
@@ -355,8 +375,8 @@ def is_model_allowed(tier_name: str, model: str) -> bool:
     # Check the model's tier_availability from the registry
     # This is the PRIMARY source of truth for model access - if set, it's definitive
     if model_obj.tier_availability:
-        if tier_name in ['free', 'none']:
-            # Free tier can only access models with "free" in tier_availability
+        if tier_name in ['free', 'none', 'anonymous']:
+            # Free/guest tiers can only access models with "free" in tier_availability
             return 'free' in model_obj.tier_availability
         else:
             # Paid tiers can access models with "paid" in tier_availability

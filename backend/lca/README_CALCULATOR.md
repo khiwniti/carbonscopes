@@ -50,7 +50,7 @@ cd /teamspace/studios/this_studio/comprehensive-bks-cbim-ai-agent
 pip install -r backend/lca/requirements.txt
 
 # Verify GraphDB connection
-python -c "from suna.backend.core.knowledge_graph import GraphDBClient; \
+python -c "from carbonscope.backend.core.knowledge_graph import GraphDBClient; \
            client = GraphDBClient('http://localhost:7200/repositories/carbonbim-thailand'); \
            print(f'Connected! Triples: {client.get_triple_count()}')"
 ```
@@ -62,8 +62,8 @@ python -c "from suna.backend.core.knowledge_graph import GraphDBClient; \
 ### Basic Material Calculation
 
 ```python
-from suna.backend.lca import CarbonCalculator
-from suna.backend.core.knowledge_graph import GraphDBClient
+from carbonscope.backend.lca import CarbonCalculator
+from carbonscope.backend.core.knowledge_graph import GraphDBClient
 
 # Initialize
 client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")
@@ -146,7 +146,7 @@ print(f"Compliant: {edge['compliant']}")
 Main calculator class for embodied carbon calculations.
 
 ```python
-from suna.backend.lca import CarbonCalculator
+from carbonscope.backend.lca import CarbonCalculator
 
 calculator = CarbonCalculator(
     graphdb_client=client,
@@ -167,7 +167,7 @@ calculator = CarbonCalculator(
 Handles all unit conversions for construction materials.
 
 ```python
-from suna.backend.lca import UnitConverter
+from carbonscope.backend.lca import UnitConverter
 
 converter = UnitConverter()
 
@@ -191,7 +191,7 @@ liters = converter.convert(1, "m³", "liters")
 Matches material names to TGO database entries.
 
 ```python
-from suna.backend.lca import MaterialMatcher
+from carbonscope.backend.lca import MaterialMatcher
 
 matcher = MaterialMatcher(
     graphdb_client=client,
@@ -340,7 +340,7 @@ for category, data in result['breakdown_by_category'].items():
 ### Example 6: Error Handling
 
 ```python
-from suna.backend.lca import CarbonCalculationError
+from carbonscope.backend.lca import CarbonCalculationError
 
 try:
     carbon = calculator.calculate_material_carbon(
@@ -633,7 +633,7 @@ except CarbonCalculationError as e:
 #### 2. Unit Conversion Error
 
 ```python
-from suna.backend.lca import UnitConversionError
+from carbonscope.backend.lca import UnitConversionError
 
 try:
     kg = converter.convert_volume_to_mass(10, "m³", "UnknownMaterial")
@@ -763,7 +763,7 @@ pytest backend/lca/tests/test_carbon_calculator.py -v
 pytest backend/lca/tests/test_carbon_calculator.py::TestCarbonCalculator -v
 
 # Run with coverage
-pytest backend/lca/tests/test_carbon_calculator.py --cov=suna.backend.lca --cov-report=html
+pytest backend/lca/tests/test_carbon_calculator.py --cov=carbonscope.backend.lca --cov-report=html
 
 # Run integration tests (requires GraphDB)
 pytest backend/lca/tests/test_carbon_calculator.py -m integration
@@ -790,7 +790,7 @@ Covered areas:
 ### GraphDB Connection Issues
 
 ```python
-from suna.backend.core.knowledge_graph import GraphDBClient, GraphDBError
+from carbonscope.backend.core.knowledge_graph import GraphDBClient, GraphDBError
 
 try:
     client = GraphDBClient("http://localhost:7200/repositories/carbonbim-thailand")

@@ -617,12 +617,12 @@ function LegalContent() {
                       <p className="text-muted-foreground text-balance mb-6">
                         For the full license terms, please refer to the LICENSE file in our GitHub repository:{' '}
                         <a
-                          href="https://github.com/CarbonScope-ai/suna/blob/main/LICENSE"
+                          href="https://github.com/CarbonScope-ai/carbonscope/blob/main/LICENSE"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-primary hover:underline"
                         >
-                          github.com/CarbonScope-ai/suna/blob/main/LICENSE
+                          github.com/CarbonScope-ai/carbonscope/blob/main/LICENSE
                         </a>
                       </p>
 

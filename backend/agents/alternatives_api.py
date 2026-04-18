@@ -105,8 +105,8 @@ async def get_alternatives_engine():
     TODO: Replace with actual GraphDB and TGO database clients.
     """
     # TODO: Initialize with actual clients
-    # from suna.backend.core.knowledge_graph.graphdb_client import GraphDBClient
-    # from suna.backend.core.agents.tgo_database import TGODatabaseAgent
+    # from carbonscope.backend.core.knowledge_graph.graphdb_client import GraphDBClient
+    # from carbonscope.backend.core.agents.tgo_database import TGODatabaseAgent
     #
     # graphdb = GraphDBClient(...)
     # tgo_db = TGODatabaseAgent(graphdb)

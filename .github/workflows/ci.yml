@@ -1,0 +1,143 @@
+name: CI
+
+on:
+ push:
+ branches: [main]
+ pull_request:
+ branches: [main]
+
+concurrency:
+ group: ci-${{ github.ref }}
+ cancel-in-progress: true
+
+jobs:
+ # ── Frontend ──────────────────────────────────────────────────────────
+ frontend-lint:
+ name: Frontend – Lint
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout
+ uses: actions/checkout@v4
+
+ - name: Setup pnpm
+ uses: pnpm/action-setup@v2
+ with:
+ version: 9
+
+ - name: Setup Node
+ uses: actions/setup-node@v4
+ with:
+ node-version: 20
+ cache: pnpm
+ cache-dependency-path: apps/frontend/pnpm-lock.yaml
+
+ - name: Install dependencies
+ working-directory: apps/frontend
+ run: pnpm install --frozen-lockfile
+
+ - name: Lint (eslint)
+ working-directory: apps/frontend
+ run: pnpm lint
+
+ frontend-typecheck:
+ name: Frontend – Type-check
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout
+ uses: actions/checkout@v4
+
+ - name: Setup pnpm
+ uses: pnpm/action-setup@v2
+ with:
+ version: 9
+
+ - name: Setup Node
+ uses: actions/setup-node@v4
+ with:
+ node-version: 20
+ cache: pnpm
+ cache-dependency-path: apps/frontend/pnpm-lock.yaml
+
+ - name: Install dependencies
+ working-directory: apps/frontend
+ run: pnpm install --frozen-lockfile
+
+ - name: Type-check (tsc --noEmit)
+ working-directory: apps/frontend
+ run: pnpm tsc --noEmit
+
+ frontend-build:
+ name: Frontend – Build
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout
+ uses: actions/checkout@v4
+
+ - name: Setup pnpm
+ uses: pnpm/action-setup@v2
+ with:
+ version: 9
+
+ - name: Setup Node
+ uses: actions/setup-node@v4
+ with:
+ node-version: 20
+ cache: pnpm
+ cache-dependency-path: apps/frontend/pnpm-lock.yaml
+
+ - name: Install dependencies
+ working-directory: apps/frontend
+ run: pnpm install --frozen-lockfile
+
+ - name: Build (Next.js)
+ working-directory: apps/frontend
+ run: pnpm build
+ env:
+ NODE_OPTIONS: --max-old-space-size=4096
+
+ # ── Backend ───────────────────────────────────────────────────────────
+ backend-lint:
+ name: Backend – Lint
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout
+ uses: actions/checkout@v4
+
+ - name: Setup Python
+ uses: actions/setup-python@v5
+ with:
+ python-version: "3.11"
+
+ - name: Install uv
+ uses: astral-sh/setup-uv@v4
+
+ - name: Install dependencies
+ working-directory: backend
+ run: uv sync
+
+ - name: Lint (ruff)
+ working-directory: backend
+ run: uv run ruff check .
+
+ backend-test:
+ name: Backend – Test
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout
+ uses: actions/checkout@v4
+
+ - name: Setup Python
+ uses: actions/setup-python@v5
+ with:
+ python-version: "3.11"
+
+ - name: Install uv
+ uses: astral-sh/setup-uv@v4
+
+ - name: Install dependencies
+ working-directory: backend
+ run: uv sync
+
+ - name: Test (pytest)
+ working-directory: backend
+ run: uv run pytest tests/ -x -q

@@ -34,7 +34,7 @@ interface Agent {
     version_number: number;
   };
   metadata?: {
-    is_suna_default?: boolean;
+    is_carbonscope_default?: boolean;
     centrally_managed?: boolean;
     restrictions?: {
       system_prompt_editable?: boolean;
@@ -85,7 +85,7 @@ const AgentModal: React.FC<AgentModalProps> = ({
 }) => {
   if (!agent) return null;
 
-  const isSunaAgent = agent.metadata?.is_suna_default || false;
+  const iscarbonscopeAgent = agent.metadata?.is_carbonscope_default || false;
   
   const truncateDescription = (text?: string, maxLength = 120) => {
     if (!text || text.length <= maxLength) return text || 'Try out this agent';
@@ -103,7 +103,7 @@ const AgentModal: React.FC<AgentModalProps> = ({
               iconColor={agent.icon_color ?? undefined}
               backgroundColor={agent.icon_background ?? undefined}
               agentName={agent.name}
-              isSunaDefault={isSunaAgent}
+              iscarbonscopeDefault={iscarbonscopeAgent}
               size={64}
             />
           </div>
@@ -114,7 +114,7 @@ const AgentModal: React.FC<AgentModalProps> = ({
                 <h2 className="text-xl font-semibold text-foreground">
                   {agent.name}
                 </h2>
-                {!isSunaAgent && agent.current_version && (
+                {!iscarbonscopeAgent && agent.current_version && (
                   <Badge variant="outline" className="text-xs">
                     <GitBranch className="h-3 w-3" />
                     {agent.current_version.version_name}
@@ -146,7 +146,7 @@ const AgentModal: React.FC<AgentModalProps> = ({
                 Chat
               </Button>
             </div>
-            {!isSunaAgent && isStagingMode() && (
+            {!iscarbonscopeAgent && isStagingMode() && (
               <div className="pt-2">
                 {agent.is_public ? (
                   <div className="space-y-2">

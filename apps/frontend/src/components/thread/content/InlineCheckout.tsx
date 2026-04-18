@@ -1,3 +1,9 @@
+/**
+ * TODO: BILLING DISABLED - This entire file is dead code.
+ * It depends on @stripe/react-stripe-js which requires NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+ * to be set (it is empty in production). The billing feature is disabled.
+ * Remove or re-enable when billing is turned back on.
+ */
 'use client';
 import { logger } from '@/lib/logger';
 

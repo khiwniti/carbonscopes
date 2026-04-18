@@ -333,7 +333,7 @@ export function ExampleShowcase() {
                         <div className="flex items-center gap-1 mb-1">
                           <img
                             src="/CarbonScope-logomark-white.svg"
-                            alt="Suna"
+                            alt="carbonscope"
                             className="dark:invert-0 invert flex-shrink-0"
                             style={{ height: '8px', width: 'auto' }}
                           />
@@ -513,6 +513,7 @@ export function ExampleShowcase() {
                             src={displayedContent.contentImage}
                             alt={currentExample.title}
                             fill
+                            priority
                             className="object-contain"
                             quality={100}
                             sizes="50vw"
@@ -526,6 +527,7 @@ export function ExampleShowcase() {
                           src={displayedContent.contentImage}
                           alt={currentExample.title}
                           fill
+                          priority
                           className="object-contain"
                           quality={100}
                           sizes="50vw"
@@ -565,6 +567,7 @@ export function ExampleShowcase() {
                       src={displayedContent.contentSlides[currentSlide] || displayedContent.contentSlides[0]}
                       alt={`Slide ${currentSlide + 1}`}
                       fill
+                      priority
                       className="object-contain transition-opacity duration-300"
                       quality={100}
                       sizes="50vw"

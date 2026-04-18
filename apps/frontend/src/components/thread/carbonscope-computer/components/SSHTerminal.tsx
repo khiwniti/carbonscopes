@@ -2,7 +2,7 @@
 import { BACKEND_URL } from '@/lib/api-client';
 import { logger } from '@/lib/logger';
 
-import { memo, useRef, useEffect, useCallback, useState } from 'react';
+import { memo, useRef, useEffect, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
@@ -11,66 +11,76 @@ import { FitAddon } from '@xterm/addon-fit';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 import '@xterm/xterm/css/xterm.css';
 import { useAuth } from '@/components/AuthProvider';
-import { RefreshCw, Copy, Check, TerminalSquare } from 'lucide-react';
-import { CarbonScopeLoader } from '@/components/ui/carbonscope-loader';
-import { toast } from '@/lib/toast';
-import { backendApi } from '@/lib/api-client';
 import { fileQueryKeys } from '@/hooks/files/use-file-queries';
+import { carbonScope } from '@/lib/design-tokens';
 
 interface SSHTerminalProps {
   sandboxId: string;
   className?: string;
 }
 
-type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'error';
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
-const darkTheme: ITheme = {
-  background: 'rgba(15, 15, 20, 0.85)',
-  foreground: '#e4e4e7',
-  cursor: '#a78bfa',
-  cursorAccent: '#0f0f14',
-  selectionBackground: 'rgba(139, 92, 246, 0.3)',
-  black: '#27272a',
-  red: '#f87171',
-  green: '#4ade80',
-  yellow: '#fbbf24',
-  blue: '#60a5fa',
-  magenta: '#c084fc',
-  cyan: '#22d3ee',
-  white: '#e4e4e7',
-  brightBlack: '#52525b',
-  brightRed: '#fca5a5',
-  brightGreen: '#86efac',
-  brightYellow: '#fde047',
-  brightBlue: '#93c5fd',
-  brightMagenta: '#d8b4fe',
-  brightCyan: '#67e8f9',
-  brightWhite: '#fafafa',
-};
+const xtermMono = `${carbonScope.typography.fontMono}, Menlo, Monaco, Consolas, monospace`;
 
-const lightTheme: ITheme = {
-  background: 'rgba(250, 250, 252, 0.9)',
-  foreground: '#18181b',
-  cursor: '#7c3aed',
-  cursorAccent: '#fafafc',
-  selectionBackground: 'rgba(124, 58, 237, 0.15)',
-  black: '#18181b',
-  red: '#dc2626',
-  green: '#16a34a',
-  yellow: '#ca8a04',
-  blue: '#2563eb',
-  magenta: '#9333ea',
-  cyan: '#0891b2',
-  white: '#a1a1aa',
-  brightBlack: '#52525b',
-  brightRed: '#ef4444',
-  brightGreen: '#22c55e',
-  brightYellow: '#eab308',
-  brightBlue: '#3b82f6',
-  brightMagenta: '#a855f7',
-  brightCyan: '#06b6d4',
-  brightWhite: '#fafafa',
-};
+const darkTheme: ITheme = (() => {
+  const c = carbonScope.colors;
+  return {
+    background: hexToRgba(c.background, 0.92),
+    foreground: c.textSecondary,
+    cursor: c.lifecycle.b1b5Light,
+    cursorAccent: c.background,
+    selectionBackground: 'rgba(16, 185, 129, 0.28)',
+    black: c.surface,
+    red: c.lifecycle.c1c4Light,
+    green: c.primaryLight,
+    yellow: c.warning,
+    blue: c.lifecycle.a4a5Light,
+    magenta: c.lifecycle.b1b5Light,
+    cyan: c.info,
+    white: c.textSecondary,
+    brightBlack: c.textMuted,
+    brightRed: c.lifecycle.c1c4Light,
+    brightGreen: c.primaryLight,
+    brightYellow: c.warning,
+    brightBlue: c.lifecycle.a4a5Light,
+    brightMagenta: c.lifecycle.b1b5Light,
+    brightCyan: c.infoLight,
+    brightWhite: c.textPrimary,
+  };
+})();
+
+const lightTheme: ITheme = (() => {
+  const c = carbonScope.colors;
+  return {
+    background: 'rgba(249, 250, 251, 0.94)',
+    foreground: c.surfaceElevated,
+    cursor: c.lifecycle.b1b5Dark,
+    cursorAccent: c.textOnPrimary,
+    selectionBackground: hexToRgba(c.primary, 0.12),
+    black: c.surfaceElevated,
+    red: c.errorDark,
+    green: c.primaryDark,
+    yellow: c.warningDark,
+    blue: c.lifecycle.a4a5Dark,
+    magenta: c.lifecycle.b1b5Dark,
+    cyan: c.infoDark,
+    white: c.textMuted,
+    brightBlack: c.textDisabled,
+    brightRed: c.error,
+    brightGreen: c.primary,
+    brightYellow: c.warning,
+    brightBlue: c.info,
+    brightMagenta: c.lifecycle.b1b5,
+    brightCyan: c.info,
+    brightWhite: c.textPrimary,
+  };
+})();
 
 const getWebSocketUrl = () => {
   const baseUrl = BACKEND_URL || 'http://localhost:8000';
@@ -90,10 +100,6 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
   const wsRef = useRef<WebSocket | null>(null);
   const connectionIdRef = useRef<number>(0);
   const invalidateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
-  const [status, setStatus] = useState<ConnectionStatus>('disconnected');
-  const [sshCommand, setSshCommand] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
 
   const invalidateFileQueries = useCallback(() => {
     if (invalidateTimeoutRef.current) {
@@ -105,30 +111,6 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
       });
     }, 500);
   }, [queryClient]);
-
-  const getSSHCommand = useCallback(async () => {
-    if (!sandboxId) return;
-    try {
-      const response = await backendApi.post<{ ssh_command: string; token: string }>(
-        `/sandboxes/${sandboxId}/ssh/token`,
-        { expires_in_minutes: 60 }
-      );
-      if (response.data?.ssh_command) {
-        setSshCommand(response.data.ssh_command);
-      }
-    } catch (error) {
-      console.error('Failed to get SSH command:', error);
-    }
-  }, [sandboxId]);
-
-  const copySSHCommand = useCallback(() => {
-    if (sshCommand) {
-      navigator.clipboard.writeText(sshCommand);
-      setCopied(true);
-      toast.success('SSH command copied to clipboard');
-      setTimeout(() => setCopied(false), 2000);
-    }
-  }, [sshCommand]);
 
   const disconnect = useCallback(() => {
     connectionIdRef.current = 0;
@@ -154,8 +136,6 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
     const myConnectionId = globalConnectionId;
     connectionIdRef.current = myConnectionId;
 
-    setStatus('connecting');
-    
     const wsUrl = getWebSocketUrl();
     logger.log('[Terminal] Creating WebSocket (id:', myConnectionId, '):', `${wsUrl}/sandboxes/${sandboxId}/terminal/ws`);
     
@@ -174,7 +154,6 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
         logger.log('[SSHTerminal] Auth sent');
       } catch (e) {
         console.error('[SSHTerminal] Failed to send auth:', e);
-        setStatus('error');
       }
     };
 
@@ -190,7 +169,6 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
             term.writeln(`\x1b[33m${message.message}\x1b[0m`);
             break;
           case 'connected':
-            setStatus('connected');
             term.writeln(`\x1b[32m${message.message}\x1b[0m`);
             term.writeln('');
             break;
@@ -200,12 +178,10 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
             }
             break;
           case 'error':
-            setStatus('error');
             term.writeln(`\x1b[31mError: ${message.message}\x1b[0m`);
             break;
           case 'exit':
             term.writeln(`\x1b[33mSession ended with code: ${message.code}\x1b[0m`);
-            setStatus('disconnected');
             wsRef.current = null;
             break;
         }
@@ -217,32 +193,15 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
     ws.onerror = (error) => {
       if (connectionIdRef.current !== myConnectionId) return;
       console.error('[SSHTerminal] WebSocket error:', error);
-      setStatus('error');
     };
 
     ws.onclose = (event) => {
       if (connectionIdRef.current !== myConnectionId) return;
       logger.log('[SSHTerminal] WebSocket closed:', event.code);
       wsRef.current = null;
-      setStatus('disconnected');
       term.writeln('\x1b[33mConnection closed\x1b[0m');
     };
   }, [sandboxId]);
-
-  const reconnect = useCallback(() => {
-    disconnect();
-    
-    if (xtermRef.current && session?.access_token) {
-      xtermRef.current.clear();
-      xtermRef.current.writeln('\x1b[33mReconnecting...\x1b[0m');
-      
-      setTimeout(() => {
-        if (xtermRef.current) {
-          connectWebSocket(session.access_token, xtermRef.current);
-        }
-      }, 300);
-    }
-  }, [disconnect, session?.access_token, connectWebSocket]);
 
   useEffect(() => {
     if (!terminalRef.current) return;
@@ -251,7 +210,7 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
       cursorBlink: true,
       cursorStyle: 'bar',
       fontSize: 13,
-      fontFamily: 'JetBrains Mono, Menlo, Monaco, Consolas, monospace',
+      fontFamily: xtermMono,
       theme: isDark ? darkTheme : lightTheme,
       allowProposedApi: true,
     });
@@ -306,6 +265,8 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
       xtermRef.current = null;
       fitAddonRef.current = null;
     };
+    // isDark is applied in the effect below so toggling theme does not dispose/reopen xterm.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
   }, [disconnect, invalidateFileQueries]);
 
   useEffect(() => {
@@ -326,23 +287,28 @@ export const SSHTerminal = memo(function SSHTerminal({ sandboxId, className }: S
     }
     
     logger.log('[SSHTerminal] Initiating connection...');
-    getSSHCommand();
     connectWebSocket(session.access_token, xtermRef.current);
-  }, [session?.access_token, sandboxId, getSSHCommand, connectWebSocket]);
+  }, [session?.access_token, sandboxId, connectWebSocket]);
+
+  const shellBg = isDark
+    ? `linear-gradient(180deg, ${carbonScope.colors.backgroundAlt} 0%, ${carbonScope.colors.background} 100%)`
+    : 'linear-gradient(180deg, rgb(250 250 250) 0%, rgb(255 255 255) 100%)';
 
   return (
-    <div className={cn(
-      "flex flex-col h-full overflow-hidden",
-      "bg-white/50 dark:bg-zinc-900/50",
-      className
-    )}>
-      <div 
+    <div
+      className={cn(
+        "flex flex-col h-full overflow-hidden",
+        "bg-white/50 dark:bg-zinc-950/40",
+        className
+      )}
+    >
+      <div
         ref={terminalRef}
-        className={cn(
-          "flex-1 overflow-hidden",
-          "bg-gradient-to-b from-zinc-50 to-white dark:from-[#0f0f14] dark:to-[#0a0a0d]"
-        )}
-        style={{ padding: '12px 16px' }}
+        className="flex-1 overflow-hidden"
+        style={{
+          padding: carbonScope.spacing[4],
+          background: shellBg,
+        }}
       />
     </div>
   );

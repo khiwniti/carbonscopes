@@ -672,6 +672,8 @@
     "orContinueWithEmail": "oder mit E-Mail fortfahren",
     "signInWithEmail": "Mit E-Mail anmelden",
     "createNewAccount": "Neues Konto erstellen",
+    "continueAsGuest": "Als Gast fortfahren",
+    "or": "oder",
     "byContinuingYouAgreeSimple": "Durch Fortfahren stimmst du unserer",
     "phoneVerification": {
       "title": "Telefonnummer verifizieren",
@@ -939,7 +941,7 @@
     "disableAll": "Alle deaktivieren",
     "saveChanges": "Änderungen speichern"
   },
-  "suna": {
+  "carbonscope": {
     "samplePrompts": "Beispiel-Prompts",
     "examplePrompts": "Beispiel-Prompts",
     "chooseStyle": "Wähle einen Stil",

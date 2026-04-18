@@ -1,5 +1,5 @@
 {
-  "name": "@suna/design-system",
+  "name": "@carbonscope/design-system",
   "version": "1.0.0",
   "description": "CarbonScope Design System - Dark engineering theme for embodied & operational carbon assessment",
   "main": "./components/index.ts",
@@ -28,6 +28,6 @@
     "en-15978",
     "sustainability"
   ],
-  "author": "Suna BIM Agent Team",
+  "author": "carbonscope BIM Agent Team",
   "license": "MIT"
 }

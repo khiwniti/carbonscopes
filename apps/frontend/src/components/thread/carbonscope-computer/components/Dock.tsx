@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, ReactNode, useState, useEffect } from 'react';
+import { memo, ReactNode, useState, useEffect, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Folder, Globe, TerminalSquare, Info, Table } from 'lucide-react';
 import { getUserFriendlyToolName, getToolIcon } from '@/components/thread/utils';
@@ -8,6 +8,13 @@ import { cn } from '@/lib/utils';
 import { ToolCallInput } from '../CarbonScopeComputer';
 import { AppIcon } from '../../tool-views/shared/AppIcon';
 import { ViewType } from '@/stores/carbonscope-computer-store';
+import { carbonScope } from '@/lib/design-tokens';
+
+const dockGradient = (from: string, to: string): CSSProperties => ({
+  background: `linear-gradient(135deg, ${from} 0%, ${to} 100%)`,
+});
+
+const TOOLTIP_SHADOW: CSSProperties = { boxShadow: carbonScope.shadows.lg };
 
 const convertToolName = (toolName: string) => {
   if (toolName.includes('_')) {
@@ -119,7 +126,7 @@ export const DockCard = memo(function DockCard({
           "bg-black/80 backdrop-blur-xl border border-white/10",
           "opacity-0 group-hover:opacity-100 transition-opacity duration-150"
         )}
-        style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}
+        style={TOOLTIP_SHADOW}
       >
         {label}
         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-black/80" />
@@ -135,6 +142,8 @@ interface SystemDockCardProps {
   icon: React.ElementType;
   label: string;
   bgClass: string;
+  /** When set, overrides gradient/background from bgClass (CarbonScope tokens). */
+  surfaceStyle?: CSSProperties;
   iconColor: string;
   isActive?: boolean;
   onClick?: () => void;
@@ -144,6 +153,7 @@ export const SystemDockCard = memo(function SystemDockCard({
   icon: Icon,
   label,
   bgClass,
+  surfaceStyle,
   iconColor,
   isActive = false,
   onClick,
@@ -153,11 +163,11 @@ export const SystemDockCard = memo(function SystemDockCard({
       <motion.button
         type="button"
         onClick={onClick}
-        style={{ width: ICON_SIZE, height: ICON_SIZE }}
+        style={{ width: ICON_SIZE, height: ICON_SIZE, ...surfaceStyle }}
         className={cn(
           "flex items-center justify-center relative cursor-pointer p-2 rounded-xl",
           "transition-transform duration-150 border border-white/20",
-          bgClass,
+          !surfaceStyle && bgClass,
           isActive && "ring-2 ring-white/40"
         )}
         whileTap={{ scale: 0.95 }}
@@ -171,7 +181,7 @@ export const SystemDockCard = memo(function SystemDockCard({
           "bg-black/80 backdrop-blur-xl border border-white/10",
           "opacity-0 group-hover:opacity-100 transition-opacity duration-150"
         )}
-        style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}
+        style={TOOLTIP_SHADOW}
       >
         {label}
         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-black/80" />
@@ -298,7 +308,11 @@ export const AppDock = memo(function AppDock({
                 <SystemDockCard
                   icon={Folder}
                   label="Files"
-                  bgClass="bg-gradient-to-br from-[#60a5fa] to-[#2563eb]"
+                  bgClass=""
+                  surfaceStyle={dockGradient(
+                    carbonScope.colors.lifecycle.a4a5Light,
+                    carbonScope.colors.lifecycle.a4a5Dark
+                  )}
                   iconColor="text-white"
                   isActive={isFilesWindowOpen}
                   onClick={() => onViewChange?.('files')}
@@ -307,7 +321,11 @@ export const AppDock = memo(function AppDock({
               <SystemDockCard
                 icon={Globe}
                 label="Browser"
-                bgClass="bg-gradient-to-br from-[#38bdf8] to-[#0284c7]"
+                bgClass=""
+                surfaceStyle={dockGradient(
+                  carbonScope.colors.lifecycle.b1b5Light,
+                  carbonScope.colors.lifecycle.b1b5
+                )}
                 iconColor="text-white"
                 isActive={isBrowserWindowOpen}
                 onClick={() => onViewChange?.('browser')}
@@ -315,15 +333,23 @@ export const AppDock = memo(function AppDock({
               <SystemDockCard
                 icon={TerminalSquare}
                 label="Terminal"
-                bgClass="bg-gradient-to-br from-[#3f3f46] to-[#18181b]"
-                iconColor="text-[#4ade80]"
+                bgClass=""
+                surfaceStyle={dockGradient(
+                  carbonScope.colors.backgroundSubtle,
+                  carbonScope.colors.surfaceElevated
+                )}
+                iconColor="text-emerald-400"
                 isActive={isTerminalWindowOpen}
                 onClick={() => onViewChange?.('terminal')}
               />
               <SystemDockCard
                 icon={Info}
                 label="System Info"
-                bgClass="bg-gradient-to-br from-[#64748B] to-[#475569]"
+                bgClass=""
+                surfaceStyle={dockGradient(
+                  carbonScope.colors.textMuted,
+                  carbonScope.colors.surfaceHover
+                )}
                 iconColor="text-white"
                 isActive={isInfoWindowOpen}
                 onClick={() => onViewChange?.('info')}
@@ -331,7 +357,11 @@ export const AppDock = memo(function AppDock({
               <SystemDockCard
                 icon={Table}
                 label="Spreadsheets"
-                bgClass="bg-gradient-to-br from-[#10b981] to-[#059669]"
+                bgClass=""
+                surfaceStyle={dockGradient(
+                  carbonScope.colors.primaryLight,
+                  carbonScope.colors.primaryDark
+                )}
                 iconColor="text-white"
                 isActive={isSpreadsheetWindowOpen}
                 onClick={() => onViewChange?.('spreadsheet')}

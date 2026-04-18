@@ -23,7 +23,7 @@ from core.utils.cache import Cache
 from .agent_service import AgentService, AgentFilters
 from .agent_loader import get_agent_loader
 from core.utils.limits_checker import check_agent_count_limit
-from core.config.suna_config import SUNA_CONFIG
+from core.config.carbonscope_config import carbonscope_CONFIG
 from core.ai_models import model_manager
 from core.utils.icon_generator import generate_icon_and_colors as generate_agent_icon_and_colors
 import json
@@ -59,47 +59,47 @@ async def update_agent(
         existing_data = existing_agent_data
 
         agent_metadata = existing_data.get('metadata', {})
-        is_suna_agent = agent_metadata.get('is_suna_default', False)
+        is_carbonscope_agent = agent_metadata.get('is_carbonscope_default', False)
         restrictions = agent_metadata.get('restrictions', {})
         
-        if is_suna_agent:
-            logger.warning(f"Update attempt on Suna default agent {agent_id} by user {user_id}")
+        if is_carbonscope_agent:
+            logger.warning(f"Update attempt on carbonscope default agent {agent_id} by user {user_id}")
             
             if (agent_data.name is not None and 
                 agent_data.name != existing_data.get('name') and 
                 restrictions.get('name_editable') == False):
-                logger.error(f"User {user_id} attempted to modify restricted name of Suna agent {agent_id}")
+                logger.error(f"User {user_id} attempted to modify restricted name of carbonscope agent {agent_id}")
                 raise HTTPException(
                     status_code=403, 
-                    detail="Suna's name cannot be modified. This restriction is managed centrally."
+                    detail="carbonscope's name cannot be modified. This restriction is managed centrally."
                 )
             
             
             if (agent_data.system_prompt is not None and 
                 restrictions.get('system_prompt_editable') == False):
-                logger.error(f"User {user_id} attempted to modify restricted system prompt of Suna agent {agent_id}")
+                logger.error(f"User {user_id} attempted to modify restricted system prompt of carbonscope agent {agent_id}")
                 raise HTTPException(
                     status_code=403, 
-                    detail="Suna's system prompt cannot be modified. This is managed centrally to ensure optimal performance."
+                    detail="carbonscope's system prompt cannot be modified. This is managed centrally to ensure optimal performance."
                 )
             
             if (agent_data.agentpress_tools is not None and 
                 restrictions.get('tools_editable') == False):
-                logger.error(f"User {user_id} attempted to modify restricted tools of Suna agent {agent_id}")
+                logger.error(f"User {user_id} attempted to modify restricted tools of carbonscope agent {agent_id}")
                 raise HTTPException(
                     status_code=403, 
-                    detail="Suna's default tools cannot be modified. These tools are optimized for Suna's capabilities."
+                    detail="carbonscope's default tools cannot be modified. These tools are optimized for carbonscope's capabilities."
                 )
             
             if ((agent_data.configured_mcps is not None or agent_data.custom_mcps is not None) and 
                 restrictions.get('mcps_editable') == False):
-                logger.error(f"User {user_id} attempted to modify restricted MCPs of Suna agent {agent_id}")
+                logger.error(f"User {user_id} attempted to modify restricted MCPs of carbonscope agent {agent_id}")
                 raise HTTPException(
                     status_code=403, 
-                    detail="Suna's integrations cannot be modified."
+                    detail="carbonscope's integrations cannot be modified."
                 )
             
-            logger.debug(f"Suna agent update validation passed for agent {agent_id} by user {user_id}")
+            logger.debug(f"carbonscope agent update validation passed for agent {agent_id} by user {user_id}")
 
         current_version_data = None
         if existing_data.get('current_version_id'):
@@ -410,8 +410,8 @@ async def delete_agent(agent_id: str, user_id: str = Depends(verify_and_get_user
         if agent['is_default']:
             raise HTTPException(status_code=400, detail="Cannot delete default agent")
         
-        if agent.get('metadata', {}).get('is_suna_default', False):
-            raise HTTPException(status_code=400, detail="Cannot delete Suna default agent")
+        if agent.get('metadata', {}).get('is_carbonscope_default', False):
+            raise HTTPException(status_code=400, detail="Cannot delete carbonscope default agent")
         
         # Clean up triggers before deleting agent
         try:
@@ -529,7 +529,14 @@ async def get_agents(
         raise
     except Exception as e:
         logger.error("Error fetching agents for user", user_id=user_id, error=str(e), exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to fetch agents: {str(e)}")
+        from core.services.db import _is_db_unavailable
+        if _is_db_unavailable(e):
+            raise HTTPException(
+                status_code=503,
+                detail="Database temporarily unavailable. Please try again shortly.",
+                headers={"Retry-After": "10"},
+            )
+        raise HTTPException(status_code=500, detail="Failed to fetch agents.")
 
 @router.get("/agents/{agent_id}", response_model=AgentResponse, summary="Get Agent", operation_id="get_agent")
 async def get_agent(agent_id: str, user_id: str = Depends(verify_and_get_user_id_from_jwt)):
@@ -594,7 +601,7 @@ async def create_agent(
         try:
             version_service = await _get_version_service()
             
-            system_prompt = SUNA_CONFIG["system_prompt"]
+            system_prompt = carbonscope_CONFIG["system_prompt"]
             
             agentpress_tools = agent_data.agentpress_tools if agent_data.agentpress_tools else _get_default_agentpress_tools()
             agentpress_tools = ensure_core_tools_enabled(agentpress_tools)

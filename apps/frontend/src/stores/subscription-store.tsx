@@ -1,3 +1,14 @@
+/**
+ * TODO: BILLING DISABLED - Several exports in this file are dead code:
+ * - useSubscriptionContext(), useSharedSubscription(), useSubscriptionData()
+ *   are backward-compat hooks for the old billing system. They are only used
+ *   by ThreadComponent.tsx (useSharedSubscription) and the billing feature
+ *   is disabled. The core useSubscriptionStore + useSubscriptionStoreSync
+ *   are still used by app-providers.tsx for account state syncing.
+ * - SubscriptionStoreSync component in app-providers still runs but the
+ *   billing data it syncs is from the stubbed billing API.
+ * Remove or re-enable when billing is turned back on.
+ */
 import { useEffect } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';

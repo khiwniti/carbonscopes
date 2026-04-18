@@ -19,7 +19,7 @@ Usage:
     python edge_trees_performance_tests.py --test          # Run performance tests
     python edge_trees_performance_tests.py --iterations 200  # Custom iterations
 
-Note: Requires GraphDB running at http://localhost:7200 with suna-bim-kg repository
+Note: Requires GraphDB running at http://localhost:7200 with carbonscope-bim-kg repository
 """
 
 import argparse

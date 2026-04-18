@@ -60,17 +60,17 @@ def build_analysis_prompt(existing_categories: List[str]) -> str:
     """Build the analysis prompt with dynamic categories from DB."""
     categories_str = ", ".join(existing_categories) if existing_categories else "none yet"
 
-    return f"""You are analyzing conversations from Suna, an open-source AI agent platform.
+    return f"""You are analyzing conversations from carbonscope, an open-source AI agent platform.
 
-## ABOUT SUNA
-Suna is a generalist AI agent that can:
+## ABOUT carbonscope
+carbonscope is a generalist AI agent that can:
 - Browse the web and extract information
 - Write, edit, and execute code
 - Create and manage files (documents, spreadsheets, presentations)
 - Interact with APIs and external services
 - Perform multi-step tasks autonomously
 
-Users interact with Suna to accomplish real-world tasks like research, content creation, data analysis, coding, and automation.
+Users interact with carbonscope to accomplish real-world tasks like research, content creation, data analysis, coding, and automation.
 
 ## YOUR TASK
 Analyze the conversation and return valid JSON only. Be objective and evidence-based.
@@ -99,7 +99,7 @@ Return this exact JSON structure:
   }}
 }}
 
-## FRUSTRATION SIGNALS (Suna-specific)
+## FRUSTRATION SIGNALS (carbonscope-specific)
 - Agent stuck in loops or repeating actions
 - Browser/sandbox errors or timeouts
 - Agent not understanding the task after multiple attempts

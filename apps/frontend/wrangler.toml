@@ -1,0 +1,17 @@
+# Cloudflare Pages configuration for CarbonScopes frontend
+# Deployed via @cloudflare/next-on-pages
+
+name = "carbonscopes-frontend"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+# KV namespace bindings (add if needed for caching, sessions, etc.)
+# [[kv_namespaces]]
+# binding = "KV"
+# id = "your-kv-namespace-id"
+
+# Environment variables that are safe to embed at build time.
+# Secrets should be set via the Cloudflare dashboard or wrangler secret.
+[vars]
+ENVIRONMENT = "production"

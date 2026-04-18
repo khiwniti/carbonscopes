@@ -23,8 +23,11 @@ def initialize_checkpointer() -> PostgresSaver:
     Creates a PostgresSaver instance with a persistent connection that stores
     LangGraph state in PostgreSQL. This should be called once during application startup.
 
+    Skip initialization in LOCAL mode when DATABASE_URL contains a placeholder password
+    to avoid tripping the Supabase circuit breaker during development.
+
     Environment Variables:
-        DATABASE_URL: PostgreSQL connection string (default: postgresql://localhost/suna)
+        DATABASE_URL: PostgreSQL connection string (default: postgresql://localhost/carbonscope)
 
     Returns:
         PostgresSaver instance configured for the database
@@ -58,16 +61,28 @@ def initialize_checkpointer() -> PostgresSaver:
             "No database URL configured. Set DATABASE_URL or SUPABASE_DATABASE_URL environment variable."
         )
 
+    # In LOCAL mode, skip if password is still a placeholder — avoids hammering
+    # Supabase's circuit breaker with bad credentials during development.
+    from core.utils.config import config, EnvMode
+    if config.ENV_MODE == EnvMode.LOCAL and ':***@' in db_url:
+        logger.warning(
+            "[CHECKPOINTER] Skipping init in LOCAL mode — DATABASE_URL has placeholder password (***). "
+            "Set the real password in backend/.env to enable checkpointing."
+        )
+        return None
+
     # Extract host info for logging (hide credentials)
     db_host_info = db_url.split('@')[-1] if '@' in db_url else "unknown"
     logger.info(f"Initializing PostgreSQL checkpointer with database: {db_host_info}")
 
     try:
         # Create persistent connection
+        # prepare_threshold=None disables server-side prepared statements,
+        # avoiding "prepared statement already exists" errors on reconnect.
         _connection = Connection.connect(
             db_url,
             autocommit=True,
-            prepare_threshold=0,
+            prepare_threshold=None,
             row_factory=dict_row
         )
 

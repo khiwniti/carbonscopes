@@ -10,7 +10,7 @@ async def load_agent_config_fast(
     user_id: Optional[str] = None
 ) -> Optional[Dict[str, Any]]:
     from core.cache.runtime_cache import (
-        get_static_suna_config, 
+        get_static_carbonscope_config, 
         get_cached_user_mcps,
         get_cached_agent_config,
         get_cached_agent_type
@@ -30,8 +30,8 @@ async def load_agent_config_fast(
         
         agent_type = await get_cached_agent_type(agent_id)
         
-        if agent_type == "suna":
-            static_config = get_static_suna_config()
+        if agent_type == "carbonscope":
+            static_config = get_static_carbonscope_config()
             if static_config:
                 cached_mcps = await get_cached_user_mcps(agent_id)
                 agent_config = {
@@ -40,14 +40,14 @@ async def load_agent_config_fast(
                     'model': static_config['model'],
                     'agentpress_tools': static_config['agentpress_tools'],
                     'centrally_managed': static_config['centrally_managed'],
-                    'is_suna_default': static_config['is_suna_default'],
+                    'is_carbonscope_default': static_config['is_carbonscope_default'],
                     'restrictions': static_config['restrictions'],
                     'configured_mcps': cached_mcps.get('configured_mcps', []) if cached_mcps else [],
                     'custom_mcps': cached_mcps.get('custom_mcps', []) if cached_mcps else [],
                     'triggers': cached_mcps.get('triggers', []) if cached_mcps else [],
                     '_mcps_need_loading': cached_mcps is None,
                 }
-                logger.info(f"⏱️ [AGENT CONFIG FAST] Suna (cached type): {(time.time() - t) * 1000:.1f}ms")
+                logger.info(f"⏱️ [AGENT CONFIG FAST] carbonscope (cached type): {(time.time() - t) * 1000:.1f}ms")
                 return agent_config
         
         elif agent_type == "custom":
@@ -84,8 +84,8 @@ async def load_agent_config(
             logger.debug("[AGENT LOAD] Loading default agent")
             
             if is_new_thread:
-                from core.utils.ensure_suna import ensure_suna_installed
-                await ensure_suna_installed(account_id)
+                from core.utils.ensure_carbonscope import ensure_carbonscope_installed
+                await ensure_carbonscope_installed(account_id)
             
             from core.agents.agent_loader import get_agent_loader
             loader = await get_agent_loader()
@@ -97,8 +97,8 @@ async def load_agent_config(
                 logger.debug(f"Using default agent: {agent_data.name} ({agent_data.agent_id}) version {agent_data.version_name}")
                 return agent_data.to_dict()
             else:
-                logger.warning(f"[AGENT LOAD] No default agent found for account {account_id}, searching for shared Suna")
-                agent_data = await _find_shared_suna_agent()
+                logger.warning(f"[AGENT LOAD] No default agent found for account {account_id}, searching for shared carbonscope")
+                agent_data = await _find_shared_carbonscope_agent()
                 
                 if not agent_data:
                     any_agent_id = await agents_repo.get_any_agent_id(account_id)
@@ -146,14 +146,14 @@ async def load_agent_config(
         return None
 
 
-async def _find_shared_suna_agent():
+async def _find_shared_carbonscope_agent():
     from core.agents.agent_loader import get_agent_loader
     from core.utils.config import config
     from core.agents import repo as agents_repo
     
     admin_user_id = config.SYSTEM_ADMIN_USER_ID
     
-    shared_agent = await agents_repo.get_shared_suna_agent(admin_user_id)
+    shared_agent = await agents_repo.get_shared_carbonscope_agent(admin_user_id)
     
     if shared_agent:
         loader = await get_agent_loader()
@@ -163,13 +163,13 @@ async def _find_shared_suna_agent():
             load_config=True
         )
         if admin_user_id and shared_agent['account_id'] == admin_user_id:
-            logger.info(f"✅ Using system Suna agent from admin user: {agent_data.name} ({agent_data.agent_id})")
+            logger.info(f"✅ Using system carbonscope agent from admin user: {agent_data.name} ({agent_data.agent_id})")
         else:
-            logger.info(f"Using shared Suna agent: {agent_data.name} ({agent_data.agent_id})")
+            logger.info(f"Using shared carbonscope agent: {agent_data.name} ({agent_data.agent_id})")
         return agent_data
     
     if admin_user_id:
-        logger.warning(f"⚠️ SYSTEM_ADMIN_USER_ID configured but no Suna agent found for user {admin_user_id}")
+        logger.warning(f"⚠️ SYSTEM_ADMIN_USER_ID configured but no carbonscope agent found for user {admin_user_id}")
     
-    logger.error("❌ No Suna agent found! Set SYSTEM_ADMIN_USER_ID in .env")
+    logger.error("❌ No carbonscope agent found! Set SYSTEM_ADMIN_USER_ID in .env")
     return None

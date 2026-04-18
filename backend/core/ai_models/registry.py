@@ -319,7 +319,7 @@ class ModelFactory:
                 name="CarbonScope Basic (Azure)",
                 litellm_model_id=f"azure_ai/{deployment}",
                 provider=ModelProvider.AZURE,
-                aliases=["CarbonScope-basic", "CarbonScope Basic", "gpt-4o", "gpt-4o-mini", "openai/gpt-4o", "openai/gpt-4o-mini"],
+                aliases=["CarbonScope-basic", "CarbonScope Basic"],
                 context_window=200_000,
                 capabilities=[
                     ModelCapability.CHAT,
@@ -500,7 +500,7 @@ class ModelFactory:
                 name="CarbonScope Advanced Mode (Azure)",
                 litellm_model_id=f"azure_ai/{deployment}",
                 provider=ModelProvider.AZURE,
-                aliases=["CarbonScope-power", "CarbonScope POWER Mode", "CarbonScope Power", "CarbonScope Advanced Mode", "claude-3-5-sonnet", "anthropic/claude-3-5-sonnet"],
+                aliases=["CarbonScope-power", "CarbonScope POWER Mode", "CarbonScope Power", "CarbonScope Advanced Mode"],
                 context_window=200_000,
                 capabilities=[
                     ModelCapability.CHAT,

@@ -9,8 +9,8 @@ import os
 from core.utils.auth_utils import verify_and_get_user_id_from_jwt
 from core.utils.logger import logger
 from core.utils.config import config
-from core.billing.subscriptions import free_tier_service
-from core.utils.suna_default_agent_service import SunaDefaultAgentService
+from core.billing.subscriptions import free_tier_service, anonymous_tier_service
+from core.utils.carbonscope_default_agent_service import carbonscopeDefaultAgentService
 from core.services.supabase import DBConnection
 from core.services.email import email_service
 
@@ -94,14 +94,14 @@ async def initialize_user_account(account_id: str, email: Optional[str] = None, 
                     'error': error_msg
                 }
         
-        logger.info(f"[SETUP] Installing Suna agent for {account_id}")
+        logger.info(f"[SETUP] Installing carbonscope agent for {account_id}")
         try:
-            suna_service = SunaDefaultAgentService(db)
-            agent_id = await suna_service.install_suna_agent_for_user(account_id)
+            carbonscope_service = carbonscopeDefaultAgentService(db)
+            agent_id = await carbonscope_service.install_carbonscope_agent_for_user(account_id)
             if not agent_id:
-                logger.warning(f"[SETUP] Failed to install Suna agent for {account_id}")
+                logger.warning(f"[SETUP] Failed to install carbonscope agent for {account_id}")
         except Exception as e:
-            logger.error(f"[SETUP] Error installing Suna agent for {account_id}: {e}")
+            logger.error(f"[SETUP] Error installing carbonscope agent for {account_id}: {e}")
             agent_id = None
         
         if user_record:
@@ -214,6 +214,40 @@ async def initialize_account(
     
     return result
 
+
+@router.post("/initialize-anonymous")
+async def initialize_anonymous_account(
+    account_id: str = Depends(verify_and_get_user_id_from_jwt)
+):
+    """
+    Fallback endpoint for anonymous user account initialization.
+    Called by the frontend after signInAnonymously() in case the Supabase
+    webhook missed the INSERT event. Idempotent — safe to call multiple times.
+    """
+    db = DBConnection()
+    client = await db.client
+
+    # Verify the requesting JWT belongs to an actual anonymous user
+    try:
+        user_response = await client.auth.admin.get_user_by_id(account_id)
+        user = user_response.user if user_response else None
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        is_anon = getattr(user, 'is_anonymous', None) or (user.user_metadata or {}).get('is_anonymous', False)
+        if not is_anon:
+            raise HTTPException(status_code=400, detail="This endpoint is only for anonymous users")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.warning(f"[SETUP] Could not verify anonymous status for {account_id}: {e}")
+        # Proceed defensively — setup_anonymous_account is idempotent
+
+    result = await anonymous_tier_service.setup_anonymous_account(account_id)
+    if not result.get('success') and 'Already initialized' not in result.get('message', ''):
+        raise HTTPException(status_code=500, detail=result.get('error', 'Failed to initialize anonymous account'))
+    return result
+
+
 # ============================================================================
 # Webhook Endpoints
 # ============================================================================
@@ -231,7 +265,7 @@ async def handle_user_created_webhook(
     request to this endpoint using pg_net.
     
     This webhook automatically:
-    1. Initializes account (free tier subscription + Suna agent)
+    1. Initializes account (free tier subscription + carbonscope agent)
     2. Sends welcome email
     
     All initialization happens automatically on the backend, eliminating
@@ -256,8 +290,18 @@ async def handle_user_created_webhook(
                 message="No user ID in user record"
             )
         
+        # Check is_anonymous first, independent of email presence
+        is_anonymous = user_record.get('is_anonymous', False)
+        if is_anonymous:
+            logger.info(f"[WEBHOOK] Anonymous user signup: {user_id}")
+            anon_result = await anonymous_tier_service.setup_anonymous_account(user_id)
+            return WebhookResponse(
+                success=True,
+                message=f"Anonymous user provisioned: {'ok' if anon_result.get('success') else anon_result.get('message')}"
+            )
+
         if not email:
-            logger.warning("User created webhook received without email")
+            logger.warning(f"[WEBHOOK] User {user_id} has no email and is not anonymous — skipping")
             return WebhookResponse(
                 success=False,
                 message="No email in user record"

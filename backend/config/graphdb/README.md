@@ -108,7 +108,7 @@ The repository connects to GraphDB running in Docker (see `docker-compose.yml`):
 ```yaml
 graphdb:
   image: ontotext/graphdb:10.7.0
-  container_name: suna-graphdb
+  container_name: carbonscope-graphdb
   ports:
     - "127.0.0.1:7200:7200"
   volumes:

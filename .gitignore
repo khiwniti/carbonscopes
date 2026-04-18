@@ -246,3 +246,40 @@ apps/mobile/app-example
 *.env.docker
 
 dump.rdb
+
+# AI agent tool configs (Cline, Gemini, Kiro, OpenCode, etc.)
+.agent/
+.agents/
+.cline/
+.gemini/
+.kilo/
+.kiro/
+.opencode/
+.pi/
+.playwright-mcp/
+_bmad/
+
+# Security scan artifacts
+*-report.json
+*-stderr.txt
+precommit-scan-*.md
+
+# Process / PID files
+*.pid
+backend/backend.pid
+
+# Test screenshots and log archives
+after-submit.png
+production-homepage.png
+webapp_logs.zip
+
+# Backup files
+*.backup
+
+# Scratch / session files at repo root
+fibonacci.py
+fibonacci_memo.py
+2026-*-this-session-is-being-continued-*.txt
+
+# Playwright test results
+apps/frontend/test-results/

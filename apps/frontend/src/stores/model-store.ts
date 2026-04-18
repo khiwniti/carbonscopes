@@ -17,7 +17,7 @@ export const useModelStore = create<ModelStore>()(
       },
     }),
     {
-      name: 'suna-model-selection-v3',
+      name: 'carbonscope-model-selection-v3',
       partialize: (state) => ({
         selectedModel: state.selectedModel,
       }),

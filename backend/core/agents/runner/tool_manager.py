@@ -15,7 +15,8 @@ DEFAULT_CORE_TOOLS = [
     'expand_msg_tool',      # Always needed for tool loading
     'message_tool',         # Always needed for user communication
     'task_list_tool',       # Task management
-    'web_search_tool',      # Web search
+    'web_search_tool',      # Web search (Tavily)
+    'exa_search_tool',      # Neural search — carbon/EPD/sustainability focus
     'image_search_tool',    # Image search
     'browser_tool',         # Web browsing
     'sb_shell_tool',        # Shell commands
@@ -75,8 +76,8 @@ class ToolManager:
         if self.agent_config and 'agentpress_tools' in self.agent_config:
             raw_tools = self.agent_config.get('agentpress_tools', {})
             if isinstance(raw_tools, dict):
-                # For default Suna agent with no explicit config, only use tier restrictions
-                if not (self.agent_config.get('is_suna_default', False) and not raw_tools):
+                # For default carbonscope agent with no explicit config, only use tier restrictions
+                if not (self.agent_config.get('is_carbonscope_default', False) and not raw_tools):
                     for tool_name, tool_config in raw_tools.items():
                         if isinstance(tool_config, bool) and not tool_config:
                             disabled.add(tool_name)
@@ -117,6 +118,11 @@ class ToolManager:
             enabled_methods = self._get_enabled_methods_for_tool('web_search_tool')
             self.thread_manager.add_tool(SandboxWebSearchTool, function_names=enabled_methods, thread_manager=self.thread_manager, project_id=self.project_id)
         
+        if config.EXA_API_KEY and self._is_tool_enabled('exa_search_tool'):
+            from core.tools.exa_search_tool import ExaSearchTool
+            enabled_methods = self._get_enabled_methods_for_tool('exa_search_tool')
+            self.thread_manager.add_tool(ExaSearchTool, function_names=enabled_methods)
+
         if config.SERPER_API_KEY and self._is_tool_enabled('image_search_tool'):
             enabled_methods = self._get_enabled_methods_for_tool('image_search_tool')
             self.thread_manager.add_tool(SandboxImageSearchTool, function_names=enabled_methods, thread_manager=self.thread_manager, project_id=self.project_id)

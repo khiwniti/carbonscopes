@@ -81,7 +81,8 @@ async def execute_agent_run(
                     await asyncio.sleep(STOP_CHECK_INTERVAL)
                 except asyncio.CancelledError:
                     break
-                except Exception:
+                except Exception as _stop_err:
+                    logger.warning(f"[Executor] Stop-checker error for {agent_run_id}: {_stop_err}")
                     await asyncio.sleep(timeouts.EXECUTOR_SHUTDOWN_DELAY)
 
         stop_checker = asyncio.create_task(check_stop())
@@ -150,8 +151,8 @@ async def execute_agent_run(
                     try:
                         await asyncio.wait_for(redis.expire(stream_key, REDIS_STREAM_TTL_SECONDS), timeout=2.0)
                         stream_ttl_set = True
-                    except:
-                        pass
+                    except Exception as _ttl_err:
+                        logger.debug(f"[Executor] Could not set stream TTL: {_ttl_err}")
             except Exception as e:
                 logger.warning(f"Failed to write to stream: {e}")
 

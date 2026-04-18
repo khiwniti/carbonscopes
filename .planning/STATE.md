@@ -1,46 +1,41 @@
-# CarbonScope Production Fix - Project State
+---
+project: CS
+version: 1.0
+updated: 2026-04-18
+---
 
-**Created:** 2026-04-06
-**Status:** ACTIVE - Phase 1 Complete, Testing Fix
-**Last Activity:** 2026-04-06 15:30
-**Live Site:** https://carbonscope.ensimu.space
-**Backend:** https://suna-backend-app.azurewebsites.net
+# CarbonScopes State
 
-## Current Milestone
+## Current Phase: Production Readiness Audit & Fix
 
-**M1: Production Stability** - Fix all production errors and establish monitoring
+### Active Issues (from codebase/CONCERNS.md)
+| ID | Severity | Status | Description |
+|----|----------|--------|-------------|
+| F-01 | HIGH | pending | Merge conflict in playwright.config.ts |
+| F-02 | HIGH | pending | Session HTML file in repo root |
+| F-03 | HIGH | pending | .env.production may contain secrets |
+| F-04 | MEDIUM | pending | Disabled billing imports (dead code) |
+| F-05 | MEDIUM | pending | 8 Dockerfiles (unclear canonical path) |
+| F-06 | HIGH | pending | No test/lint in CI pipeline |
+| F-07 | HIGH | pending | Production build verification |
+| F-08 | MEDIUM | pending | 4GB heap required for build |
+| F-09 | MEDIUM | pending | Mixed ORM (Prisma + Supabase) — no schema source of truth |
+| F-10 | LOW | pending | Empty BOQ module directory |
+| F-11 | MEDIUM | pending | Broad CSP connect-src in dev mode |
 
-## Active Phases
+## Quick Tasks Completed
+| Date | Task | Status |
+|------|------|--------|
+| 2026-04-18 | Codebase mapping (7 docs) | ✓ complete |
+| 2026-04-18 | PROJECT.md initialization | ✓ complete |
+| 2026-04-18 | GSD config.json created | ✓ complete |
 
-- Phase 1: Critical Error Fix (Backend /v1/agents 500)
-- Phase 2: Low Priority Cleanup (GitHub stars 404)
-- Phase 3: Monitoring & Prevention
+## Codebase Map
+- Location: `.planning/codebase/`
+- Documents: STACK.md, ARCHITECTURE.md, STRUCTURE.md, CONVENTIONS.md, TESTING.md, INTEGRATIONS.md, CONCERNS.md
+- Total: 868 lines
 
-## Known Issues
-
-### ✅ FIXED (was P0)
-- Backend `/v1/agents` HTTP 500 - **ROOT CAUSE FOUND & FIXED**
-- Location: `backend/core/agents/agent_crud.py:462`
-- Root cause: DATABASE_URL missing `?sslmode=require` parameter
-- Fix: Updated Azure env var, restarted backend
-- Status: Deployed, awaiting verification
-
-### 🟡 LOW (P3)
-- GitHub stars API returns 404 from CarbonScope-ai/suna
-- Location: `apps/frontend/src/hooks/utils/use-github-stars.ts`
-- Impact: Console pollution only, no functional impact
-
-## Architecture
-
-**Frontend:** Next.js 15 (App Router) + React 19 + Tailwind
-**Backend:** Python + FastAPI + Prisma
-**Database:** Supabase (PostgreSQL)
-**Cache:** Redis
-**Hosting:** Vercel (frontend) + Azure App Service (backend)
-
-## Next Actions
-
-1. Get Azure backend logs to identify 500 error root cause
-2. Fix critical /v1/agents endpoint
-3. Clean up GitHub stars console warnings
-4. Add production monitoring
+## Next Steps
+1. Define requirements (REQUIREMENTS.md) from brownfield analysis
+2. Create roadmap (ROADMAP.md) for production readiness
+3. Execute Phase 1: Fix critical issues (F-01 through F-07)

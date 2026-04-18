@@ -1,8 +1,13 @@
+/**
+ * TODO: BILLING DISABLED - This entire file is dead code.
+ * No other file imports this component. Billing is disabled.
+ * Remove or re-enable when billing is turned back on.
+ */
 'use client';
 
 import { useState } from 'react';
 import {
-  Card,
+ Card,
   CardContent,
   CardDescription,
   CardHeader,

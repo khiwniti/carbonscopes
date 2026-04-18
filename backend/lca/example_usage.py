@@ -8,14 +8,14 @@ This script demonstrates how to use the carbon calculator for various scenarios:
 4. Thai language material matching
 
 Run with:
-    python suna/backend/lca/example_usage.py
+    python carbonscope/backend/lca/example_usage.py
 """
 
 import logging
 from decimal import Decimal
 
-from suna.backend.core.knowledge_graph import GraphDBClient
-from suna.backend.lca import CarbonCalculator, UnitConverter, MaterialMatcher
+from carbonscope.backend.core.knowledge_graph import GraphDBClient
+from carbonscope.backend.lca import CarbonCalculator, UnitConverter, MaterialMatcher
 
 # Configure logging
 logging.basicConfig(

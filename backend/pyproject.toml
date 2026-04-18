@@ -48,6 +48,7 @@ dependencies = [
   "nest-asyncio==1.6.0",
   "vncdotool==1.2.0",
   "tavily-python==0.5.4",
+  "exa-py>=1.14.0",
   "pytesseract==0.3.13",
   "stripe==11.6.0",
   "phonenumbers==8.13.50",
@@ -119,11 +120,12 @@ dependencies = [
   "brightway2<2.5.0",  # Python 3.12 compatibility
   "rapidfuzz>=3.0.0",
   "SPARQLWrapper>=2.0.0",
+  "langsmith>=0.7.22",
 ]
 
 [project.urls]
 homepage = "https://www.CarbonScope.com"
-repository = "https://github.com/CarbonScope-ai/suna"
+repository = "https://github.com/CarbonScope-ai/carbonscope"
 
 [tool.setuptools]
 packages = [
@@ -148,6 +150,7 @@ package = false
 
 [dependency-groups]
 dev = [
+    "pytest>=8.3.4",
 ]
 
 [tool.pytest.ini_options]

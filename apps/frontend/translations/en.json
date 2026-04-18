@@ -763,6 +763,8 @@
     "orContinueWithEmail": "or continue with email",
     "signInWithEmail": "Sign in with email",
     "createNewAccount": "Create new account",
+    "continueAsGuest": "Continue as Guest",
+    "or": "or",
     "byContinuingYouAgreeSimple": "By continuing, you agree to our",
     "phoneVerification": {
       "title": "Verify Your Phone Number",
@@ -948,7 +950,7 @@
     "disableAll": "Disable All",
     "saveChanges": "Save Changes"
   },
-  "suna": {
+  "carbonscope": {
     "samplePrompts": "Sample prompts",
     "examplePrompts": "Example prompts",
     "chooseStyle": "Choose a style",
