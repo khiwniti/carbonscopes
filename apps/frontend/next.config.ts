@@ -1,12 +1,30 @@
 import type { NextConfig } from 'next';
 import path from 'path';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
+// Build CSP connect-src dynamically — localhost only in development
+const connectSrcParts = [
+  "'self'",
+  'https://api.carbonscope.simu.space',
+  'https://*.supabase.co',
+  'wss://*.supabase.co',
+  'https://www.googletagmanager.com',
+  'https://eu.i.posthog.com',
+  'https://eu.posthog.com',
+  'https://cloud.langfuse.com',
+  'https://js.stripe.com',
+];
+if (isDev) {
+  connectSrcParts.push('http://localhost:*');
+}
+
 const securityHeaders = [
-  { key: 'X-Frame-Options',          value: 'SAMEORIGIN' },
-  { key: 'X-Content-Type-Options',   value: 'nosniff' },
-  { key: 'X-XSS-Protection',         value: '1; mode=block' },
-  { key: 'Referrer-Policy',          value: 'origin-when-cross-origin' },
-  { key: 'Permissions-Policy',       value: 'camera=(), microphone=(), geolocation=()' },
+  { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'X-XSS-Protection', value: '1; mode=block' },
+  { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
   { key: 'Strict-Transport-Security',value: 'max-age=63072000; includeSubDomains; preload' },
   {
     key: 'Content-Security-Policy',
@@ -17,7 +35,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://api.carbonscope.simu.space https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://eu.i.posthog.com https://eu.posthog.com https://cloud.langfuse.com https://js.stripe.com http://localhost:*",
+      `connect-src ${connectSrcParts.join(' ')}`,
       "frame-src 'self' https://www.youtube.com https://demo.arcade.software https://js.stripe.com",
       "object-src 'none'",
       "base-uri 'self'",
@@ -26,8 +44,6 @@ const securityHeaders = [
     ].join('; '),
   },
 ];
-
-const isDev = process.env.NODE_ENV !== 'production';
 
 const nextConfig: NextConfig = {
   // `standalone` output only applies to production builds; enabling it in dev
