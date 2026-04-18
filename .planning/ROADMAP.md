@@ -7,7 +7,7 @@ Bring the existing CarbonScopes brownfield codebase from its current state to pr
 ## Phases
 
 - [x] **Phase 1: Critical Fixes & Security** — Resolve blocking issues preventing safe development
-- [ ] **Phase 2: CI/CD & Build Hardening** — Establish quality gates and clean deployment
+- [x] **Phase 2: CI/CD & Build Hardening** — Establish quality gates and clean deployment
 - [ ] **Phase 3: Core Pipeline Validation** — Verify carbon calculation pipeline end-to-end
 - [ ] **Phase 4: Auth & Session Stabilization** — Ensure consistent auth across frontend/backend
 
@@ -45,8 +45,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: Add test, lint, and secret scanning to GitHub Actions CI (FIX-06, SEC-02)
-- [ ] 02-02: Consolidate deployment config — pick canonical path, remove unused Dockerfiles (FIX-05, FIX-07)
+- [x] 02-01: Add test, lint, and secret scanning to GitHub Actions CI (FIX-06, SEC-02)
+- [x] 02-02: Consolidate deployment config — pick canonical path, remove unused Dockerfiles (FIX-05, FIX-07)
 
 ### Phase 3: Core Pipeline Validation
 **Goal**: Verify the end-to-end carbon calculation pipeline works correctly from BOQ upload through compliance checking. This is the core value proposition.

@@ -6,7 +6,7 @@ updated: 2026-04-18
 
 # CarbonScopes State
 
-## Current Phase: Phase 2 - CI/CD & Build Hardening
+## Current Phase: Phase 3 - Core Pipeline Validation
 
 ### Active Issues (from codebase/CONCERNS.md)
 | ID | Severity | Status | Description |
@@ -15,10 +15,10 @@ updated: 2026-04-18
 | F-02 | HIGH | resolved | Session HTML file in repo root |
 | F-03 | HIGH | resolved | .env.production removed from git (secret rotated) |
 | F-04 | MEDIUM | resolved | Disabled billing imports removed |
-| F-05 | MEDIUM | pending | 8 Dockerfiles (unclear canonical path) |
-| F-06 | HIGH | pending | No test/lint in CI pipeline |
-| F-07 | HIGH | pending | Production build verification |
-| F-08 | MEDIUM | pending | 4GB heap required for build |
+| F-05 | MEDIUM | resolved | Canonical deployment documented, backend Dockerfile created |
+| F-06 | HIGH | resolved | CI workflow with lint, test, secret scanning active |
+| F-07 | HIGH | resolved | Production build verified, 4GB heap documented |
+| F-08 | MEDIUM | resolved | 4GB heap requirement documented in deployment.md |
 | F-09 | MEDIUM | pending | Mixed ORM (Prisma + Supabase) — no schema source of truth |
 | F-10 | LOW | resolved | Empty BOQ module directory |
 | F-11 | MEDIUM | resolved | CSP connect-src tightened for production |
@@ -31,6 +31,7 @@ updated: 2026-04-18
 | 2026-04-18 | GSD config.json created | ✓ complete |
 | 2026-04-18 | Phase 1 plans created | ✓ complete |
 | 2026-04-18 | Phase 1 executed (3 plans) | ✓ complete |
+| 2026-04-18 | Phase 2 executed (2 plans) | ✓ complete |
 
 ## Codebase Map
 - Location: `.planning/codebase/`
@@ -42,4 +43,5 @@ updated: 2026-04-18
 2. [x] Create roadmap (ROADMAP.md) for production readiness
 3. [x] Create Phase 1 plans (3 plans created)
 4. [x] Execute Phase 1: Fix critical issues (F-01 through F-04, F-10, F-11)
-5. [ ] Execute Phase 2: CI/CD & Build Hardening (F-05, F-06, F-07, F-08)
+5. [x] Execute Phase 2: CI/CD & Build Hardening (F-05, F-06, F-07, F-08)
+6. [ ] Execute Phase 3: Core Pipeline Validation (CARBON-01 through CARBON-05, DASH-01 through DASH-03)
