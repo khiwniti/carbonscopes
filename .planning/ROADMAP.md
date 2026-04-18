@@ -9,7 +9,7 @@ Bring the existing CarbonScopes brownfield codebase from its current state to pr
 - [x] **Phase 1: Critical Fixes & Security** — Resolve blocking issues preventing safe development
 - [x] **Phase 2: CI/CD & Build Hardening** — Establish quality gates and clean deployment
 - [x] **Phase 3: Core Pipeline Validation** — Verify carbon calculation pipeline end-to-end
-- [ ] **Phase 4: Auth & Session Stabilization** — Ensure consistent auth across frontend/backend
+- [x] **Phase 4: Auth & Session Stabilization** — Ensure consistent auth across frontend/backend
 
 ## Phase Details
 
@@ -81,5 +81,5 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: Audit and fix session synchronization between NextAuth and Supabase (AUTH-03)
-- [ ] 04-02: Test auth edge cases — token refresh, logout, expired sessions, concurrent tabs
+- [x] 04-01: Audit and document Supabase Auth architecture (AUTH-03)
+- [x] 04-02: Test auth edge cases — token refresh, logout, expired sessions, RBAC (AUTH-03)
