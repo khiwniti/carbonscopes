@@ -8,7 +8,7 @@ Bring the existing CarbonScopes brownfield codebase from its current state to pr
 
 - [x] **Phase 1: Critical Fixes & Security** — Resolve blocking issues preventing safe development
 - [x] **Phase 2: CI/CD & Build Hardening** — Establish quality gates and clean deployment
-- [ ] **Phase 3: Core Pipeline Validation** — Verify carbon calculation pipeline end-to-end
+- [x] **Phase 3: Core Pipeline Validation** — Verify carbon calculation pipeline end-to-end
 - [ ] **Phase 4: Auth & Session Stabilization** — Ensure consistent auth across frontend/backend
 
 ## Phase Details
@@ -65,9 +65,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Validate BOQ parsing and material matching pipeline (CARBON-01, CARBON-02)
-- [ ] 03-02: Validate carbon calculation, compliance checks, and alternatives (CARBON-03, CARBON-04, CARBON-05)
-- [ ] 03-03: Validate dashboard, reporting, and agent error recovery (DASH-01, DASH-02, DASH-03, ARCH-03)
+- [x] 03-01: Validate BOQ parsing and material matching pipeline (CARBON-01, CARBON-02)
+- [x] 03-02: Validate carbon calculation, compliance checks, and alternatives (CARBON-03, CARBON-04, CARBON-05)
+- [x] 03-03: Validate dashboard, reporting, and agent error recovery (DASH-01, DASH-02, DASH-03, ARCH-03)
 
 ### Phase 4: Auth & Session Stabilization
 **Goal**: Ensure authentication is consistent and reliable across the full stack. No session mismatches between frontend and backend.
