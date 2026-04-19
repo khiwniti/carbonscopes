@@ -51,7 +51,7 @@ pnpm exec playwright show-report e2e-report
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `BASE_URL` | Frontend base URL | `http://localhost:3002` |
+| `BASE_URL` | Frontend base URL | `http://localhost:3001` |
 | `BACKEND_URL` | Backend base URL | `http://localhost:8000` |
 | `TEST_USER_EMAIL` | Login email | `e2e-test@carbonscopes.dev` |
 | `TEST_USER_PASSWORD` | Login password | `test_password_e2e_12345` |

@@ -1141,7 +1141,7 @@ export function CarbonScopeModesPanel({
   const displayedPrompts = randomizedPrompts;
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4" data-testid="carbonscope-modes">
       {/* Mode Tabs - CarbonScope minimal design */}
       <motion.div 
         initial={{ opacity: 0 }}

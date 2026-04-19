@@ -18,7 +18,7 @@ import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3002';
+const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3001';
 const BACKEND  = process.env.BACKEND_URL ?? 'http://localhost:8000';
 
 // Storage state file — reused across tests in the same worker to avoid

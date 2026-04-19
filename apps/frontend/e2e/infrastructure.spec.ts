@@ -16,7 +16,7 @@ import { test, expect } from '@playwright/test';
 import { PageHelpers } from './infrastructure/page.helpers';
 import { AsyncExpect } from './infrastructure/async_expect';
 
-const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3002';
+const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3001';
 const NAV_OPTS = { timeout: 40_000, waitUntil: 'domcontentloaded' as const };
 
 test.describe('E2E Infrastructure Verification', () => {

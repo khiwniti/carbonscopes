@@ -244,6 +244,7 @@ export function SidebarLeft({
   return (
     <Sidebar
       collapsible="icon"
+      data-testid="sidebar"
       className="border-r border-border/50 bg-background [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
       {...props}
     >
