@@ -16,7 +16,7 @@
 
 import { Page, Locator, expect } from '@playwright/test';
 
-const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3002';
+const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3001';
 const NAV_TIMEOUT = 40_000;
 
 export class PageHelpers {
@@ -94,7 +94,7 @@ export class PageHelpers {
   // ── Agent Chat (carbonscope) ────────────────────────────────────────────────────
 
   getChatInput(): Locator {
-    return this.page.locator('textarea[placeholder*="message"], input[placeholder*="message"]').first();
+    return this.page.locator('[data-testid="chat-input"], textarea').first();
   }
 
   async sendChatMessage(message: string): Promise<void> {

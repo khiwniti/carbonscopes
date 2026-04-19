@@ -180,6 +180,7 @@ const IsolatedTextarea = memo(forwardRef<HTMLTextAreaElement, IsolatedTextareaPr
     <div className="flex flex-col gap-1 px-2">
       <Textarea
         ref={internalRef}
+        data-testid="chat-input"
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
@@ -680,6 +681,7 @@ const SubmitButton = memo(function SubmitButton({
         <TooltipTrigger asChild>
           <Button
             type="submit"
+            data-testid="chat-send-button"
             onClick={buttonAction}
             size="sm"
             className={cn(
