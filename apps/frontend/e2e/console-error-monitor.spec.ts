@@ -5,7 +5,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3002';
+const FRONTEND = process.env.BASE_URL ?? 'http://localhost:3001';
 const NAV_OPTS = { timeout: 40_000, waitUntil: 'domcontentloaded' as const };
 
 /**

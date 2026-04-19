@@ -1,0 +1,37 @@
+# CarbonScope Backend - Cloudflare Containers Configuration
+name = "carbonscope-backend"
+main = "index.js"
+compatibility_date = "2025-04-19"
+compatibility_flags = ["nodejs_compat"]
+
+# Container configuration
+[[containers]]
+name = "backend"
+class_name = "CarbonScopeBackend"
+image = "./Dockerfile"
+max_instances = 5
+instance_type = "standard-1"
+
+# Durable Object binding for the container
+[[durable_objects.bindings]]
+name = "CARBONSCOPE_BACKEND"
+class_name = "CarbonScopeBackend"
+
+# Migration for Durable Object class
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["CarbonScopeBackend"]
+
+# Environment variables (safe to embed at build time)
+[vars]
+NODE_ENV = "production"
+ENVIRONMENT = "cloudflare"
+
+# Secrets (set via wrangler secret or Cloudflare dashboard):
+# - SUPABASE_URL
+# - SUPABASE_SERVICE_KEY
+# - SUPABASE_ANON_KEY
+# - REDIS_URL
+# - JWT_SECRET
+# - OPENAI_API_KEY
+# - etc.
