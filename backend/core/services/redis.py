@@ -194,21 +194,39 @@ class RedisClient:
     
     def _get_config(self) -> Dict[str, Any]:
         load_dotenv()
-        
-        redis_host = os.getenv("REDIS_HOST", "localhost")
-        redis_port = int(os.getenv("REDIS_PORT", 6379))
-        redis_password = os.getenv("REDIS_PASSWORD", "")
-        redis_username = os.getenv("REDIS_USERNAME", None)
-        redis_ssl = os.getenv("REDIS_SSL", "false").lower() == "true"
-        
-        scheme = "rediss" if redis_ssl else "redis"
-        if redis_username and redis_password:
-            redis_url = f"{scheme}://{redis_username}:{redis_password}@{redis_host}:{redis_port}"
-        elif redis_password:
-            redis_url = f"{scheme}://:{redis_password}@{redis_host}:{redis_port}"
+
+        # Support REDIS_URL environment variable (takes precedence)
+        redis_url_env = os.getenv("REDIS_URL")
+        if redis_url_env:
+            from urllib.parse import urlparse
+            parsed = urlparse(redis_url_env)
+            
+            # Extract connection details from URL
+            redis_host = parsed.hostname or "localhost"
+            redis_port = parsed.port or 6379
+            redis_password = parsed.password or ""
+            redis_username = parsed.username or None
+            # Use rediss:// for TLS connections
+            redis_ssl = parsed.scheme == "rediss"
+            redis_url = redis_url_env
+            
+            logger.info(f"Using REDIS_URL: {redis_host}:{redis_port} (SSL={redis_ssl})")
         else:
-            redis_url = f"{scheme}://{redis_host}:{redis_port}"
-        
+            # Fall back to individual environment variables
+            redis_host = os.getenv("REDIS_HOST", "localhost")
+            redis_port = int(os.getenv("REDIS_PORT", 6379))
+            redis_password = os.getenv("REDIS_PASSWORD", "")
+            redis_username = os.getenv("REDIS_USERNAME", None)
+            redis_ssl = os.getenv("REDIS_SSL", "false").lower() == "true"
+
+            scheme = "rediss" if redis_ssl else "redis"
+            if redis_username and redis_password:
+                redis_url = f"{scheme}://{redis_username}:{redis_password}@{redis_host}:{redis_port}"
+            elif redis_password:
+                redis_url = f"{scheme}://:{redis_password}@{redis_host}:{redis_port}"
+            else:
+                redis_url = f"{scheme}://{redis_host}:{redis_port}"
+
         return {
             "host": redis_host,
             "port": redis_port,
@@ -217,7 +235,7 @@ class RedisClient:
             "ssl": redis_ssl,
             "url": redis_url,
         }
-    
+
     def get_pool_info(self) -> Dict[str, Any]:
         """Get connection pool stats for monitoring."""
         def _pool_stats(pool, name):

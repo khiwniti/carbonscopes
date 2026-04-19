@@ -35,7 +35,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      `connect-src ${connectSrcParts.join(' ')}`,
+      `connect-src ${connectSrcParts.join(' ')} https://vplbjxijbrgwskgxiukd.supabase.co https://integrate.api.nvidia.com https://carbonscope.simu.space https://*.workers.dev`,
       "frame-src 'self' https://www.youtube.com https://demo.arcade.software https://js.stripe.com",
       "object-src 'none'",
       "base-uri 'self'",
@@ -122,12 +122,9 @@ const nextConfig: NextConfig = {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
   async rewrites() {
-    return [
-      {
-        source: '/api/v1/:path*',
-        destination: 'http://localhost:8000/v1/:path*',
-      },
-    ];
+    // In production, API calls go directly to backend Worker
+    // For local development, use the environment variable NEXT_PUBLIC_API_URL
+    return [];
   },
 };
 
