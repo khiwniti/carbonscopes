@@ -56,6 +56,7 @@ from core.services.orphan_cleanup import cleanup_orphaned_agent_runs
 from auth import api as auth_api
 from core.utils.auth_utils import verify_and_get_user_id_from_jwt
 from core.middleware.rate_limit import limiter, rate_limit_exceeded_handler
+from core.middleware.csrf import CSRFMiddleware, generate_csrf_token
 from slowapi.errors import RateLimitExceeded
 from core.mcp_module import api as mcp_api
 from core.credentials import api as credentials_api
@@ -458,8 +459,13 @@ app.add_middleware(
         "X-MCP-Type",
         "X-MCP-Headers",
         "X-API-Key",
+        "X-CSRF-Token",
     ],
 )
+
+# CSRF protection middleware (double-submit cookie pattern)
+# Applied after CORS so CORS preflight requests are handled first
+app.add_middleware(CSRFMiddleware)
 
 # Create a main API router
 api_router = APIRouter()
@@ -551,6 +557,22 @@ from core.admin.stateless_admin_api import router as stateless_admin_router
 api_router.include_router(stateless_admin_router)
 # Auth OTP endpoint for expired magic links
 api_router.include_router(auth_api.router)
+
+# CSRF token generation endpoint
+@api_router.get("/csrf-token", summary="Get CSRF Token", tags=["auth"])
+async def get_csrf_token():
+    """
+    Generate a CSRF token for double-submit cookie pattern.
+
+    Returns a CSRF token that should be included in subsequent
+    state-changing requests (POST/PUT/DELETE/PATCH) as the
+    X-CSRF-Token header. The token is also set as a cookie.
+
+    Note: Requests with Authorization or X-API-Key headers are
+    automatically exempt from CSRF validation.
+    """
+    token = generate_csrf_token()
+    return {"csrf_token": token}
 
 from core.chat.api import router as chat_router
 

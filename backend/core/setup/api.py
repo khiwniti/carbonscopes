@@ -7,6 +7,7 @@ from typing import Dict, Optional
 from datetime import datetime, timezone
 import os
 from core.utils.auth_utils import verify_and_get_user_id_from_jwt
+from core.middleware.rate_limit import limiter, AUTH_RATE_LIMIT, DEFAULT_RATE_LIMIT
 from core.utils.logger import logger
 from core.utils.config import config
 from core.billing.subscriptions import free_tier_service, anonymous_tier_service
@@ -184,7 +185,9 @@ def _send_welcome_email_async(email: str, user_name: str):
 # ============================================================================
 
 @router.post("/initialize")
+@limiter.limit(AUTH_RATE_LIMIT)
 async def initialize_account(
+    http_request: Request,
     account_id: str = Depends(verify_and_get_user_id_from_jwt)
 ):
     # Use singleton - already initialized at startup
@@ -216,7 +219,9 @@ async def initialize_account(
 
 
 @router.post("/initialize-anonymous")
+@limiter.limit(AUTH_RATE_LIMIT)
 async def initialize_anonymous_account(
+    http_request: Request,
     account_id: str = Depends(verify_and_get_user_id_from_jwt)
 ):
     """
@@ -253,7 +258,9 @@ async def initialize_anonymous_account(
 # ============================================================================
 
 @webhook_router.post("/webhooks/user-created", response_model=WebhookResponse)
+@limiter.limit(DEFAULT_RATE_LIMIT)
 async def handle_user_created_webhook(
+    http_request: Request,
     payload: SupabaseWebhookPayload,
     _: bool = Depends(verify_webhook_secret)
 ):
