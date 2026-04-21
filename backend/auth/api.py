@@ -9,7 +9,7 @@ Task #114: Rate limiting applied to prevent brute force attacks.
 import secrets
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi import APIRouter, HTTPException, Request, Response, Depends
 from pydantic import BaseModel, EmailStr
 
 from core.middleware.rate_limit import limiter, AUTH_RATE_LIMIT
@@ -64,6 +64,7 @@ import time  # noqa: E402 — needed for _cleanup_expired_otps
 @limiter.limit(AUTH_RATE_LIMIT)
 async def send_otp(
     request: Request,
+    response: Response,
     req_body: OTPSendRequest,
 ) -> OTPResponse:
     """
@@ -127,6 +128,7 @@ async def send_otp(
 @limiter.limit(AUTH_RATE_LIMIT)
 async def verify_otp(
     request: Request,
+    response: Response,
     req_body: OTPRequest,
 ) -> OTPResponse:
     """

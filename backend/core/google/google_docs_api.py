@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import unquote
 
-from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi import APIRouter, HTTPException, Depends, Request, Response
 from pydantic import BaseModel, Field
 
 from core.utils.auth_utils import verify_and_get_user_id_from_jwt
@@ -55,6 +55,7 @@ async def debug_endpoint():
 @limiter.limit(AUTH_RATE_LIMIT)
 async def convert_and_upload_to_google_docs(
     request: Request,
+    response: Response,
     req_body: ConvertToDocsRequest,
     user_id: str = Depends(verify_and_get_user_id_from_jwt),
     google_service: GoogleDocsService = Depends(get_google_docs_service)

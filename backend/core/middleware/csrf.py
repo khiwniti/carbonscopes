@@ -27,7 +27,7 @@ from core.utils.logger import logger
 CSRF_COOKIE_NAME = os.getenv("CSRF_COOKIE_NAME", "csrf_token")
 CSRF_HEADER_NAME = os.getenv("CSRF_HEADER_NAME", "X-CSRF-Token")
 CSRF_TOKEN_LENGTH = int(os.getenv("CSRF_TOKEN_LENGTH", "32"))
-CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE", "true").lower() == "true"
+CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE", "false").lower() == "true"
 CSRF_COOKIE_SAMESITE = os.getenv("CSRF_COOKIE_SAMESITE", "lax")
 CSRF_COOKIE_DOMAIN = os.getenv("CSRF_COOKIE_DOMAIN", None)
 CSRF_ENABLED = os.getenv("CSRF_ENABLED", "true").lower() == "true"
@@ -132,11 +132,8 @@ class CSRFMiddleware(BaseHTTPMiddleware):
     """
 
     async def dispatch(self, request: Request, call_next):
-        # Skip CSRF if disabled
-        if not CSRF_ENABLED:
-            return await call_next(request)
-
-        # Handle the CSRF token generation endpoint
+        # Handle the CSRF token generation endpoint even if CSRF validation is disabled
+        # This allows clients to always get a token and cookie
         if request.url.path == "/v1/csrf-token" and request.method == "GET":
             response = await call_next(request)
             token = generate_csrf_token()
@@ -151,6 +148,10 @@ class CSRFMiddleware(BaseHTTPMiddleware):
                 max_age=86400,  # 24 hours
             )
             return response
+
+        # Skip CSRF validation if disabled
+        if not CSRF_ENABLED:
+            return await call_next(request)
 
         # For state-changing requests, validate CSRF token
         if request.method not in SAFE_METHODS and not is_exempt_from_csrf(request):

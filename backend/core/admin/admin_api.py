@@ -461,3 +461,18 @@ def save_env_vars(request: Dict[str, str]) -> Dict[str, str]:
         logger.error(f"Failed to save env variables: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to save env variables: {e}")
 
+
+@router.post("/reset-rate-limits")
+async def reset_rate_limits_endpoint(admin_key: str = Depends(verify_admin_api_key)):
+    """Reset in-memory rate limit counters.
+
+    Clears all stored rate limit data. Only effective with in-memory storage.
+    Requires X-Admin-Api-Key header for authorization.
+    """
+    from core.middleware.rate_limit import reset_rate_limits
+
+    result = reset_rate_limits()
+    if result.get("status") == "error":
+        raise HTTPException(status_code=500, detail=result.get("message", "Failed to reset rate limits"))
+    return result
+

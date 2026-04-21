@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import unquote
 
-from fastapi import APIRouter, HTTPException, Query, Depends, Request
+from fastapi import APIRouter, HTTPException, Query, Depends, Request, Response
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 
@@ -96,6 +96,7 @@ presentation_router = APIRouter(prefix="/presentation-tools", tags=["presentatio
 @limiter.limit(AUTH_RATE_LIMIT)
 async def get_google_auth_url(
     request: Request,
+    response: Response,
     user_id: str = Depends(verify_and_get_user_id_from_jwt),
     return_url: Optional[str] = Query(None, description="URL to redirect to after OAuth"),
     google_service: GoogleSlidesService = Depends(get_google_slides_service)
@@ -128,6 +129,7 @@ async def get_google_auth_url(
 @limiter.limit(AUTH_RATE_LIMIT)
 async def google_oauth_callback(
     request: Request,
+    response: Response,
     code: Optional[str] = Query(None, description="Authorization code from Google"),
     state: Optional[str] = Query(None, description="State parameter (contains user_id)"),
     error: Optional[str] = Query(None, description="Error from Google OAuth"),
