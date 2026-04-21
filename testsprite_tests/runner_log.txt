@@ -1,0 +1,33 @@
+[13:26:30] ============================================================
+[13:26:30]   TestSprite MCP v2 — CarbonScopes Testing
+[13:26:30] ============================================================
+[13:26:30] Code summary found: /workspace/project/carbonscopes/testsprite_tests/tmp/code_summary.yaml
+[13:26:33] MCP connected
+[13:26:34] 
+[1] Bootstrap...
+[13:26:35] Portal on port 40011
+[13:26:35] Portal: {"success":true}
+[13:26:37] Bootstrap: {"next_action": ["The project is running on port 5002.", "In order to start testing, AI assistant will call <mcp_testsprite_testsprite_generate_code_summary> tool to generate code summary file and\n         write result in code_summary.yaml file in the project folder. AI assistant MUST generate code_summary.yaml for testsprite to use.", {"type": "tool_use", "tool": "mcp_testsprite_testsprite_generate_code_summary"}]}
+[13:26:37] 
+[2] Generate standardized PRD...
+[13:27:41] PRD: {"next_action": [{"type": "tool_use", "tool": "testsprite_generate_backend_test_plan"}]}
+[13:27:41] 
+[3] Generate backend test plan...
+[13:27:48] Test plan: {"next_action": [{"type": "tool_use", "tool": "testsprite_generate_code_and_execute", "context": {"projectPath": "/workspace/project/carbonscopes", "testPlanFilePath": "/workspace/project/carbonscopes/testsprite_tests/testsprite_backend_test_plan.json"}}]}
+[13:27:48] 
+[4] Generate & execute backend tests (cloud, may take minutes)...
+[13:27:48] Backend results: {"next_action": [{"type": "tool", "tool": "Run in Terminal", "input": {"inline_execution": true, "command": "cd /workspace/project/carbonscopes && node /home/openhands/.npm/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js generateCodeAndExecute"}, "mode": "terminal_only"}, {"type": "llm.generate", "input": {"prompt": "\n           Once the command is executed, the AI assistant will generate a markdown report\n            You are a software collaborator with two roles:\n            1. Assist in documenting testing outcomes.\n            2. Support the engineering team by identifying what functionality needs fixing.\n\n            The test is already complete. The raw test report in  `testsprite_tests/tmp/raw_report.md`.\n\n            Your job is to make the report complete:\n            1. put test case under correct requirement group. Each Requirement has N test\uff0c each case must be classified under the appropriate requirements, cases that cannot be classified should form a separate Requirement.\n            2. fill in all field placeholders\n\n            you can refer a sample test report here: /home/openhands/.npm/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/assets/testsprite-mcp-test-report-template.md\n            Reports strictly in 4 sections:\n            ## 1\ufe0f\u20e3 Document Metadata\n            ## 2\ufe0f\u20e3 Requirement Validation Summary\n            ## 3\ufe0f\u20e3 Coverage & Matching Metrics\n            ## 4\ufe0f\u20e3 Key Gaps / Risks\n            ---\n            Start complete the test report now, and write the completed version into `testsprite_tests/testsprite-mcp-test-report.md`.\n          "}}]}
+[13:27:48] Results saved to /workspace/project/carbonscopes/testsprite_tests/full_results.json
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/testsprite_backend_test_plan.json
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/runner_log.txt
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/standard_prd.json
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/backend_results.json
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/full_results.json
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/tmp/mcp.log
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/tmp/code_summary.yaml
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/tmp/config.json
+[13:27:48]   Generated: /workspace/project/carbonscopes/testsprite_tests/tmp/prd_files/PRD.md
+[13:27:48] 
+============================================================
+[13:27:48]   TestSprite Testing Complete!
+[13:27:48] ============================================================

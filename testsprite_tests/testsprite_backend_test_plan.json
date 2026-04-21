@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "get_v1_health_should_return_status_ok",
+    "description": "Verify that GET /v1/health returns HTTP 200 with body {\"status\":\"ok\"} indicating server health."
+  },
+  {
+    "id": "TC002",
+    "title": "post_v1_auth_otp_send_should_send_magic_link_and_respect_rate_limit",
+    "description": "Test POST /v1/auth/otp/send with valid email sends OTP magic link and enforces rate limiting after 5 requests per 15 minutes."
+  },
+  {
+    "id": "TC003",
+    "title": "post_v1_auth_otp_verify_should_validate_token_and_handle_invalid_tokens",
+    "description": "Test POST /v1/auth/otp/verify with valid token returns access JWT and invalid or expired tokens return 400 or 401 errors."
+  },
+  {
+    "id": "TC004",
+    "title": "get_v1_csrf_token_should_set_csrf_token_cookie",
+    "description": "Verify GET /v1/csrf-token returns HTTP 200 and sets csrf_token cookie for CSRF protection."
+  },
+  {
+    "id": "TC005",
+    "title": "post_v1_api_keys_should_create_api_key_for_authenticated_user",
+    "description": "Test POST /v1/api-keys with valid Bearer token creates a new API key and returns APIKeyCreateResponse."
+  },
+  {
+    "id": "TC006",
+    "title": "post_v1_initialize_should_initialize_authenticated_user_account",
+    "description": "Verify POST /v1/initialize with Bearer token and valid setup payload initializes user account successfully."
+  },
+  {
+    "id": "TC007",
+    "title": "post_v1_initialize_anonymous_should_create_anonymous_account_and_enforce_rate_limit",
+    "description": "Test POST /v1/initialize-anonymous creates anonymous account and enforces rate limiting on repeated requests."
+  },
+  {
+    "id": "TC008",
+    "title": "post_v1_carbon_calculate_should_return_carbon_footprint_or_bad_request",
+    "description": "Verify POST /v1/carbon/calculate with valid data returns carbon calculation results and malformed payload returns 400 Bad Request."
+  },
+  {
+    "id": "TC009",
+    "title": "post_v1_agent_start_should_start_agent_run_for_authenticated_user",
+    "description": "Test POST /v1/agent/start with Bearer token and valid config starts an agent run and returns agent_run_id."
+  },
+  {
+    "id": "TC010",
+    "title": "post_v1_threads_should_create_thread_with_csrf_protection_and_authentication",
+    "description": "Verify POST /v1/threads with Bearer token and valid X-CSRF-Token header creates a thread; missing or invalid CSRF token returns 403 Forbidden."
+  }
+]

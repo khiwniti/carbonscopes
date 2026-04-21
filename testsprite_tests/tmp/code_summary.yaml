@@ -1,0 +1,275 @@
+version: "2"
+type: backend
+tech_stack:
+  - Python 3.11+
+  - FastAPI
+  - slowapi (rate limiting)
+  - Starlette (CSRF middleware)
+  - Supabase (auth, database)
+  - Redis (rate limit storage, optional)
+  - PostgreSQL (via Supabase)
+  - Google OAuth
+  - Mailtrap (email)
+
+features:
+  - name: Health Check API
+    description: Server health and status endpoints
+    files:
+      - backend/api_health.py
+    endpoints:
+      - method: GET
+        path: /v1/health
+        description: Health check endpoint returning server status
+        auth_required: false
+        response_schema:
+          "200": '{"status": "ok"}'
+      - method: GET
+        path: /healthz
+        description: Root-level health check
+        auth_required: false
+        response_schema:
+          "200": '{"status": "ok"}'
+
+  - name: Authentication API
+    description: OTP-based magic link authentication with Google OAuth support
+    files:
+      - backend/auth/api.py
+      - backend/core/auth/auth.py
+    endpoints:
+      - method: POST
+        path: /v1/auth/otp/send
+        description: Send OTP magic link to email
+        auth_required: false
+        rate_limited: true
+        request_schema:
+          body:
+            email: string
+        response_schema:
+          "200": OTPResponse
+          "429": Rate limit exceeded
+      - method: POST
+        path: /v1/auth/otp/verify
+        description: Verify OTP token from magic link
+        auth_required: false
+        rate_limited: true
+        request_schema:
+          body:
+            token: string
+        response_schema:
+          "200": OTPResponse
+          "429": Rate limit exceeded
+
+  - name: CSRF Protection
+    description: Double-submit cookie pattern CSRF protection with token generation endpoint
+    files:
+      - backend/core/middleware/csrf.py
+    endpoints:
+      - method: GET
+        path: /v1/csrf-token
+        description: Generate and set CSRF token cookie
+        auth_required: false
+        response_schema:
+          "200": '{"csrf_token": "string"}'
+    security:
+      - Cookie-based CSRF token (csrf_token)
+      - Header validation (X-CSRF-Token)
+      - Exemptions for Bearer token auth, API key auth, safe methods
+
+  - name: Rate Limiting
+    description: Configurable rate limiting for authentication and sensitive endpoints using slowapi
+    files:
+      - backend/core/middleware/rate_limit.py
+    security:
+      - Auth endpoints: 5/15minutes
+      - API key creation: 5/15minutes
+      - Default: 100/minute
+      - Redis backend with in-memory fallback
+      - Client identification via IP address or forwarded headers
+
+  - name: API Key Management
+    description: Create, list, revoke, and delete API keys for programmatic access
+    files:
+      - backend/core/services/api_keys_api.py
+    endpoints:
+      - method: POST
+        path: /v1/api-keys
+        description: Create a new API key
+        auth_required: true
+        rate_limited: true
+        response_schema:
+          "200": APIKeyCreateResponse
+      - method: GET
+        path: /v1/api-keys
+        description: List all API keys for user
+        auth_required: true
+        response_schema:
+          "200": APIKeyResponse[]
+      - method: PATCH
+        path: /v1/api-keys/{key_id}/revoke
+        description: Revoke an API key
+        auth_required: true
+        response_schema:
+          "200": APIKeyResponse
+      - method: DELETE
+        path: /v1/api-keys/{key_id}
+        description: Delete an API key
+        auth_required: true
+        response_schema:
+          "200": APIKeyResponse
+
+  - name: Account Setup
+    description: Initialize user accounts including anonymous account setup
+    files:
+      - backend/core/setup/api.py
+    endpoints:
+      - method: POST
+        path: /v1/initialize
+        description: Initialize user account after auth
+        auth_required: true
+        rate_limited: true
+      - method: POST
+        path: /v1/initialize-anonymous
+        description: Initialize anonymous account
+        auth_required: false
+        rate_limited: true
+
+  - name: Carbon Data Management
+    description: Carbon footprint tracking, calculation, and certification endpoints
+    files:
+      - backend/core/carbon/api.py
+    endpoints:
+      - method: POST
+        path: /v1/tgo/load
+        description: Load TGO data for carbon tracking
+        auth_required: true
+      - method: POST
+        path: /v1/carbon/calculate
+        description: Calculate carbon footprint
+        auth_required: true
+      - method: POST
+        path: /v1/project/{project_id}/summary
+        description: Get carbon summary for a project
+        auth_required: true
+      - method: GET
+        path: /v1/certify/edge
+        description: Get edge certification data
+        auth_required: false
+      - method: GET
+        path: /v1/certify/trees
+        description: Get tree certification data
+        auth_required: false
+
+  - name: Agent Management
+    description: AI agent creation, configuration, and execution
+    files:
+      - backend/core/agents/api.py
+      - backend/core/agents/agent_crud.py
+      - backend/core/agents/agent_tools.py
+      - backend/core/agents/agent_json.py
+      - backend/core/agents/agent_setup.py
+    endpoints:
+      - method: POST
+        path: /v1/agent/start
+        description: Start an agent run
+        auth_required: true
+      - method: POST
+        path: /v1/agent-run/{agent_run_id}/stop
+        description: Stop an agent run
+        auth_required: true
+      - method: GET
+        path: /v1/agent-runs/{agent_run_id}/status
+        description: Get agent run status
+        auth_required: true
+      - method: GET
+        path: /v1/agent-runs/active
+        description: List active agent runs
+        auth_required: true
+
+  - name: Thread Management
+    description: Conversation thread management
+    files:
+      - backend/core/threads/api.py
+    endpoints:
+      - method: GET
+        path: /v1/threads
+        description: List threads
+        auth_required: true
+      - method: POST
+        path: /v1/threads
+        description: Create a thread
+        auth_required: true
+
+  - name: Sandbox Management
+    description: Code sandbox creation, file operations, and terminal access
+    files:
+      - backend/core/sandbox/api.py
+    endpoints:
+      - method: POST
+        path: /v1/sandboxes/{sandbox_id}/files
+        description: Create file in sandbox
+        auth_required: true
+      - method: GET
+        path: /v1/sandboxes/{sandbox_id}/files
+        description: List sandbox files
+        auth_required: true
+      - method: POST
+        path: /v1/project/{project_id}/sandbox/ensure-active
+        description: Ensure sandbox is active for project
+        auth_required: true
+      - method: POST
+        path: /v1/sandboxes/{sandbox_id}/terminal/execute
+        description: Execute terminal command in sandbox
+        auth_required: true
+
+  - name: Knowledge Base
+    description: File/folder management for agent knowledge bases
+    files:
+      - backend/core/knowledge_base/api.py
+    endpoints:
+      - method: GET
+        path: /v1/folders
+        description: List knowledge base folders
+        auth_required: true
+      - method: POST
+        path: /v1/folders
+        description: Create knowledge base folder
+        auth_required: true
+      - method: POST
+        path: /v1/folders/{folder_id}/upload
+        description: Upload file to knowledge base folder
+        auth_required: true
+
+  - name: Webhook System
+    description: Webhook endpoints for external integrations
+    files:
+      - backend/core/setup/api.py
+    endpoints:
+      - method: POST
+        path: /v1/webhooks/*
+        description: Webhook receiver endpoints
+        auth_required: false
+        rate_limited: true
+
+  - name: Chat API
+    description: Chat/computer-use entry point for agent conversations
+    files:
+      - backend/core/chat/api.py
+    endpoints:
+      - method: POST
+        path: /v1/chat
+        description: Send chat prompt to agent
+        auth_required: true
+
+known_limitations:
+  - issue: CSRF cookie secure flag defaults to true, may block local development over HTTP
+    location: backend/core/middleware/csrf.py
+    impact: CSRF token cookie may not be set in local HTTP development
+  - issue: Rate limiter falls back to in-memory storage when Redis unavailable
+    location: backend/core/middleware/rate_limit.py
+    impact: Rate limits reset on server restart in single-instance deployments
+  - issue: Anonymous account initialization has no CAPTCHA protection
+    location: backend/core/setup/api.py
+    impact: Potential for automated anonymous account creation
+  - issue: Health check endpoint does not verify database connectivity
+    location: backend/api_health.py
+    impact: Health check may report healthy when database is down
