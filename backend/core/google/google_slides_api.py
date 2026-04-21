@@ -95,7 +95,7 @@ presentation_router = APIRouter(prefix="/presentation-tools", tags=["presentatio
 @oauth_router.get("/auth-url", response_model=AuthURLResponse)
 @limiter.limit(AUTH_RATE_LIMIT)
 async def get_google_auth_url(
-    http_request: Request,
+    request: Request,
     user_id: str = Depends(verify_and_get_user_id_from_jwt),
     return_url: Optional[str] = Query(None, description="URL to redirect to after OAuth"),
     google_service: GoogleSlidesService = Depends(get_google_slides_service)
@@ -127,7 +127,7 @@ async def get_google_auth_url(
 @oauth_router.get("/callback")
 @limiter.limit(AUTH_RATE_LIMIT)
 async def google_oauth_callback(
-    http_request: Request,
+    request: Request,
     code: Optional[str] = Query(None, description="Authorization code from Google"),
     state: Optional[str] = Query(None, description="State parameter (contains user_id)"),
     error: Optional[str] = Query(None, description="Error from Google OAuth"),

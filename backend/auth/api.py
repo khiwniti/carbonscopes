@@ -63,8 +63,8 @@ import time  # noqa: E402 — needed for _cleanup_expired_otps
 @router.post("/auth/otp/send", response_model=OTPResponse)
 @limiter.limit(AUTH_RATE_LIMIT)
 async def send_otp(
-    http_request: Request,
-    request: OTPSendRequest,
+    request: Request,
+    req_body: OTPSendRequest,
 ) -> OTPResponse:
     """
     Send a new OTP code to the user's email.
@@ -74,7 +74,7 @@ async def send_otp(
     way to verify their identity.
 
     Args:
-        http_request: FastAPI request (required by slowapi for rate limiting)
+        request: FastAPI request (required by slowapi for rate limiting)
         request: Email address to send OTP to
 
     Returns:
@@ -82,7 +82,7 @@ async def send_otp(
     """
     _cleanup_expired_otps()
 
-    email = request.email.lower().strip()
+    email = req_body.email.lower().strip()
 
     # Check if there's a recent OTP that hasn't expired yet
     if email in _otp_store:
@@ -126,8 +126,8 @@ async def send_otp(
 @router.post("/auth/otp/verify", response_model=OTPResponse)
 @limiter.limit(AUTH_RATE_LIMIT)
 async def verify_otp(
-    http_request: Request,
-    request: OTPRequest,
+    request: Request,
+    req_body: OTPRequest,
 ) -> OTPResponse:
     """
     Verify an OTP code for the given email.
@@ -136,7 +136,7 @@ async def verify_otp(
     Maximum 5 verification attempts per OTP before it's invalidated.
 
     Args:
-        http_request: FastAPI request (required by slowapi for rate limiting)
+        request: FastAPI request (required by slowapi for rate limiting)
         request: Email and OTP code to verify
 
     Returns:
@@ -144,8 +144,8 @@ async def verify_otp(
     """
     _cleanup_expired_otps()
 
-    email = request.email.lower().strip()
-    otp_code = request.otp_code.strip()
+    email = req_body.email.lower().strip()
+    otp_code = req_body.otp_code.strip()
 
     stored = _otp_store.get(email)
 

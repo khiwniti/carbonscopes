@@ -57,8 +57,8 @@ async def get_account_id_from_user_id(user_id: str) -> UUID:
 @router.post("/api-keys", response_model=APIKeyCreateResponse)
 @limiter.limit(API_KEY_RATE_LIMIT)
 async def create_api_key(
-    http_request: Request,
-    request: APIKeyCreateRequest,
+    request: Request,
+    req_body: APIKeyCreateRequest,
     user_id: str = Depends(verify_and_get_user_id_from_jwt),
     api_key_service: APIKeyService = Depends(get_api_key_service),
 ):
@@ -66,7 +66,8 @@ async def create_api_key(
     Create a new API key for the authenticated user
 
     Args:
-        request: API key creation request with title, description, and expiration
+        request: FastAPI request (required by slowapi for rate limiting)
+        req_body: API key creation request with title, description, and expiration
         user_id: Authenticated user ID from JWT or API key
         api_key_service: API key service instance
 
@@ -80,7 +81,7 @@ async def create_api_key(
             "Creating API key",
             user_id=user_id,
             account_id=str(account_id),
-            title=request.title,
+            title=req_body.title,
         )
 
         api_key = await api_key_service.create_api_key(account_id, request)
