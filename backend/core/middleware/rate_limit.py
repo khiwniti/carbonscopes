@@ -145,4 +145,45 @@ __all__ = [
     "API_KEY_RATE_LIMIT",
     "DEFAULT_RATE_LIMIT",
     "rate_limit_exceeded_handler",
+    "reset_rate_limits",
 ]
+
+
+def reset_rate_limits() -> dict:
+    """
+    Reset in-memory rate limit counters.
+
+    Clears all stored rate limit data from the limiter's storage.
+    Only effective when using in-memory storage (not Redis).
+    Useful for testing environments to reset counters between test runs.
+
+    Returns:
+        dict with status and storage type information
+    """
+    storage = limiter.storage
+    storage_type = "unknown"
+    try:
+        # For in-memory storage, access the underlying storage
+        if hasattr(storage, "_storage"):
+            # slowapi in-memory storage uses a dict-like _storage attribute
+            storage._storage.clear()
+            storage_type = "memory"
+        elif hasattr(storage, "reset"):
+            storage.reset()
+            storage_type = getattr(storage, "__class__", type(storage)).__name__
+        elif REDIS_URL:
+            storage_type = "redis"
+            # For Redis, we can't safely flush all keys, so return a warning
+            return {
+                "status": "skipped",
+                "message": "Redis storage detected. Rate limits will expire naturally.",
+                "storage_type": storage_type,
+            }
+        else:
+            storage_type = "unknown"
+    except Exception as e:
+        logger.error(f"Error resetting rate limits: {e}")
+        return {"status": "error", "message": str(e), "storage_type": storage_type}
+
+    logger.info("Rate limit counters reset successfully")
+    return {"status": "success", "message": "Rate limit counters reset.", "storage_type": storage_type}

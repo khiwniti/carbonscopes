@@ -1,9 +1,18 @@
 import os
 import logging
 from typing import Optional
-import mailtrap as mt
+
+try:
+    import mailtrap as mt
+    _MAILTRAP_AVAILABLE = True
+except ImportError:
+    mt = None
+    _MAILTRAP_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
+
+if not _MAILTRAP_AVAILABLE:
+    logger.warning("mailtrap package not available — email sending will be disabled")
 
 class EmailService:
     def __init__(self):
@@ -11,12 +20,19 @@ class EmailService:
         self.sender_email = os.getenv('MAILTRAP_SENDER_EMAIL', 'hey@CarbonScope.com')
         self.sender_name = os.getenv('MAILTRAP_SENDER_NAME', 'CarbonScope Team')
         self.hello_email = 'hello@CarbonScope.com'
-        
-        if not self.api_token:
+
+        if not _MAILTRAP_AVAILABLE:
+            logger.warning("mailtrap package not installed -- email service disabled")
+            self.client = None
+        elif not self.api_token:
             logger.warning("MAILTRAP_API_TOKEN not found in environment variables")
             self.client = None
         else:
-            self.client = mt.MailtrapClient(token=self.api_token)
+            try:
+                self.client = mt.MailtrapClient(token=self.api_token)
+            except Exception as e:
+                logger.error(f"Failed to initialize Mailtrap client: {e}")
+                self.client = None
     
     def send_welcome_email(self, user_email: str, user_name: Optional[str] = None) -> bool:
         if not self.client:

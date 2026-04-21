@@ -1,12 +1,15 @@
 """Carbon‑related REST endpoints.
 
-- **POST /v1/tgo/load** – load a TGO material JSON file into GraphDB (or in‑memory).
-- **POST /v1/carbon/calculate** – calculate total embodied carbon for a list of
+- **POST /tgo/load** – load a TGO material JSON file into GraphDB (or in‑memory).
+- **POST /carbon/calculate** – calculate total embodied carbon for a list of
   materials using the deterministic Brightway2 calculator.
-- **GET /v1/certify/edge** – run the EDGE V3 certification SPARQL query and return
+- **GET /certify/edge** – run the EDGE V3 certification SPARQL query and return
   the PASS/FAIL status.
-- **GET /v1/certify/trees** – run the TREES MR1 compliance SPARQL query and return
+- **GET /certify/trees** – run the TREES MR1 compliance SPARQL query and return
   the PASS/FAIL status.
+
+Note: The main app mounts this router under /v1, so the full paths are
+/v1/tgo/load, /v1/carbon/calculate, /v1/certify/edge, /v1/certify/trees.
 """
 
 from fastapi import APIRouter, HTTPException, UploadFile, File, Body
@@ -19,7 +22,7 @@ from core.services.graphdb import get_graph, release_graph
 from core.carbon.brightway.calculator import CarbonCalculator
 from rdflib import Graph
 
-router = APIRouter(prefix="/v1", tags=["carbon"])
+router = APIRouter(tags=["carbon"])
 
 
 # ---------------------------------------------------------------------------

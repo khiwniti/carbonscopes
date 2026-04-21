@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import unquote
 
-from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi import APIRouter, HTTPException, Depends, Request, Response
 from pydantic import BaseModel, Field
 
 from core.utils.auth_utils import verify_and_get_user_id_from_jwt
@@ -54,8 +54,9 @@ async def debug_endpoint():
 @docs_router.post("/convert-and-upload-to-docs", response_model=ConvertToDocsResponse)
 @limiter.limit(AUTH_RATE_LIMIT)
 async def convert_and_upload_to_google_docs(
-    http_request: Request,
-    request: ConvertToDocsRequest,
+    request: Request,
+    response: Response,
+    req_body: ConvertToDocsRequest,
     user_id: str = Depends(verify_and_get_user_id_from_jwt),
     google_service: GoogleDocsService = Depends(get_google_docs_service)
 ):
@@ -72,9 +73,9 @@ async def convert_and_upload_to_google_docs(
             )
             return response
 
-        convert_url = f"{request.sandbox_url}/document/convert-to-docx"
+        convert_url = f"{req_body.sandbox_url}/document/convert-to-docx"
         convert_payload = {
-            "doc_path": request.doc_path,
+            "doc_path": req_body.doc_path,
             "download": True, 
         }
         logger.info(f"Calling sandbox conversion endpoint: POST {convert_url}")

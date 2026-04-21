@@ -1,7 +1,7 @@
 import hmac
 import hashlib
 import json
-from fastapi import APIRouter, Depends, HTTPException, Header, Request
+from fastapi import APIRouter, Depends, HTTPException, Header, Request, Response
 from pydantic import BaseModel
 from typing import Dict, Optional
 from datetime import datetime, timezone
@@ -187,7 +187,8 @@ def _send_welcome_email_async(email: str, user_name: str):
 @router.post("/initialize")
 @limiter.limit(AUTH_RATE_LIMIT)
 async def initialize_account(
-    http_request: Request,
+    request: Request,
+    response: Response,
     account_id: str = Depends(verify_and_get_user_id_from_jwt)
 ):
     # Use singleton - already initialized at startup
@@ -221,7 +222,8 @@ async def initialize_account(
 @router.post("/initialize-anonymous")
 @limiter.limit(AUTH_RATE_LIMIT)
 async def initialize_anonymous_account(
-    http_request: Request,
+    request: Request,
+    response: Response,
     account_id: str = Depends(verify_and_get_user_id_from_jwt)
 ):
     """
@@ -260,7 +262,8 @@ async def initialize_anonymous_account(
 @webhook_router.post("/webhooks/user-created", response_model=WebhookResponse)
 @limiter.limit(DEFAULT_RATE_LIMIT)
 async def handle_user_created_webhook(
-    http_request: Request,
+    request: Request,
+    response: Response,
     payload: SupabaseWebhookPayload,
     _: bool = Depends(verify_webhook_secret)
 ):
