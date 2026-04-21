@@ -15,6 +15,17 @@ def test_post_v1_auth_otp_verify_should_validate_token_and_handle_invalid_tokens
         "Content-Type": "application/json"
     }
 
+    # Reset rate limits before testing to ensure clean state
+    try:
+        admin_key = "test-admin-key-12345"
+        requests.post(
+            f"{BASE_URL}/admin/reset-rate-limits",
+            headers={"X-Admin-Api-Key": admin_key},
+            timeout=TIMEOUT,
+        )
+    except Exception:
+        pass  # Best effort reset
+
     try:
         # Step 1: Send OTP to the email
         send_payload = {"email": email}

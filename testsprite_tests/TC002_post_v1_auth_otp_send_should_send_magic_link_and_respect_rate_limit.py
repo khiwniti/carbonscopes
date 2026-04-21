@@ -12,14 +12,17 @@ def test_post_v1_auth_otp_send_should_send_magic_link_and_respect_rate_limit():
     # Reset rate limits before testing to ensure clean state
     # The rate limit is 5/15minutes per IP
     try:
-        admin_key = "test-admin-key"
-        requests.post(
+        admin_key = "test-admin-key-12345"
+        reset_resp = requests.post(
             f"{BASE_URL}/admin/reset-rate-limits",
             headers={"X-Admin-Api-Key": admin_key},
             timeout=TIMEOUT,
         )
-    except Exception:
-        pass  # Admin key may not be configured; proceed anyway
+        assert reset_resp.status_code == 200, (
+            f"Rate limit reset failed: {reset_resp.status_code} {reset_resp.text}"
+        )
+    except Exception as e:
+        assert False, f"Rate limit reset request failed: {e}"
 
     success_responses = 0
     max_requests = 6

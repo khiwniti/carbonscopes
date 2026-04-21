@@ -160,27 +160,32 @@ def reset_rate_limits() -> dict:
     Returns:
         dict with status and storage type information
     """
-    storage = limiter.storage
     storage_type = "unknown"
     try:
-        # For in-memory storage, access the underlying storage
-        if hasattr(storage, "_storage"):
-            # slowapi in-memory storage uses a dict-like _storage attribute
-            storage._storage.clear()
-            storage_type = "memory"
-        elif hasattr(storage, "reset"):
+        # Access the limiter's internal storage (slowapi uses _storage attribute)
+        storage = getattr(limiter, "_storage", None) or getattr(limiter, "storage", None)
+        if storage is None:
+            return {"status": "error", "message": "Could not access limiter storage", "storage_type": "unknown"}
+
+        storage_type = getattr(storage, "__class__", type(storage)).__name__
+
+        # For in-memory storage, use reset() or clear() methods
+        if hasattr(storage, "reset"):
             storage.reset()
-            storage_type = getattr(storage, "__class__", type(storage)).__name__
+        elif hasattr(storage, "clear"):
+            storage.clear()
+        elif hasattr(storage, "_storage"):
+            storage._storage.clear()
         elif REDIS_URL:
             storage_type = "redis"
-            # For Redis, we can't safely flush all keys, so return a warning
             return {
                 "status": "skipped",
                 "message": "Redis storage detected. Rate limits will expire naturally.",
                 "storage_type": storage_type,
             }
         else:
-            storage_type = "unknown"
+            return {"status": "error", "message": "No known method to reset storage", "storage_type": storage_type}
+
     except Exception as e:
         logger.error(f"Error resetting rate limits: {e}")
         return {"status": "error", "message": str(e), "storage_type": storage_type}

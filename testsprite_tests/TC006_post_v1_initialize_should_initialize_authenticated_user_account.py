@@ -11,6 +11,17 @@ def test_post_v1_initialize_should_initialize_authenticated_user_account():
     # 2. Requires authentication (returns 401 for unauthenticated requests)
     # 3. Has the correct path (/v1/setup/initialize)
 
+    # Reset rate limits before testing
+    try:
+        admin_key = "test-admin-key-12345"
+        requests.post(
+            f"{BASE_URL}/admin/reset-rate-limits",
+            headers={"X-Admin-Api-Key": admin_key},
+            timeout=TIMEOUT,
+        )
+    except Exception:
+        pass
+
     initialize_url = f"{BASE_URL}/setup/initialize"
 
     # 1) Test unauthenticated request returns 401

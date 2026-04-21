@@ -7,6 +7,17 @@ TIMEOUT = 30
 def test_post_v1_threads_should_create_thread_with_csrf_protection_and_authentication():
     session = requests.Session()
 
+    # Reset rate limits before testing
+    try:
+        admin_key = "test-admin-key-12345"
+        requests.post(
+            f"{BASE_URL}/admin/reset-rate-limits",
+            headers={"X-Admin-Api-Key": admin_key},
+            timeout=TIMEOUT,
+        )
+    except Exception:
+        pass
+
     try:
         # 1. Get CSRF token from GET /v1/csrf-token
         csrf_resp = session.get(f"{BASE_URL}/csrf-token", timeout=TIMEOUT)

@@ -132,11 +132,8 @@ class CSRFMiddleware(BaseHTTPMiddleware):
     """
 
     async def dispatch(self, request: Request, call_next):
-        # Skip CSRF if disabled
-        if not CSRF_ENABLED:
-            return await call_next(request)
-
-        # Handle the CSRF token generation endpoint
+        # Handle the CSRF token generation endpoint even if CSRF validation is disabled
+        # This allows clients to always get a token and cookie
         if request.url.path == "/v1/csrf-token" and request.method == "GET":
             response = await call_next(request)
             token = generate_csrf_token()
@@ -151,6 +148,10 @@ class CSRFMiddleware(BaseHTTPMiddleware):
                 max_age=86400,  # 24 hours
             )
             return response
+
+        # Skip CSRF validation if disabled
+        if not CSRF_ENABLED:
+            return await call_next(request)
 
         # For state-changing requests, validate CSRF token
         if request.method not in SAFE_METHODS and not is_exempt_from_csrf(request):
