@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ClientProvidersWrapper } from '@/components/ClientProvidersWrapper';
 import { Toaster } from '@/components/ui/sonner';
+import { CarbonBackground } from '@/components/ui/carbon-background';
 import '@/lib/polyfills';
 import { instrumentSerif } from './fonts/instrument-serif';
 import { plusJakarta } from './fonts/plus-jakarta';
@@ -89,10 +90,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon-dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
-      { url: '/favicon-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
+      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-dark.svg', type: 'image/svg+xml' },
     ],
-    shortcut: '/favicon-dark.svg',
+    shortcut: '/favicon.png',
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
   manifest: '/manifest.json',
@@ -237,7 +238,9 @@ export default function RootLayout({
           fontFamily: 'var(--font-jakarta), sans-serif'
         }}
       >
-        <ClientProvidersWrapper>
+    <CarbonBackground />
+    <div style={{ position: 'relative', zIndex: 1 }}>
+    <ClientProvidersWrapper>
           {children}
           <Toaster />
           <Suspense fallback={null}>
@@ -260,6 +263,7 @@ export default function RootLayout({
             <CookieVisibility />
           </Suspense>
         </ClientProvidersWrapper>
+    </div>
         {/* Third-party analytics - independent of auth context */}
         {/* Vercel Analytics & Speed Insights disabled for Azure deployment */}
         {/* <Suspense fallback={null}>

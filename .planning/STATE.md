@@ -1,12 +1,12 @@
 ---
 project: CS
-version: 1.0
-updated: 2026-04-18
+version: 1.1
+updated: 2026-04-20
 ---
 
 # CarbonScopes State
 
-## Current Phase: Complete - All Phases Finished
+## Current Phase: Complete - All Phases Finished + Security Hardening
 
 ### Active Issues (from codebase/CONCERNS.md)
 | ID | Severity | Status | Description |
@@ -23,6 +23,12 @@ updated: 2026-04-18
 | F-10 | LOW | resolved | Empty BOQ module directory |
 | F-11 | MEDIUM | resolved | CSP connect-src tightened for production |
 
+### Security Hardening (2026-04-20)
+| ID | Task | Status | Description |
+|----|------|--------|-------------|
+| SEC-04 | #114 | **Done** | Rate limiting on auth endpoints (OTP send/verify, Google OAuth auth-url/callback, account setup/initialize-anonymous, API key creation) |
+| SEC-05 | #111 | **Done** | CSRF middleware (double-submit cookie pattern, exempt Bearer/API key auth, webhook paths, safe methods) |
+
 ## Quick Tasks Completed
 | Date | Task | Status |
 |------|------|--------|
@@ -34,6 +40,10 @@ updated: 2026-04-18
 | 2026-04-18 | Phase 2 executed (2 plans) | ✓ complete |
 | 2026-04-18 | Phase 3 executed (3 plans) | ✓ complete |
 | 2026-04-18 | Phase 4 executed (2 plans) | ✓ complete |
+| 2026-04-20 | Security: Rate limiting on auth (SEC-04) | ✓ complete |
+| 2026-04-20 | Security: CSRF middleware (SEC-05) | ✓ complete |
+| 2026-04-20 | Auth API module (OTP endpoints) | ✓ complete |
+| 2026-04-20 | Security middleware tests (37 tests) | ✓ complete |
 
 ## Phase 4 Summary
 Auth architecture documented and validated:
@@ -68,3 +78,7 @@ All core pipeline components validated:
 6. [x] Execute Phase 3: Core Pipeline Validation (CARBON-01 through CARBON-05, DASH-01 through DASH-03)
 7. [x] Execute Phase 4: Auth & Session Stabilization (AUTH-03)
 8. [x] All phases complete - Production Readiness Milestone Achieved
+9. [x] Security hardening: Rate limiting on auth endpoints (SEC-04 / Task #114)
+10. [x] Security hardening: CSRF protection middleware (SEC-05 / Task #111)
+11. [ ] Remaining Phase 2 items: SEC-01 (CSP tightening), SEC-02 (secret scanning in CI), SEC-03 (API key env vars)
+12. [ ] Architecture: ARCH-01 (schema source of truth), ARCH-03 (agent error recovery)

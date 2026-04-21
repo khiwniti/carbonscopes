@@ -260,7 +260,7 @@ export default function DashboardLayoutContent({
         
         <Suspense fallback={null}>
           <OnboardingProvider>
-            <div className="bg-background">{children}</div>
+            <div className="bg-transparent">{children}</div>
           </OnboardingProvider>
         </Suspense>
         <Suspense fallback={null}>

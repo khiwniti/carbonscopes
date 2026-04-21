@@ -22,6 +22,8 @@ Requirements to bring existing brownfield codebase to production-ready state. Ea
 - [ ] **SEC-01**: CSP connect-src tightened for production (remove broad localhost allowlist)
 - [ ] **SEC-02**: Secret scanning added to CI pipeline
 - [ ] **SEC-03**: All API keys in codebase use environment variables (no hardcoded values)
+- [x] **SEC-04**: Rate limiting applied to auth-sensitive endpoints (OTP, OAuth, account setup, API key creation)
+- [x] **SEC-05**: CSRF protection middleware implemented (double-submit cookie pattern with auth header exemptions)
 
 ### Architecture
 
@@ -96,6 +98,8 @@ Deferred to future release.
 | SEC-01 | Phase 1 | Pending |
 | SEC-02 | Phase 2 | Pending |
 | SEC-03 | Phase 1 | Pending |
+| SEC-04 | Phase 2 | **Done** — Task #114: Rate limiting on auth endpoints (OTP, OAuth, setup, API keys) |
+| SEC-05 | Phase 2 | **Done** — Task #111: CSRF middleware (double-submit cookie pattern) |
 | ARCH-01 | Phase 3 | Pending |
 | ARCH-02 | Phase 1 | Pending |
 | ARCH-03 | Phase 3 | Pending |
@@ -112,10 +116,11 @@ Deferred to future release.
 | AUTH-03 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 23 total
-- Mapped to phases: 23
+- v1 requirements: 25 total
+- Mapped to phases: 25
 - Unmapped: 0
+- Completed: 2 (SEC-04, SEC-05)
 
 ---
 *Requirements defined: 2026-04-18*
-*Last updated: 2026-04-18 after codebase mapping*
+*Last updated: 2026-04-20 — SEC-04 and SEC-05 completed*

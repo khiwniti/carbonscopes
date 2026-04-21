@@ -108,8 +108,7 @@ export function HeroSection() {
       width: '100%',
       height: '100dvh',
       position: 'relative',
-      overflow: 'hidden',
-      background: '#0B1120'
+      overflow: 'hidden'
     }}>
       <div style={{
         display: 'flex',
@@ -119,88 +118,6 @@ export function HeroSection() {
         overflow: 'hidden',
         position: 'relative'
       }}>
-        {/* Animated gradient background contours */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-            overflow: 'hidden',
-            opacity: 0.4,
-            zIndex: 0,
-            background: `
-              radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.12) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(6, 78, 59, 0.08) 0%, transparent 70%)
-            `,
-            animation: 'luxuryPulse 8s ease-in-out infinite',
-          }}
-        />
-
-        {/* Contour lines */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-            overflow: 'hidden',
-            opacity: 0.06,
-            zIndex: 0,
-            background: `
-              repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 100px,
-                rgba(16, 185, 129, 0.3) 100px,
-                rgba(16, 185, 129, 0.3) 101px
-              ),
-              repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 100px,
-                rgba(34, 211, 238, 0.2) 100px,
-                rgba(34, 211, 238, 0.2) 101px
-              )
-            `,
-            animation: 'contourShift 20s linear infinite',
-          }}
-        />
-
-        {/* Glow orbs */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: '10%',
-            left: '15%',
-            width: '400px',
-            height: '400px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%)',
-            filter: 'blur(60px)',
-            animation: 'float 12s ease-in-out infinite',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}
-        />
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            bottom: '15%',
-            right: '20%',
-            width: '350px',
-            height: '350px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(34, 211, 238, 0.12) 0%, transparent 70%)',
-            filter: 'blur(70px)',
-            animation: 'float 15s ease-in-out infinite reverse',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}
-        />
 
         {/* Main content area - greeting and modes centered */}
         <div style={{
